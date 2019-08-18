@@ -8,41 +8,11 @@
   width: 1260px;
   margin: 0px auto;;
   padding: 12px 24px;
-}
-
-
-/*横向时间轴*/
-.time__horizontal {
-  height: 100px;
-  list-style-type: none;
-  border-top: 1px solid #707070;
-  width: 100%;
-  padding: 0px;
-  margin: 0px;
-}
-
-.time__horizontal li {
-  float: left;
-  position: relative;
-  text-align: center;
-  width: 12.5%;
-  padding-top: 10px;
-}
-
-.time__horizontal li b:before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: 48%;
-  width: 12px;
-  height: 30px;
-  border: 2px solid #4c4c4c;
-  border-radius: 8px;
-  background: #4c4c4c;
-}
-
-.timeLine__box{
-  text-align: center;
+  :global {
+    .ant-list-vertical .ant-list-item-action {
+      text-align: right;
+    }
+  }
 }
 
 .home__main__welcomeCard {
@@ -67,7 +37,8 @@
     padding-left: 0px;
     font-weight: bold;
     background-color: #78dbff;
-    height: 300px;
+    background-image: url("../../assets/home/topdtbg.png");
+    height: 320px;
     text-align: right;
     line-height: 70px;
     border-style:none none solid none;
@@ -99,67 +70,8 @@
   }
 }
 
-.home__main__left__satellites {
+.home__main__datasetTag {
   margin: @cardMargin 0;
-  .satelliteCard {
-    margin: 8px 0;
-    position: relative;
-    //padding: 10px;
-    background-color: @cardBackgroundColor;
-    //height: 180px;
-    box-shadow:@boxShadow;
-    img {
-      width: 100%;
-      //height: calc(100% - 50px);
-      height: 100%;
-    }
-    .satelliteCard__name {
-      font-size: 20px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      background-color: @titleBackgroundColor;
-      border-radius: 5px;
-      color: @titleColor;
-      width: calc(100% - 10px);
-      position: absolute;
-      bottom: 5px;
-      left: 5px;
-      border-style:solid;
-      border-width: 1px;
-    }
-  }
-  .dataCenterCard {
-    margin: 8px 0;
-    padding: 10px;
-    background-color: @cardBackgroundColor;
-    height: 200px;
-    position: relative;
-    cursor: pointer;
-    box-shadow:@boxShadow;
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 5px;
-    }
-    .title {
-      position: absolute;
-      width: 100%;
-      left: 0;
-      top: 0;
-      font-size: 25px;
-      color: #fff;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    &:hover {
-      .title {
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-    }
-  }
 }
 
 .home__main__left__news {

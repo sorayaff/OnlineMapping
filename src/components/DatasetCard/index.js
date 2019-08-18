@@ -5,7 +5,7 @@ import querystring from 'querystring';
 import React from 'react';
 import Ellipsis from '@components/Ellipsis';
 
-function TMartCard({ cardData }) {
+function DatasetCard({cardWidth,cardHeight,cardData}) {
   const { imgSrc = '', name = 'None', url = '', describe = 'None', id, count = 0,tagString='' } = cardData;
   const BadgeStyle = {
     backgroundColor: 'rgba(232, 255, 253, 0.5)',
@@ -23,7 +23,7 @@ function TMartCard({ cardData }) {
     lineHeight: '20px',
     fontSize: '16px',
   };
-  return <div className={styles.card} style={{ backgroundImage: `url(${imgSrc})` }}>
+  return <div className={styles.card} style={{ backgroundImage: `url(${imgSrc})`,width:cardWidth,height:cardHeight}}>
     <div className={styles.card_main}>
       <div className={styles.card_main__title_box}>
       <Badge count={count}
@@ -41,6 +41,9 @@ function TMartCard({ cardData }) {
           }
         />
       </div>
+      <div className={styles.mask_icon_info}>
+        <Icon type="info"/>
+      </div>
       <div className={styles.mask_icon_download}>
       <Icon type="download"/>
       </div>
@@ -48,4 +51,4 @@ function TMartCard({ cardData }) {
   </div>;
 }
 
-export default TMartCard;
+export default DatasetCard;

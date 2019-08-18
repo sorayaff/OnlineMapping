@@ -1,6 +1,4 @@
 .card {
-  width: 22%;
-  height: 150px;
   border-radius: 9px;
   background-position: center center;
   background-repeat: no-repeat;
@@ -58,6 +56,26 @@
     //background: rgba(0, 210, 255, 0.5);
     box-sizing: border-box;
     padding: 19px 19px;
+    .mask_icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 25px;
+      width: 25px;
+      border-radius: 100%;
+      background: rgba(232, 255, 253, 0.5);
+      position: absolute;
+      bottom: 5px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      left: 50%;
+      &:hover {
+        transform: translateY(-2px);
+        background: rgba(10, 173, 241, 0.5);
+      }
+
+    }
     .mask_icon_right {
        display: flex;
        justify-content: center;
@@ -71,7 +89,7 @@
        color: #fff;
        font-size: 18px;
        font-weight: bold;
-       left: 30%;
+       left: 20%;
        &:hover {
          transform: translateY(-2px);
          background: rgba(10, 173, 241, 0.5);
@@ -90,7 +108,26 @@
       color: #fff;
       font-size: 18px;
       font-weight: bold;
-      right: 30%;
+      left: 70%;
+      &:hover {
+        transform: translateY(-2px);
+        background: rgba(10, 173, 241, 0.5);
+      }
+    }
+    .mask_icon_info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 25px;
+      width: 25px;
+      border-radius: 100%;
+      background: rgba(232, 255, 253, 0.5);
+      position: absolute;
+      bottom: 5px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      left: 45%;
       &:hover {
         transform: translateY(-2px);
         background: rgba(10, 173, 241, 0.5);
@@ -118,7 +155,7 @@
 
 @media screen and(min-width: 992px) and (max-width: 1439px) {
   .card {
-    height: 270px;
+    height: 150px;
   }
   .mask_icon_box {
     bottom: 40px !important;
