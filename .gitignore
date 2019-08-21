@@ -15,6 +15,7 @@
 
 /coverage
 .idea/
+
 *bak
 .vscode
 
