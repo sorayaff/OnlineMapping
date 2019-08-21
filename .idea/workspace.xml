@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f66bfa5-bc7d-4f00-96f6-ed8214809040" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/index/ThemeCardList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/earth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/home/banner.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/home/e1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/home/e2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/home/land.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/home/touxiang.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/yay.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/CoverflowEffect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/CoverflowEffect.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/ReportPreviewList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/ReportPreviewList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/timeLineContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/timeLineContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,14 +16,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/index/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1330">
-              <caret line="70" column="14" lean-forward="true" selection-start-line="70" selection-start-column="14" selection-end-line="70" selection-end-column="14" />
+            <state relative-caret-position="146">
+              <caret line="137" column="16" lean-forward="true" selection-start-line="137" selection-start-column="16" selection-end-line="137" selection-end-column="16" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="17" column="4" lean-forward="true" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -159,7 +154,6 @@
         <option value="$PROJECT_DIR$/.umirc.js" />
         <option value="$PROJECT_DIR$/src/layouts/index.js" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/assets/data.source.js" />
         <option value="$PROJECT_DIR$/src/pages/index/DataSetTag.js" />
         <option value="$PROJECT_DIR$/src/components/TMartCard/index.less" />
@@ -177,6 +171,7 @@
         <option value="$PROJECT_DIR$/src/pages/index/ThemeCardList.js" />
         <option value="$PROJECT_DIR$/src/pages/index/index.js" />
         <option value="$PROJECT_DIR$/src/pages/index/CoverflowEffect.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -198,49 +193,6 @@
             <path>
               <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
               <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="DatasetCard" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="layouts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="index" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -309,6 +261,7 @@
       <workItem from="1566176452777" duration="19332000" />
       <workItem from="1566263206455" duration="18514000" />
       <workItem from="1566349632756" duration="1823000" />
+      <workItem from="1566385183705" duration="210000" />
     </task>
     <task id="LOCAL-00001" summary="初始化">
       <created>1565780159577</created>
@@ -331,11 +284,18 @@
       <option name="project" value="LOCAL" />
       <updated>1566131013155</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="首页展示逻辑改动，">
+      <created>1566385318819</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1566385318819</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87256000" />
+    <option name="totallyTimeSpent" value="87466000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -370,12 +330,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="初始化" />
     <MESSAGE value="首页雏形" />
-    <option name="LAST_COMMIT_MESSAGE" value="首页雏形" />
+    <MESSAGE value="首页展示逻辑改动，" />
+    <option name="LAST_COMMIT_MESSAGE" value="首页展示逻辑改动，" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/assets/xco2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/tansat.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -504,6 +462,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="137" column="16" lean-forward="true" selection-start-line="137" selection-start-column="16" selection-end-line="137" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/index/ThemeCardList.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
@@ -541,6 +509,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index/CoverflowEffect.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1292">
+          <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/data.source.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -568,20 +543,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/index/CoverflowEffect.js">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/index/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1330">
-          <caret line="70" column="14" lean-forward="true" selection-start-line="70" selection-start-column="14" selection-end-line="70" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="323">
+          <caret line="17" column="4" lean-forward="true" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
         </state>
       </provider>
     </entry>
