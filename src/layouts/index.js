@@ -1,10 +1,11 @@
-import styles from './index.css';
+import styles from './index.less';
+import React from 'react'
 
 function BasicLayout(props) {
   return (
-    <div className={styles.normal}>
+    <React.Fragment>
       {props.children}
-    </div>
+    </React.Fragment>
   );
 }
 
