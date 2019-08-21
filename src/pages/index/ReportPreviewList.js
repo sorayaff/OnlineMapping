@@ -19,9 +19,9 @@ function ReportPreviewList({dataSource}) {
     <div className={styles.home__main__left__news}>
       <div className={styles.home__main__left__news__header}>
         <Icon type="notification"/> &nbsp;<span>Report List</span>
-        <span className={styles.news__all}
-              onClick={() => (router.push('/news'))}>all news
-          <Icon type="right"/></span>
+        {/*<span className={styles.news__all}*/}
+        {/*      onClick={() => (router.push('/news'))}>all news*/}
+        {/*  <Icon type="right"/></span>*/}
       </div>
       <List
         className={styles.home__main__left__news__list}

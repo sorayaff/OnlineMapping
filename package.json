@@ -15,6 +15,7 @@
     "dva": "^2.6.0-beta.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-flexbox-grid": "^2.1.2",
     "react-horizontal-timeline": "^1.5.3",
     "react-id-swiper": "^2.3.2",
     "react-swipeable-views": "^0.13.3",
