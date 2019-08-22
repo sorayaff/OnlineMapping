@@ -292,30 +292,29 @@ class RightPanel extends PureComponent {
                           </Row>
 
                           <Row gutter={32}>
-                            <div style={{marginTop:"10px"}}>
+                            <div style={{top:"10px", position:"relative"}}>
                               <button
                                 onClick={this.handleClick}>{this.state.displayColorPicker ? 'Hide' : 'Create ColorBar'}</button>
-                              {this.state.displayColorPicker ? <div style={{width:"300px", marginTop:"20px",marginBottom:"20px" }}>
-
-                                <div style={{marginTop:"30px"}}>
+                              {this.state.displayColorPicker ?
+                                <div style={{width:"300px", height:"200px", top:"20px",bottom:"20px",position:"relative" }}>
+                                <div style={{top:"10px",position:"relative"}}>
                                   <Radio.Group onChange={this.typeOnChange}>
                                     <Radio value={'continuous'}>Continuous</Radio>
                                     <Radio value={'descrete'}>Descrete</Radio>
                                   </Radio.Group>
                                 </div>
-                                <div style={{marginRight:"5px", marginLeft:"5px"}}>
+                                <div style={{top:"20px",right:"5px", left:"5px", position:"relative"}}>
                                   <ReactGradientColorPicker
                                     type1={this.state.type2}
                                     stops={stops}
                                     onChange={this.colorOnChange}
                                   />
                                 </div>
-
-                                <div style={{marginTop:"30px"}}>
+                                <div style={{top:"50px",position:"relative"}}>
                                   <Input placeholder={'Input the name'} onChange={this.nameOnChange}>
                                   </Input>
                                 </div>
-                                <div style={{marginTop:"30px"}}>
+                                <div style={{top:"70px", marginBottom:"60px", position:"relative"}}>
                                   <button onClick={()=>this.submitColorbarOnClick()}>Submit Your Colormap</button>
                                 </div>
                               </div> : null}

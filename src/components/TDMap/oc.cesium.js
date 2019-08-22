@@ -107,18 +107,29 @@ cesiumMap.map.prototype = {
     layer.key = key;
   },
   //添加cog图层  url：地图路径地址 layerName：图层名称 alpha:图层透明度
+  // addCogMapLayer: function(attr) {
+  //   const { key, url, layerName, alpha, dataType } = attr;
+  //   let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
+  //     url:getResource(url),
+  //     format: 'image/png',
+  //     layer: layerName,
+  //   });
+  //   let layer = viewer.imageryLayers.addImageryProvider(titleimgProvider);
+  //   layer.alpha = alpha;
+  //   layer.dataType = dataType || 'layer';
+  //   layer.name = layerName;
+  //   layer.key = key;
+  //   return layer;
+  // },
   addCogMapLayer: function(attr) {
-    const { key, url, layerName, alpha, dataType } = attr;
     let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
-      url:getResource(url),
+      url:attr['url'],//"http://192.168.2.2:8001/tile/{x}/{y}/{z}?url=s3://obs-oceantest/obs-oceantest/workspace/ADMIN/userData/cog-tif/SIF_758nm_201702-lzw.tif&colorMap=Accent",
       format: 'image/png',
-      layer: layerName,
+      // layer: layerName,
     });
     let layer = viewer.imageryLayers.addImageryProvider(titleimgProvider);
-    layer.alpha = alpha;
-    layer.dataType = dataType || 'layer';
-    layer.name = layerName;
-    layer.key = key;
+    layer.alpha = 1;
+    // layer.name = layerName;
     return layer;
   },
   //添加切片服务

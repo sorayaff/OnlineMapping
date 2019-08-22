@@ -93,19 +93,20 @@ class Legend extends PureComponent{
           return(
             <Row>
              <div className={classNames(styles['rectangle'])} style={{backgroundColor:tempColor,float:"left"}}></div>
-             <div className={classNames(styles['rectangleFont'])}>{tempFont}</div>
+             <div className={classNames(styles['rectangleFont'])} style={{float:"left"}}>{tempFont}</div>
             </Row>
           )})}
       </div>
-      <div className={classNames(styles['card-container3'])}>
+      <div className={classNames(styles['card-container-continuous'])}>
         <Row>
-          <div className={classNames(styles['card-container2'])}>
+          <div className={classNames(styles['card-for-pic'])}>
               <div style={{float:"left", position:"relative"}}><img className={classNames(styles['pic'])} src={pic}></img></div>
           </div>
         <div>
-          {tempLegend.map(item=>
-          {tempMargintop=((temp-item[0])*160)+"px";
-            temp = item[0]-20/160;
+          {colorbar["legend"].map(item=>
+          {tempMargintop=(1-item[0])*8+0.5+"em";
+          // {tempMargintop=((temp-item[0])*160)+"px";
+          //   temp = item[0]-20/160;
             return(<p className={classNames(styles['text'])} style={{paddingTop:tempMargintop}}>{item[1]}</p>)})}
           {/*tempMargintop=(((1-item[0])*160+20)/200)*100+"%";*/}
           {/*  return(<p className={classNames(styles['text'])} style={{top:tempMargintop}}>{item[1]}</p>)})}*/}

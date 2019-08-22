@@ -25,6 +25,7 @@ import {
 
 const {TabPane} = Tabs;
 const { Search } = Input;
+const {Option} = Select;
 const IconText = ({type, handleClick}) => (
   <span>
     <Icon type={type} onClick={handleClick}/>
@@ -108,11 +109,11 @@ class LeftPanel extends PureComponent {
     // }
   }
 
-  OnSearch=value=>{
+  themeOnSearch=value=>{
     let temp = this.state.searchQuery;
     console.log(value);
     if(value){
-      temp['keywords'] = value;
+      temp['theme'] = value;
       this.setState({
         searchQuery:temp,
       })
@@ -129,6 +130,18 @@ class LeftPanel extends PureComponent {
       })
       console.log('1',this.state.themeOfYear);
       console.log('2',this.state.dataOfTheme);
+    }
+  }
+
+  yearOnSearch=value=>{
+    let temp = this.state.searchQuery;
+    console.log(value);
+    if(value){
+      temp['year'] = value;
+      this.setState({
+        searchQuery:temp,
+      })
+      console.log('searchyear', this.state.searchQuery);
     }
   }
 
@@ -180,10 +193,24 @@ class LeftPanel extends PureComponent {
           </TabPane>
           <TabPane tab="Search" key="2">
             <Card className={styles.searchCard}>
+              <Select defaultValue="2018" style={{ width: 120 }} onChange={this.yearOnSearch}>
+                <Option value="2018">
+                  2018
+                </Option>
+                <Option value="2017">
+                  2017
+                </Option>
+                <Option value="2016">
+                  2016
+                </Option>
+              </Select>
             <Search
               placeholder="input search text"
-              style={{ width: 400 }} onSearch={this.OnSearch}
+              style={{ width: 400, marginTop:"15px" }} onSearch={this.themeOnSearch}
             />
+            </Card>
+            <Card className={styles.resultCard}>
+
             </Card>
           </TabPane>
           <TabPane tab="Dataset" key="3">
