@@ -14,7 +14,7 @@
 .DS_Store
 
 /coverage
-.idea/
+/.idea
 
 *bak
 .vscode

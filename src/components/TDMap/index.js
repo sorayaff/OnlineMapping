@@ -52,6 +52,10 @@ class TDMap extends Component {
       url: annotationUrl,
       alpha: 1,
     });
+    cesium_map.addCogMapLayer({
+      // url:"http://192.168.2.2:8080/v1.0/api/map/cog/tileV2/{x}/{y}/{z}?url=cog-tif/day-lzw.tif&layerName=layer1",
+      url:"/v1.0/api/map/cog/tileV2/{x}/{y}/{z}?url=cog-tif/SIF_758nm_201702-lzw.tif&renderStyle=Blues_r&layerName=TanSat solar-induced chlorophyll fluorescence (SIF) 758nm - 201702",
+    });
     // 地图初始视角
     cesium_map.setView(119, 36, 20000000);
     // const { dataset } = this.props;
