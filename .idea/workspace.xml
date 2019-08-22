@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6f66bfa5-bc7d-4f00-96f6-ed8214809040" name="Default Changelist" comment="Merge branch 'prongsie' into yehuaxin&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;package.json&#10;#&#9;src/layouts/index.css">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/LeftPanel/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/LeftPanel/index.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Legend/colorbar2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Legend/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Legend/index.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/RightPanel/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/RightPanel/index.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/css/popstyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/czml/CesiumMilkTruck.glb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/czml/Cesium_Air.glb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/czml/MultipartVehicle_part1.czml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/czml/MultipartVehicle_part2.czml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/czml/MultipartVehicle_part3.czml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/czml/line.czml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/index.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TDMap/oc.cesium.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/react-gradient-picker/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/react-gradient-picker/index.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/mapView/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/mapView/index.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/index.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/index.js" afterDir="false" />
+    <list default="true" id="6f66bfa5-bc7d-4f00-96f6-ed8214809040" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/CoverflowEffect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/CustomPagination .js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/ThemeCardList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/ThemeCardList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.less" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,21 +16,12 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/src/pages/index/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Legend/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="11" column="14" lean-forward="true" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
+            <state relative-caret-position="355">
+              <caret line="100" column="42" lean-forward="true" selection-start-line="100" selection-start-column="42" selection-end-line="100" selection-end-column="42" />
               <folding>
-                <element signature="e#0#43#0" expanded="true" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,8 +30,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/mapView/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="17" />
+            <state relative-caret-position="241">
+              <caret line="33" column="49" lean-forward="true" selection-start-line="33" selection-start-column="49" selection-end-line="33" selection-end-column="49" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/pages/index/ThemeCardList.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,7 +63,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/TDMap/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1210">
@@ -85,6 +71,15 @@
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/index/CustomPagination .js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="42" column="22" lean-forward="true" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -107,18 +102,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/TDMap/index.less">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="20" lean-forward="true" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/index/ReportPreviewList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
+            <state relative-caret-position="456">
               <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
@@ -130,8 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/index/index.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+            <state relative-caret-position="289">
+              <caret line="47" column="3" lean-forward="true" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -147,8 +133,17 @@
         <option value="$PROJECT_DIR$/src/components/Legend/index.js" />
         <option value="$PROJECT_DIR$/src/components/TDMap/index.less" />
         <option value="$PROJECT_DIR$/src/layouts/index.js" />
+        <option value="$PROJECT_DIR$/src/pages/index/CoverflowEffect.js" />
+        <option value="$PROJECT_DIR$/src/pages/index/CustomPagination .js" />
+        <option value="$PROJECT_DIR$/src/pages/index/index.less" />
+        <option value="$PROJECT_DIR$/src/pages/index/ThemeCardList.js" />
       </list>
     </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="585" />
+    <option name="width" value="1350" />
+    <option name="height" value="690" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -178,20 +173,6 @@
               <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
               <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="RightPanel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="TDMap" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="layouts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -199,6 +180,13 @@
               <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
+              <item name="geo-ecological" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="index" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="geo-ecological" type="b2602c69:ProjectViewProjectNode" />
@@ -236,10 +224,18 @@
     <configuration />
   </component>
   <component name="TaskManager">
+    <task id="LOCAL-00001" summary="Merge branch 'prongsie' into yehuaxin&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;package.json&#10;#&#9;src/layouts/index.css">
+      <created>1566394920132</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1566394920132</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4229000" />
+    <option name="totallyTimeSpent" value="9672000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -262,23 +258,17 @@
       <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2917847" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.3286119" />
-      <window_info anchor="bottom" id="Messages" order="13" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge branch 'prongsie' into yehuaxin&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;package.json&#10;#&#9;src/layouts/index.css" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'prongsie' into yehuaxin&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;package.json&#10;#&#9;src/layouts/index.css" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/pages/index/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="134" column="47" selection-start-line="134" selection-start-column="47" selection-end-line="134" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -292,16 +282,6 @@
           <caret line="11" column="14" lean-forward="true" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/index/ThemeCardList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -343,13 +323,6 @@
     <entry file="file://$PROJECT_DIR$/src/layouts/index.less">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/index/CoverflowEffect.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/layouts/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -357,13 +330,6 @@
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/mapView/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -387,12 +353,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/TDMap/css/popstyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="33" column="21" lean-forward="true" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/TDMap/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1210">
           <caret line="213" lean-forward="true" selection-start-line="213" selection-end-line="213" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/mapView/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="33" column="49" lean-forward="true" selection-start-line="33" selection-start-column="49" selection-end-line="33" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index/CustomPagination .js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="42" column="22" lean-forward="true" selection-start-line="42" selection-start-column="22" selection-end-line="42" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index/index.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="47" column="3" lean-forward="true" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="100" column="42" lean-forward="true" selection-start-line="100" selection-start-column="42" selection-end-line="100" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index/ReportPreviewList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/index/ThemeCardList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>

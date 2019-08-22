@@ -7,7 +7,7 @@ import DatasetCard from '@/components/DatasetCard';
 import styles from '@/pages/index/index.less';
 import { Icon } from 'antd';
 
-const CoverflowEffect = () => {
+const CustomPagination = () => {
   const [swiper, updateSwiper] = useState(null);
 
   const stopAutoPlay = () => {
@@ -41,9 +41,9 @@ const CoverflowEffect = () => {
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
-      // renderBullet: (index, className) => {
-      //   return '<span className="' + className + '">' + (index + 1) + '</span>';
-      // }
+      renderBullet: function (index, className) {
+        return '<span class="' + className + '">' + (index + 1) + '</span>';
+      }
     },
   };
   const style1 = {
@@ -74,4 +74,4 @@ const CoverflowEffect = () => {
   );
 };
 
-export default CoverflowEffect;
+export default CustomPagination;

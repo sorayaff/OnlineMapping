@@ -2,24 +2,48 @@
 
 @titleColor: #5a5a5a;
 @cardMargin: 16px;
-@boxShadow:0 2px 4px -2px #000000;
+@boxShadow: 0 2px 4px -2px #000000;
 .home__main {
   background-color: @page_background_color;
   width: 1260px;
   margin: 0px auto;;
   padding: 12px 24px;
+
   :global {
     .ant-list-vertical .ant-list-item-action {
       text-align: right;
     }
+
     .dot-label {
       font-size: 20px;
     }
+
     .present {
       font-size: 23px;
     }
+
     .ant-btn {
       margin: 0 10px 10px;
+    }
+
+    .swiper-pagination-bullet-active {
+      color: rgb(255, 255, 255);
+      background-color: rgb(68, 62, 53) !important;
+    }
+
+    .swiper-pagination-bullet {
+      width: 20px;
+      height: 20px;
+      color: rgb(255, 255, 255);
+      font-size: 12px;
+      line-height: 20px;
+      opacity: 1;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
+      margin: 0px 4px;
     }
   }
 }
@@ -28,10 +52,12 @@
   background-color: @cardBackgroundColor;
   border-radius: 5px;
   padding: 5px;
-  box-shadow:@boxShadow;
+  box-shadow: @boxShadow;
+
   .banner {
-    height:200px
+    height: 200px
   }
+
   .title {
     position: absolute;
     right: 5%;
@@ -40,6 +66,7 @@
     width: 300px;
     color: #fff;
   }
+
   .title__box {
     font-size: 50px;
     color: #ffffff;
@@ -50,10 +77,11 @@
     height: 320px;
     text-align: right;
     line-height: 70px;
-    border-style:none none solid none;
+    border-style: none none solid none;
     border-width: 0px;
   }
-  .belong__box{
+
+  .belong__box {
     font-size: 40px;
     color: #ffffff;
     padding-left: 0px;
@@ -65,17 +93,19 @@
     border-style: none none solid none;
     border-width: 0px;
   }
+
   .text__box {
     font-weight: bold;
     letter-spacing: 1px;
     margin: 10px 0 5px 0;
     text-align: justify;
   }
+
   .touxiang {
     margin: 15px 2.5% 15px;
     height: 100px;
     width: 95%;
-    box-shadow:@boxShadow;
+    box-shadow: @boxShadow;
   }
 }
 
@@ -85,7 +115,8 @@
 
 .home__main__left__news {
   margin: @cardMargin 0;
-  box-shadow:@boxShadow;
+  box-shadow: @boxShadow;
+
   .home__main__left__news__header {
     position: relative;
     font-size: 20px;
@@ -97,6 +128,7 @@
     height: 40px;
     line-height: 40px;
   }
+
   .news__search {
     position: absolute;
     bottom: 1px;
@@ -104,6 +136,7 @@
     height: 100%;
     width: 250px;
     padding: 6px;
+
     :global {
       input {
         height: 100%;
@@ -112,6 +145,7 @@
       }
     }
   }
+
   .news__all {
     text-align: right;
     font-size: 12px;
@@ -119,10 +153,12 @@
     position: absolute;
     width: 100px;
     cursor: pointer;
+
     &:hover {
       font-size: 11px;
     }
   }
+
   .home__main__left__news__list {
     overflow: hidden;
     background-color: @cardBackgroundColor;
@@ -134,7 +170,8 @@
   background-color: @cardBackgroundColor;
   border-radius: 5px;
   padding: 5px;
-  box-shadow:@boxShadow;
+  box-shadow: @boxShadow;
+
   .webInfo__title__box {
     font-size: 20px;
     color: @titleColor;
@@ -143,9 +180,10 @@
     height: 40px;
     line-height: 40px;
     font-weight: bold;
-    border-style:none none solid none;
+    border-style: none none solid none;
     border-width: 1px;
   }
+
   .webInfo__content__box {
     .info_listItem {
       display: flex;
@@ -154,18 +192,21 @@
       position: relative;
       align-items: center;
     }
+
     .info_icon {
       width: 40%;
       font-size: 90px;
-      margin:5px
+      margin: 5px
     }
-    .info_box{
+
+    .info_box {
       width: 60%;
       margin: 20px 0;
       font-size: 16px;
       font-weight: bold;
       text-align: center;
     }
+
     .info_value {
       font-size: 22px;
       color: #1E71A2;
@@ -180,7 +221,8 @@
   background-color: @cardBackgroundColor;
   border-radius: 5px;
   padding: 5px;
-  box-shadow:@boxShadow;
+  box-shadow: @boxShadow;
+
   .link__title__box {
     font-size: 20px;
     color: @titleColor;
@@ -189,12 +231,14 @@
     height: 40px;
     line-height: 40px;
     font-weight: bold;
-    border-style:none none solid none;
+    border-style: none none solid none;
     border-width: 1px;
   }
+
   .links__list {
     background-color: @cardBackgroundColor;
     padding: 0 8px;
+
     .link__name {
       word-break: break-all;
       margin-left: 10px;
@@ -208,7 +252,8 @@
   background-color: @cardBackgroundColor;
   border-radius: 5px;
   padding: 5px;
-  box-shadow:@boxShadow;
+  box-shadow: @boxShadow;
+
   .contactUs__title__box {
     font-size: 20px;
     color: @titleColor;
@@ -217,21 +262,23 @@
     height: 40px;
     line-height: 40px;
     font-weight: bold;
-    border-style:none none solid none;
+    border-style: none none solid none;
     border-width: 1px;
   }
+
   .contactUs__content__box {
     font-weight: bold;
     letter-spacing: 1px;
     margin: 10px 0 5px 0;
-    word-break:break-all;
+    word-break: break-all;
     text-align: justify;
   }
 }
 
 .home__main__left__achievement {
   margin: @cardMargin 0;
-  box-shadow:@boxShadow;
+  box-shadow: @boxShadow;
+
   .home__main__left__achievement__header {
     position: relative;
     font-size: 20px;
@@ -243,6 +290,7 @@
     height: 40px;
     line-height: 40px;
   }
+
   .achievement__search {
     position: absolute;
     bottom: 1px;
@@ -250,6 +298,7 @@
     height: 100%;
     width: 250px;
     padding: 6px;
+
     :global {
       input {
         height: 100%;
@@ -258,6 +307,7 @@
       }
     }
   }
+
   .achievement__all {
     text-align: right;
     font-size: 12px;
@@ -265,31 +315,34 @@
     position: absolute;
     width: 150px;
     cursor: pointer;
+
     &:hover {
       font-size: 11px;
     }
   }
+
   .home__main__left__achievement__list {
     overflow: hidden;
     background-color: @cardBackgroundColor;
   }
 }
 
-.home_footer{
+.home_footer {
   //background-color: @themeColor;
   background-image: url("../../assets/header_back.png");
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction:column;
-padding: 25px;
+  flex-direction: column;
+  padding: 25px;
 }
 
-@media screen and (min-width: 980px)and(max-width:1400px ) {
+@media screen and (min-width: 980px)and(max-width: 1400px ) {
   .info_box {
     font-size: 14px !important;
-    .info_value{
+
+    .info_value {
       font-size: 16px !important;
     }
   }

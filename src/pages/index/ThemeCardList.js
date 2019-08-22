@@ -1,6 +1,8 @@
 import React from 'react'
 import {Button,Menu,Dropdown,Icon} from 'antd';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import Link from 'umi/link';
+import router from 'umi/router';
 import DatasetCard from '@/components/DatasetCard';
 
 function handleMenuClick(e) {
@@ -25,7 +27,7 @@ function ThemeCard({data}) {
         <p style={{fontWeight:'bold'}}>{data.title}</p>
       </div>
       <div className={'downloadArea'} style={{textAlign:'center'}}>
-        <Button type="primary" icon='eye' ghost>
+        <Button type="primary" icon='eye' ghost onClick={() => (router.push('/mapView'))}>
           View data on map
         </Button>
         <Dropdown overlay={menu}>

@@ -13,7 +13,7 @@ import DataSetTagList from './DataSetTagList';
 import reportDataSource from './timeLineContent';
 import HorizontalTimeline from 'react-horizontal-timeline';
 import SwipeableViews from 'react-swipeable-views';
-import CoverflowEffect from './CoverflowEffect';
+import CustomPagination from './CustomPagination ';
 import { IconFont } from '@/utils/common';
 import RouterWrapper from '@/pages/.umi/router';
 
@@ -106,7 +106,7 @@ class Home extends React.Component {
             </div>
             {/*前言*/}
 
-            <CoverflowEffect/>
+            <CustomPagination/>
           </div>
 
           {/*年报部分*/}
