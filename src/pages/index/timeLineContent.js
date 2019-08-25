@@ -22,6 +22,9 @@ const reportDataSource = [
       {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
+    downLoadLink:{
+      'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
+    },
     themeList:[
       {imgSrc:p1_2,title:'Growth of terrestrial vegetation'},
       {imgSrc:empty,title:'Distribution of land and water areas'}
@@ -38,6 +41,9 @@ const reportDataSource = [
       {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
+    downLoadLink:{
+      'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
+    },
     themeList:[
       {imgSrc:p1_2,title:'Growth of terrestrial vegetation'},
       {imgSrc:empty,title:'Spatial and temporal distribution of large surface waters'},
@@ -56,6 +62,9 @@ const reportDataSource = [
       {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
+    downLoadLink:{
+      'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
+    },
     themeList:[
       {imgSrc:p1_2,title:'Growth of grain and oil crops'},
       {imgSrc:empty,title:'Large wetlands of international importance'},
@@ -74,6 +83,9 @@ const reportDataSource = [
       {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
+    downLoadLink:{
+      'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
+    },
     themeList:[
       {imgSrc:p1_2,title:'陆地植被生长状况'},
       {imgSrc:empty,title:'陆地水域面积分布状况'}
@@ -90,6 +102,9 @@ const reportDataSource = [
       {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
+    downLoadLink:{
+      'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
+    },
     themeList:[
       {imgSrc:p1_2,title:'陆地植被生长状况'},
       {imgSrc:empty,title:'陆地水域面积分布状况'}

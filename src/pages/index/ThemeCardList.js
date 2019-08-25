@@ -7,12 +7,17 @@ import DatasetCard from '@/components/DatasetCard';
 
 function handleMenuClick(e) {
   console.log('click', e);
+  // if(e.item)
 }
 
 function ThemeCard({data}) {
+  let unabridged_ch;
+  if(data.downLoadLink){
+    unabridged_ch = data.downLoadLink.unabridged_ch ? data.downLoadLink.unabridged_ch : '';
+  }
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">unabridged version</Menu.Item>
+      <Menu.Item key="1" data-link={unabridged_ch}>unabridged version</Menu.Item>
       <Menu.Item key="2">全本</Menu.Item>
       <Menu.Item key="3">abridged version</Menu.Item>
       <Menu.Item key="4">简本</Menu.Item>

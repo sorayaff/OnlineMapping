@@ -3,6 +3,7 @@ let CompressionPlugin = require('compression-webpack-plugin');
 let env = process.env.QA_ENV;
 const cesiumSource = 'node_modules/cesium/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
+// const publicPath = './src/public'
 
 function getPlugins() {
   if (env === 'build') {
@@ -140,6 +141,7 @@ export default {
     '@utils': path.resolve(__dirname, './src/utils'),
     '@assets': path.resolve(__dirname, './src/assets'),
     '@services': path.resolve(__dirname, './src/services'),
+    // '@public':path.resolve(__dirname, './src/public'),
   },
   'copy': [
     {
@@ -151,6 +153,9 @@ export default {
     {
       from: path.join(cesiumSource, 'Widgets'), to: 'cesium/Widgets',
     },
+    // {
+    //   from: path.join(publicPath, 'pdfjs-2.1.266-dist'), to: 'pdfjs-2.1.266-dist',
+    // },
   ],
   chainWebpack(config, { webpack }) {
     config.merge({

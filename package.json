@@ -25,6 +25,8 @@
     "react-flexbox-grid": "^2.1.2",
     "react-horizontal-timeline": "^1.5.3",
     "react-id-swiper": "^2.3.2",
+    "react-pdf": "^4.1.0",
+    "react-pdf-js": "^5.1.0",
     "react-swipeable-views": "^0.13.3",
     "swiper": "^4.5.0"
   },
