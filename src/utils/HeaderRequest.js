@@ -12,9 +12,10 @@ const fetch = options => {
     needNotificate=false
   }
   const header = {
-    rzpj: getLocalData({
-      dataName: 'rzpj',
-    }), // yhbh: getLocalData({ dataName: 'yhbh' }),
+    // rzpj: getLocalData({
+    //   dataName: 'rzpj',
+    // }),
+    Accept: "application/json;charset=UTF-8",// yhbh: getLocalData({ dataName: 'yhbh' }),
     // 'X-Stage': "Fuxi_Test"
     // userId: 'ADMIN',
   };
