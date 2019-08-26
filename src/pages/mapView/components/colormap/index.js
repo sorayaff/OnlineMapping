@@ -1,9 +1,6 @@
 import React, {PureComponent} from 'react';
-// import {getDefaultColorbar} from '@pages/mapView';
 import styles from './index.less';
 import classNames from 'classnames';
-// import ReactGradientColorPicker from 'react-gradient-color-picker';
-//import GradientBuilder from '../GradientBuilder/GradientBuilder';
 import ReactGradientColorPicker from '@components/react-gradient-picker';
 import {
   Radio,
@@ -44,7 +41,7 @@ const xtnz = [
   mapView,
 }))
 
-class RightPanel extends PureComponent {
+class Colormap extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -257,9 +254,9 @@ class RightPanel extends PureComponent {
     // const { stops } = this.state;
 
     function getDefaultColorbar() {
-    return headerRequest({
-      url: 'v1.0/api/colormap/default',
-      method: 'GET',
+      return headerRequest({
+        url: 'v1.0/api/colormap/default',
+        method: 'GET',
       });
     }
 
@@ -270,16 +267,13 @@ class RightPanel extends PureComponent {
     let defaultColorbar = getDefaultColorbar().then(function(data) {
       console.log("promiseData:");
       console.log(data);
-      if(data){
+      if(data.data){
         ddd = data.data['list'];
         console.log(ddd);
       }
     });
 
-
-
     console.log("defaults",this.state.defaults);
-
     var style = {
       width: '100px',
       height: '50px'
@@ -335,27 +329,27 @@ class RightPanel extends PureComponent {
                                 onClick={this.handleClick}>{this.state.displayColorPicker ? 'Hide' : 'Create ColorBar'}</button>
                               {this.state.displayColorPicker ?
                                 <div style={{width:"300px", height:"200px", top:"20px",bottom:"20px",position:"relative" }}>
-                                <div style={{top:"10px",position:"relative"}}>
-                                  <Radio.Group onChange={this.typeOnChange}>
-                                    <Radio value={'continuous'}>Continuous</Radio>
-                                    <Radio value={'descrete'}>Descrete</Radio>
-                                  </Radio.Group>
-                                </div>
-                                <div style={{top:"20px",right:"5px", left:"5px", position:"relative"}}>
-                                  <ReactGradientColorPicker
-                                    type1={this.state.type2}
-                                    stops={stops}
-                                    onChange={this.colorOnChange}
-                                  />
-                                </div>
-                                <div style={{top:"50px",position:"relative"}}>
-                                  <Input placeholder={'Input the name'} onChange={this.nameOnChange}>
-                                  </Input>
-                                </div>
-                                <div style={{top:"70px", marginBottom:"60px", position:"relative"}}>
-                                  <button onClick={()=>this.submitColorbarOnClick()}>Submit Your Colormap</button>
-                                </div>
-                              </div> : null}
+                                  <div style={{top:"10px",position:"relative"}}>
+                                    <Radio.Group onChange={this.typeOnChange}>
+                                      <Radio value={'continuous'}>Continuous</Radio>
+                                      <Radio value={'descrete'}>Descrete</Radio>
+                                    </Radio.Group>
+                                  </div>
+                                  <div style={{top:"20px",right:"5px", left:"5px", position:"relative"}}>
+                                    <ReactGradientColorPicker
+                                      type1={this.state.type2}
+                                      stops={stops}
+                                      onChange={this.colorOnChange}
+                                    />
+                                  </div>
+                                  <div style={{top:"50px",position:"relative"}}>
+                                    <Input placeholder={'Input the name'} onChange={this.nameOnChange}>
+                                    </Input>
+                                  </div>
+                                  <div style={{top:"70px", marginBottom:"60px", position:"relative"}}>
+                                    <button onClick={()=>this.submitColorbarOnClick()}>Submit Your Colormap</button>
+                                  </div>
+                                </div> : null}
                             </div>
                           </Row>
                         </Col>
@@ -490,4 +484,4 @@ class RightPanel extends PureComponent {
   }
 }
 
-export default RightPanel;
+export default Colormap;

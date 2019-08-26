@@ -58,45 +58,6 @@ class TDMap extends Component {
     });
     // 地图初始视角
     cesium_map.setView(119, 36, 20000000);
-    // const { dataset } = this.props;
-    // let cesium_map = new cesiumMap.map();
-    // let cesium_control = new cesiumMap.control();
-    // this.setState({ cesium_Map: cesium_map });
-    // // // 初始化地球
-    // cesium_map.initMap('cesiumContainer');
-    // // tk=fa6804bbb4f7ddb853e25d652be853ee'
-    // let tiandituMapUrl = '/DataServer?T=img_w&x={x}&{x}&y={y}&l={z}&tk=b25c5f808773cc7465374cd017f2c91a';
-    // let annotationUrl = '/DataServer?T=cia_w&x={x}&{x}&y={y}&l={z}&tk=b25c5f808773cc7465374cd017f2c91a';
-    // //加载天地图地图
-    // cesium_map.addTmsMapLayer({
-    //   layerName: 'tdtBaseLayer',
-    //   url: tiandituMapUrl,
-    //   alpha: 1,
-    // });
-    // //加载天地图注记
-    // cesium_map.addTmsMapLayer({
-    //   layerName: 'annotationLayer',
-    //   url: annotationUrl,
-    //   alpha: 1,
-    // });
-    //
-    // cesium_map.addCogMapLayer({
-    //   url:"http://192.168.2.2:8001/tile/{x}/{y}/{z}?url=s3://obs-oceantest/obs-oceantest/workspace/ADMIN/userData/cog-tif/SIF_758nm_201702-lzw.tif&colorMap=Accent",
-    // });
-    //
-    // // //设置镜头位置与方向
-    // cesium_map.setView(116.3, 39.9, 15000000);
-    // // dataset.map((item, index) => {
-    // //   if (item.method && item.method.toLowerCase() === 'wms') {
-    // //     return TDMap.setWmsLayer_3d(cesium_Map, item);
-    // //   }else if(item.method && item.method.toLowerCase() === 'cog'){
-    // //     return TDMap.setCogLayer_3d(cesium_Map,item);
-    // //   } else {
-    // //     return TDMap.setTmsLayer_3d(cesium_Map, item);
-    // //   }
-    // // });
-    // cesium_control.initNavigation();
-    // cesium_control.mousePosition(document.getElementById('currentPosition'));
 
   }
 
@@ -138,9 +99,7 @@ class TDMap extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('====', this.props, prevProps);
     const { cesium_Map } = this.state;
-
     //根据id判断轮播layer,先删除再新建
     if (this.props.updateData && cesium_Map) {
       if(prevProps.updateData && prevProps.updateData.layerName !== this.props.updateData.layerName){
@@ -170,30 +129,6 @@ class TDMap extends Component {
         }
       }
     }
-
-    //长度发生更新，先删除所有图层，重新添加新的图层
-    // if (prevProps && prevProps.dataset.length !== this.props.dataset.length) {
-    //   cesium_Map.removeAllLayers();
-    //   if (this.props.dataset.length > 0) {            // 如果没有值就不加载啦
-    //     this.props.dataset.map((item, index) => {
-    //       if (item.method && item.method.toLowerCase() === 'wms') {
-    //         return TDMap.setWmsLayer_3d(cesium_Map, item);
-    //       } else if(item.method && item.method.toLowerCase() === 'cog'){
-    //         return TDMap.setCogLayer_3d(cesium_Map, item);
-    //       } else {
-    //         return TDMap.setTmsLayer_3d(cesium_Map, item);
-    //       }
-    //     });
-    //   }
-    // } else if (this.props.dataset !== prevProps.dataset) {  //数据集透明度，是否可见等发生了更新
-    //   this.props.dataset.forEach((item, index) => {
-    //     cesium_Map.setLayerAlphaBykey(item.key, item.opacity);
-    //     if (item.checked !== undefined) {
-    //       let checked = item.checked === '1';
-    //       cesium_Map.setLayerVisibleBykey(item.key, checked);
-    //     }
-    //   });
-    // }
   }
 
   render() {

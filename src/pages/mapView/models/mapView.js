@@ -1,5 +1,4 @@
 import {getDataset, getLayer} from '../service';
-import cesiumMap from '@/components/TDMap/oc.cesium';
 
 export default {
   namespace: 'mapView',

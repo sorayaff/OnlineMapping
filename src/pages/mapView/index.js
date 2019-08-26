@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import TDMap from '@components/TDMap';
 import styles from './index.less';
-import {Icon,Tabs} from 'antd'
-import RightPanel from '@components/RightPanel';
+import DataTabs from  './components/dataTabs';
+import Colormap from  './components/colormap';
 import LeftPanel from '@components/LeftPanel';
-import Legend from '@components/Legend';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -14,27 +13,25 @@ export default class MapView extends Component {
     };
   }
 
-
   hidePanel=()=>{
     this.setState({panelVisible:false})
   };
+
   showPanel=()=>{
     this.setState({panelVisible:true})
   };
 
   render() {
-    const {dataSetList, updateData} = this.props;
-    const {panelVisible}=this.state;
-    const {TabPane}=Tabs;
+    const {panelVisible} = this.state;
+    const { dataSetList, updateData } = this.props;
     return (
       <div className={styles.digitalmap_page}>
         <TDMap dataset={dataSetList}
                updateData={updateData}/>
-        <LeftPanel visible={panelVisible}
-                   handleClose={this.hidePanel}/>
-        {!panelVisible && <div onClick={this.showPanel} className={styles.showButton}><Icon type="more" /></div>}
-        <RightPanel/>
-        <Legend/>
+        <LeftPanel  handleShow={this.showPanel} panelVisible={panelVisible}>
+          <DataTabs handleClose={this.hidePanel} visible={panelVisible} />
+        </LeftPanel>
+        <Colormap/>
       </div>
     );
   }
