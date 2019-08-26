@@ -19,7 +19,7 @@
     }
 
     .present {
-      font-size: 23px;
+      font-size: 30px;
     }
 
     .ant-btn {
@@ -48,6 +48,12 @@
   }
 }
 
+.selectLang {
+  float: right;
+  position: relative;
+  right: 30px;
+}
+
 .home__main__welcomeCard {
   background-color: @cardBackgroundColor;
   border-radius: 5px;
@@ -73,8 +79,7 @@
     color: #ffffff;
     padding-left: 0px;
     font-weight: bold;
-    background-color: #78dbff;
-    background-image: url("../../assets/home/topdtbg.png");
+    background-image: url("../../assets/home/topdtbg.png"),linear-gradient(rgba(26, 86, 197), rgba(186, 220, 248));
     height: 320px;
     text-align: right;
     line-height: 70px;
@@ -248,86 +253,6 @@
   }
 }
 
-.home__main__right__contactUs {
-  margin: @cardMargin 0;
-  background-color: @cardBackgroundColor;
-  border-radius: 5px;
-  padding: 5px;
-  box-shadow: @boxShadow;
-
-  .contactUs__title__box {
-    font-size: 20px;
-    color: @titleColor;
-    padding-left: 10px;
-    background-color: @titleBackgroundColor;
-    height: 40px;
-    line-height: 40px;
-    font-weight: bold;
-    border-style: none none solid none;
-    border-width: 1px;
-  }
-
-  .contactUs__content__box {
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin: 10px 0 5px 0;
-    word-break: break-all;
-    text-align: justify;
-  }
-}
-
-.home__main__left__achievement {
-  margin: @cardMargin 0;
-  box-shadow: @boxShadow;
-
-  .home__main__left__achievement__header {
-    position: relative;
-    font-size: 20px;
-    color: @titleColor;
-    font-weight: bold;
-    padding-left: 10px;
-    border-radius: 5px;
-    background-color: @titleBackgroundColor;
-    height: 40px;
-    line-height: 40px;
-  }
-
-  .achievement__search {
-    position: absolute;
-    bottom: 1px;
-    right: 100px;
-    height: 100%;
-    width: 250px;
-    padding: 6px;
-
-    :global {
-      input {
-        height: 100%;
-        border: none;
-        border-radius: 0;
-      }
-    }
-  }
-
-  .achievement__all {
-    text-align: right;
-    font-size: 12px;
-    right: 20px;
-    position: absolute;
-    width: 150px;
-    cursor: pointer;
-
-    &:hover {
-      font-size: 11px;
-    }
-  }
-
-  .home__main__left__achievement__list {
-    overflow: hidden;
-    background-color: @cardBackgroundColor;
-  }
-}
-
 .home_footer {
   //background-color: @themeColor;
   background-image: url("../../assets/header_back.png");
@@ -337,6 +262,15 @@
   justify-content: center;
   flex-direction: column;
   padding: 25px;
+}
+
+.downloadArea {
+  position: absolute;
+  text-align: center;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  margin: auto;
 }
 
 @media screen and (min-width: 980px)and(max-width: 1400px ) {

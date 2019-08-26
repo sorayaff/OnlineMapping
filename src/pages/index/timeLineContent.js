@@ -26,8 +26,8 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title:'Growth of terrestrial vegetation'},
-      {imgSrc:empty,title:'Distribution of land and water areas'}
+      {imgSrc:p1_2,title_en:'Growth of terrestrial vegetation',title_ch:'陆地植被生长状况'},
+      {imgSrc:empty,title_en:'Distribution of land and water areas',title_ch:'陆表水域面积分布状况'}
     ],
     subtitle: 'Arena',
     content: r2012
@@ -45,10 +45,10 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title:'Growth of terrestrial vegetation'},
-      {imgSrc:empty,title:'Spatial and temporal distribution of large surface waters'},
-      {imgSrc:p1_2,title:'Growth of grain and oil crops'},
-      {imgSrc:empty,title:'Distribution of urban and rural construction land'}
+      {imgSrc:p1_2,title_en:'Growth of terrestrial vegetation',title_ch:'陆地植被生长状况'},
+      {imgSrc:empty,title_en:'Spatial and temporal distribution of large surface waters',title_ch:'大型陆表水域面积时空分布'},
+      {imgSrc:p1_2,title_en:'Growth of grain and oil crops',title_ch:'大宗粮油作物生长形势'},
+      {imgSrc:empty,title_en:'Distribution of urban and rural construction land',title_ch:'城乡建设用地分布状况'}
     ],
     subtitle: 'Daggerfall',
     content: r2013
@@ -66,10 +66,10 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title:'Growth of grain and oil crops'},
-      {imgSrc:empty,title:'Large wetlands of international importance'},
-      {imgSrc:p1_2,title:'African land cover'},
-      {imgSrc:empty,title:'Ecological environment in china-asean region'},
+      {imgSrc:p1_2,title_en:'Growth of grain and oil crops',title_ch:'大宗粮油作物生长形势'},
+      {imgSrc:empty,title_en:'Large wetlands of international importance',title_ch:'大型国际重要湿地'},
+      {imgSrc:p1_2,title_en:'African land cover',title_ch:'非洲土地覆盖'},
+      {imgSrc:empty,title_en:'Ecological environment in china-asean region',title_ch:'中国-东盟区域生态环境状况'},
     ],
     subtitle: 'Morrowind',
     content: r2012
@@ -87,8 +87,8 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title:'陆地植被生长状况'},
-      {imgSrc:empty,title:'陆地水域面积分布状况'}
+      {imgSrc:p1_2,title_en:'The ecological environment state of OROB',title_ch:'“一带一路”生态环境状况'},
+      {imgSrc:empty,title_en:'Global bulk grain and oil crop production situation',title_ch:'全球大宗粮油作物生产形势'}
     ],
     subtitle: 'Oblivion',
     content: r2012
@@ -106,8 +106,7 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title:'陆地植被生长状况'},
-      {imgSrc:empty,title:'陆地水域面积分布状况'}
+      {imgSrc:p1_2,title_en:'Global bulk grain and oil crop production situation',title_ch:'全球大宗粮油作物生产形势'},
     ],
     subtitle: 'Skyrim',
     content: r2012
@@ -122,8 +121,8 @@ const reportDataSource = [
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
     themeList:[
-      {imgSrc:p1_2,title:'陆地植被生长状况'},
-      {imgSrc:empty,title:'陆地水域面积分布状况'}
+      {imgSrc:p1_2,title_en:'The ecological environment state of OROB',title_ch:'“一带一路”生态环境状况'},
+      {imgSrc:empty,title_en:'The impact of global typical major disasters on vegetation',title_ch:'全球典型重大灾害对植被的影响'}
     ],
     subtitle: 'Skyrim',
     content: r2012
@@ -138,8 +137,9 @@ const reportDataSource = [
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
     themeList:[
-      {imgSrc:p1_2,title:'陆地植被生长状况'},
-      {imgSrc:empty,title:'陆地水域面积分布状况'}
+      {imgSrc:p1_2,title_en:'The ecological environment state of OROB',title_ch:'“一带一路”生态环境状况'},
+      {imgSrc:empty,title_en:'Global bulk grain and oil crop production situation',title_ch:'全球大宗粮油作物生产形势'},
+      {imgSrc:p1_2,title_en:'Spatial and temporal distribution of global carbon sources and sinks',title_ch:'全球碳源汇时空分布状况'},
     ],
     subtitle: 'Skyrim',
     content: r2012
@@ -154,8 +154,8 @@ const reportDataSource = [
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
     themeList:[
-      {imgSrc:p1_2,title:'陆地植被生长状况'},
-      {imgSrc:empty,title:'陆地水域面积分布状况'}
+      {imgSrc:p1_2,title_en:'陆地植被生长状况',title_ch:'陆地植被生长状况'},
+      {imgSrc:empty,title_en:'陆地水域面积分布状况',title_ch:'陆地植被生长状况'}
     ],
     subtitle: 'Skyrim',
     content: r2012
