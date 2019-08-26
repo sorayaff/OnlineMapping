@@ -3,6 +3,7 @@ import Swiper from 'react-id-swiper';
 import 'react-id-swiper/lib/styles/css/swiper.css';
 import { WelcomeDataSource, SatelliteDataSource, LinksDataSource } from '@/assets/data.source';
 import ygzx_logo from '@/assets/home/ygzx_logo.png';
+import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import DatasetCard from '@/components/DatasetCard';
 import styles from '@/pages/index/index.less';
 import { Icon } from 'antd';
@@ -57,13 +58,10 @@ const CustomPagination = () => {
       <Swiper {...params} getSwiper={updateSwiper} >
         <div className={styles.home__main__right__webInfo} style={{ width: '75%', height: '180px' }}>
           <div className={styles.webInfo__title__box}>
-            <Icon type="book"/>&nbsp;Introduction
+            <Icon type="book"/>&nbsp;<FormattedMessage id="index.webInfo.title" />
           </div>
           <div className={styles.text__box}>
-            Cooperation on the Analysis of carbon SAtellites data (CASA) was initiated and launched by the Chinese
-            Academy of Science (CAS) in 2018, and gradually start to cooperate with international societies
-            (GEO/ICSU/UNEP) to co-fund carbon-oriented scientific research proposals, the International Reanalysis
-            Cooperation on Carbon Satellites Date (IRCSD).
+            <FormattedMessage id="index.webInfo.content" />
             <br/>
           </div>
         </div>

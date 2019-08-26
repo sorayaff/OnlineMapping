@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './index.less';
 import { Icon, List, Tooltip, Button } from 'antd';
 import ThemeCardList from './ThemeCardList';
-import { formatMessage } from 'umi/locale';
+import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
@@ -30,6 +30,9 @@ class Home extends React.Component {
       loadMore: false,
     };
     this.dates = reportDataSource.map((entry) => entry.date);
+    console.log(getLocale());
+    setLocale('zh-CN');
+    // setLocale('en-US');
   }
 
   handleLoadMore = () => {
@@ -42,14 +45,15 @@ class Home extends React.Component {
     this.setState({
       loadMore: false,
     });
-  }
+  };
 
 
   render() {
+    const local = getLocale();
     this.reportData = reportDataSource.map((report, index) => {
-      const xuyan1 = report.content.slice(0,2);
+      const xuyan1 = report.content.slice(0, 2);
       const xuyan2 = report.content;
-      const {loadMore} = this.state;
+      const { loadMore } = this.state;
       const xuyan = loadMore ? (
         <div>
           {xuyan2.map((item) => <p style={{ fontSize: '16px' }}>{item}<br/></p>)}
@@ -57,7 +61,7 @@ class Home extends React.Component {
             style={{
               textAlign: 'center',
               marginTop: 12,
-              marginBottom:25,
+              marginBottom: 25,
               height: 32,
               lineHeight: '32px',
             }}
@@ -72,7 +76,7 @@ class Home extends React.Component {
             style={{
               textAlign: 'center',
               marginTop: 12,
-              marginBottom:25,
+              marginBottom: 25,
               height: 32,
               lineHeight: '32px',
             }}
@@ -97,15 +101,18 @@ class Home extends React.Component {
         <div className={styles.home__main}>
           <div className={styles.home__main__welcomeCard}>
             <div className={styles.title__box}>
-                  <span>
-                    <img src={ygzx_logo}/>
-                  </span>
-              <span style={{ top: 120, position: 'relative', right: 30 }}>
+              <span style={{position:'absolute',left:'30px'}}>
+                <img src={ygzx_logo}/>
+              </span>
+              {local === 'en-US' ?
+                <span style={{ top: 120, position: 'absolute', right: 30,width:900 }}>
                      Global remote sensing monitoring of ecological environment
-                  </span>
+                </span> :
+                <span style={{ top: 120, position: 'absolute', right: 30 }}>
+                     全球生态环境遥感监测<br/>年度报告
+              </span>}
             </div>
             {/*前言*/}
-
             <CustomPagination/>
           </div>
 
