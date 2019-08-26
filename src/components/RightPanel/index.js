@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+// import {getDefaultColorbar} from '@pages/mapView';
 import styles from './index.less';
 import classNames from 'classnames';
 // import ReactGradientColorPicker from 'react-gradient-color-picker';
@@ -15,10 +16,13 @@ import {
   Input,
   Icon,
 } from 'antd';
+import { connect } from 'react-redux';
+import headerRequest from '@/utils/HeaderRequest';
 
 
 const {TabPane} = Tabs;
 var count = 0;
+var ddd;
 //var colorPicker = require('react-gradient-color-picker');
 const {TreeNode} = TreeSelect;
 const IconText = ({type, handleClick}) => (
@@ -35,7 +39,10 @@ const xtnz = [
   {key:"4",name:"4"},
 ];
 
-
+@connect(({mapView, loading}) => ({
+  fetchDataLoading: loading.effects['mapView/fetchDefaultColorbar'],
+  mapView,
+}))
 
 class RightPanel extends PureComponent {
   constructor(props) {
@@ -56,6 +63,7 @@ class RightPanel extends PureComponent {
       inputFormula:undefined,
       colorbarName:undefined,
       type2:'continuous',
+      defaults:null,
       stops:[
         {offset: 0.0, color: '#f00', opacity: 1.0},
         {offset: 0.5, color: '#fff', opacity: 1.0},
@@ -64,6 +72,8 @@ class RightPanel extends PureComponent {
     };
     this.handleClick = this.handleClick.bind(this);
   }
+
+
 
   formulaOnChange = value => {
     let temp = this.state.requireImageQuery;
@@ -131,12 +141,12 @@ class RightPanel extends PureComponent {
     // }))
   }
 
-  renderZDY=({key,name})=>{
+  renderZDY=(item)=>{
     return(
       <TreeNode
-        value={name}
-        title={name}
-        key={key}/>)
+        value={item}
+        title={item}
+        key={item}/>)
   };
   renderXTNZ=({key,name})=>{
     return(
@@ -232,6 +242,8 @@ class RightPanel extends PureComponent {
   }
 
 
+
+
   render()
   {
     //控制Leftpanel是否显示；控制Leftpanel关闭；model层；数据列表加载状态
@@ -243,6 +255,30 @@ class RightPanel extends PureComponent {
     const { inputValueBias } = this.state;
     const { inputFormula } = this.state;
     // const { stops } = this.state;
+
+    function getDefaultColorbar() {
+    return headerRequest({
+      url: 'v1.0/api/colormap/default',
+      method: 'GET',
+      });
+    }
+
+    var dd;
+    let d = getDefaultColorbar();
+    console.log("d",d);
+
+    let defaultColorbar = getDefaultColorbar().then(function(data) {
+      console.log("promiseData:");
+      console.log(data);
+      if(data){
+        ddd = data.data['list'];
+        console.log(ddd);
+      }
+    });
+
+
+
+    console.log("defaults",this.state.defaults);
 
     var style = {
       width: '100px',
@@ -281,8 +317,10 @@ class RightPanel extends PureComponent {
                               allowClear
                               treeDefaultExpandAll
                               onChange={this.selectOnChange}>
-                              <TreeNode value="zdy" title="zdy" key="0-1">
-                                {zdy.map((item) => this.renderZDY(item))}
+                              <TreeNode value="default" title="Default" key="0-1">
+                                {ddd?
+                                  ddd.map((item) => this.renderZDY(item)):null
+                                }
                               </TreeNode>
                               <TreeNode value="xtnz" title="xtnz" key="0-2">
                                 {xtnz.map((item) => this.renderXTNZ(item))}
