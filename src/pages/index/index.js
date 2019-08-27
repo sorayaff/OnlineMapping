@@ -1,8 +1,10 @@
 import React from 'react';
 import styles from './index.less';
-import { Icon, List, Tooltip, Button } from 'antd';
+import { Icon, List, Tooltip, Button,Menu, Row, Avatar, Divider } from 'antd';
 import ThemeCardList from './ThemeCardList';
 import SelectLang from '@/components/SelectLang'
+import HeaderDropdown from '@/components/HeaderDropdown'
+import Link from 'umi/link';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import router from 'umi/router';
 import { connect } from 'dva';
@@ -14,9 +16,14 @@ import SwipeableViews from 'react-swipeable-views';
 import CustomPagination from './CustomPagination ';
 
 
-@connect(({ home, loading }) => ({
-  home,
-}))
+const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+
+// @connect(({ home, loading,global,login }) => ({
+//   home,
+//   currentUser:global.currentUser,
+//   pageTitle: global.pageTitle,
+//   login
+// }))
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +52,23 @@ class Home extends React.Component {
 
 
   render() {
+    const {
+      currentUser,
+    } = this.props;
+    let color="#3fffff"
+    if(currentUser){
+      let name=currentUser.username||'User';
+      let index=name.length%4;
+      color=colorList[index]
+    }
+    const menu = (
+      <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
+        <Menu.Item key="logout">
+          <Icon type="logout"/>
+          <FormattedMessage id="menu.account.logout" defaultMessage="logout"/>
+        </Menu.Item>
+      </Menu>
+    );
     const local = getLocale();
     this.reportData = reportDataSource.map((report, index) => {
       const xuyan1 = report.content.slice(0, 2);
@@ -97,6 +121,27 @@ class Home extends React.Component {
         <div className={styles.home__main}>
           <div className={styles.home__main__welcomeCard}>
             <div className={styles.title__box}>
+              <div>
+                {currentUser ? (
+                  <HeaderDropdown overlay={menu}>
+            <span className={`${styles.action} ${styles.account}`}>
+              <Avatar
+                style={{backgroundColor:color}}
+                size="large"
+                className={styles.avatar}
+              >
+                {currentUser.username||"User"}
+              </Avatar>
+              <span className={styles.name}>{currentUser.username}</span>
+            </span>
+                  </HeaderDropdown>
+                ) : (
+                  <span>
+              <Link to={{pathname: '/user/login'}}>login</Link><Divider type="vertical"/>
+              <Link to={{pathname: 'user/register'}}>register</Link>
+            </span>
+                )}
+              </div>
               <div className={styles.selectLang}>
                 <SelectLang/>
               </div>
