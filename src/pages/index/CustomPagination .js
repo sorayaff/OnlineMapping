@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import Swiper from 'react-id-swiper';
 import 'react-id-swiper/lib/styles/css/swiper.css';
-import { WelcomeDataSource, SatelliteDataSource, LinksDataSource } from '@/assets/data.source';
+import { WelcomeDataSource, ExhibitDataSource, LinksDataSource } from '@/assets/data.source';
 import ygzx_logo from '@/assets/home/ygzx_logo.png';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import DatasetCard from '@/components/DatasetCard';
@@ -65,8 +65,13 @@ const CustomPagination = () => {
             <br/>
           </div>
         </div>
-        {SatelliteDataSource.map((item) => <div className="swiper-slide" style={style1}><DatasetCard
-          cardHeight={'180px'} cardData={item} key={item.id}/></div>)}
+        {ExhibitDataSource.map((item) => (
+          <div className="swiper-slide" style={style1}>
+            <DatasetCard
+              cardHeight={'180px'}
+              cardData={item}
+              key={item.id}/>
+          </div>))}
       </Swiper>
     </div>
   );

@@ -1,22 +1,33 @@
 import React from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import zhejiang_university from '@assets/home/zhejiang_university.png'
-import nasa_logo from '@/assets/home/nasa_logo.png'
 import zju_geo from '@/assets/home/zju_geo.png'
 import gosat_logo from '@/assets/home/gosat_logo.png'
 import logo_wordGEO from '@/assets/home/logo_wordGEO.png'
 import china_geo from '@/assets/home/logo_chinaGEO.png'
 import tansat_pic from '@/assets/tansat.png'
-import gosat_pic from '@/assets/gosat.png'
 import cloud_pic from '@/assets/cloud&aerosol.png'
 import SIF_pic from '@/assets/SIF.png'
-import slf_thum from '@/assets/slf_thum.png'
 import xco2_thum from '@/assets/xco2.png'
 import oco2_logo from '@/assets/home/OCO2_Logo.jpg'
 import sentinel_5p_logo from '@/assets/home/Sentinel_5P_logo.png'
 import nsmc_logo from '@/assets/home/nsmc_logo.png'
-import ReportPreView from '@/pages/index/ReportPreviewList'
-import {Typography} from 'antd';
+import img201201 from '@/assets/report/201201_zb.png';
+import img201202 from '@/assets/report/201202_sy.png';
+import img201301 from '@/assets/report/201301_zb.png';
+import img201302 from '@/assets/report/201202_sy.png';
+import img201303 from '@/assets/report/201303_ly.png';
+import img201304 from '@/assets/report/201304_cx.png';
+import img201401 from '@/assets/report/201401_ly.png';
+import img201402 from '@/assets/report/201402_sd.png';
+import img201403 from '@/assets/report/201403_fz.png';
+import img201404 from '@/assets/report/201404_zgdm.png';
+import img201501 from '@/assets/report/201501_ylyl.png';
+import img201502 from '@/assets/report/201502_ly.png';
+import img2016 from '@/assets/report/2016_ly.png';
+import img201801 from '@/assets/report/201801_ydyl.png';
+import img201802 from '@/assets/report/201802_ly.png';
+import img201803 from '@/assets/report/201803_ty.png';
 {/*<FormattedMessage id="app.result.error.hint-btn1" defaultMessage="Thaw immediately" />*/}
 
 /* eslint-disable max-len*/
@@ -36,11 +47,14 @@ export const WelcomeDataSource = {
   }
 };
 
-export const SatelliteDataSource = [
-  {id:"1",name:"TanSat",imgSrc:tansat_pic,description:'TanSat',haveLink:true},
-  {id:"2",name:"Cloud & Aerosol",imgSrc:cloud_pic,description:'Cloud and Aerosol',haveLink:false},
-  {id:"3",name:"Solar induced Fluorescence",imgSrc:SIF_pic,description:'Solar Induced Fluorescence',haveLink:false},
-  {id:"4",name:"X-CO2",imgSrc:xco2_thum,description:'X-CO2',haveLink:false},
+export const ExhibitDataSource = [
+  {id:"1",name:"“一带一路”生态环境状况",imgSrc:img201801,description:'TanSat',haveLink:true,tag:'RegionalEcosystemTrendsAlongtheBeltandRoad'},
+  {id:"2",name:"全球大宗粮油作物生产形势",imgSrc:img201802,description:'Cloud and Aerosol',haveLink:false},
+  {id:"3",name:"全球碳源汇时空分布状况",imgSrc:img201803,description:'Solar Induced Fluorescence',haveLink:false},
+  {id:"4",name:"大宗粮油作物生长形势",imgSrc:img201401,description:'X-CO2',haveLink:false},
+  {id:"5",name:"大型国际重要湿地",imgSrc:img201402,description:'TanSat',haveLink:true},
+  {id:"6",name:"非洲土地覆盖",imgSrc:img201403,description:'Cloud and Aerosol',haveLink:false},
+  {id:"7",name:"中国-东盟区域生态环境状况",imgSrc:img201404,description:'Solar Induced Fluorescence',haveLink:false},
 ];
 
 export const LinksDataSource = [

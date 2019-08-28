@@ -1,10 +1,14 @@
+import home from './en-US/home';
+import login from './en-US/login';
+import form from './en-US/form';
+
 export default {
+  ...home,
+  ...login,
+  ...form,
   'index.start': 'Getting Started',
-  'index.webInfo.title':'Introduction',
-  'index.webInfo.content':'Cooperation on the Analysis of carbon SAtellites data (CASA) was initiated and launched by the Chinese\n' +
-    '            Academy of Science (CAS) in 2018, and gradually start to cooperate with international societies\n' +
-    '            (GEO/ICSU/UNEP) to co-fund carbon-oriented scientific research proposals, the International Reanalysis\n' +
-    '            Cooperation on Carbon Satellites Date (IRCSD).',
+  'index.webInfo.title':'About GEOARC',
+  'index.webInfo.content':'Focusing on GEO priorities, GEOARC aims to develop a framework for monitoring and analysis of ecosystem and environment information. The results of this analysis are captured in a series of user-oriented datasets and easy-reading reports that support public decision making. GEOARC will promote the use of international standards and methods for data/information sharing and facilitate participation of other countries and organizations in the development and use of the reports..',
   'index.viewOnMap':'View data on map',
   'index.viewReport':'View report',
   'index.loadMore':'load more',

@@ -21,7 +21,7 @@ import {
 } from 'antd';
 import { themeData } from './themeData';
 import { getLayer } from '../../service';
-import cesiumMap from '@/components/TDMap/oc.cesium';
+import cesiumMap from '@/components/TDMap/oc.cesium'
 
 const { TabPane } = Tabs;
 const { Search } = Input;
@@ -76,6 +76,7 @@ class DataTabs extends Component {
       },
     });
   };
+
   //点击数据前往图层列表
   goToThirdTab = (dataset) => {
     const { selectedDataset = [] } = this.state;
@@ -106,6 +107,7 @@ class DataTabs extends Component {
     });
     this.setState({ selectedYear: value });
   };
+
   //搜索条件标签变化
   handleSelectChange = (tags) => {
     const { dispatch } = this.props;
