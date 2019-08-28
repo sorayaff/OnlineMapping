@@ -16,11 +16,9 @@ class TDMap extends Component {
   }
 
   componentDidMount() {
-    this.setState({ cesium_map: cesium_map });
     // 初始化地球
     cesium_map.initMap('3d_map');
     // tk=fa6804bbb4f7ddb853e25d652be853ee'
-
     // 配置罗盘、比例尺和缩放控件
     let options = {};
     // 用于在使用重置导航重置地图视图时设置默认视图控制。接受的值是Cesium.Cartographic 和 Cesium.Rectangle.
@@ -35,7 +33,6 @@ class TDMap extends Component {
     options.enableCompassOuterRing = true;
     cesium_control.initNavigation(options);
     cesium_control.mousePosition(document.getElementById('currentPosition'));
-
     let tiandituMapUrl = '/DataServer?T=img_w&x={x}&{x}&y={y}&l={z}&tk=b25c5f808773cc7465374cd017f2c91a';
     let annotationUrl = '/DataServer?T=eva_w&x={x}&{x}&y={y}&l={z}&tk=b25c5f808773cc7465374cd017f2c91a';
     // 加载天地图地图
@@ -52,83 +49,8 @@ class TDMap extends Component {
       url: annotationUrl,
       alpha: 1,
     });
-    cesium_map.addCogMapLayer({
-      // url:"http://192.168.2.2:8080/v1.0/api/map/cog/tileV2/{x}/{y}/{z}?url=cog-tif/day-lzw.tif&layerName=layer1",
-      url:"/v1.0/api/map/cog/tileV2/{x}/{y}/{z}?url=cog-tif/SIF_758nm_201702-lzw.tif&renderStyle=Blues_r&layerName=TanSat solar-induced chlorophyll fluorescence (SIF) 758nm - 201702",
-    });
     // 地图初始视角
     cesium_map.setView(119, 36, 20000000);
-
-  }
-
-  static setWmsLayer_3d(cesium_Map, data) {
-    let attr = {
-      url: data.url + '?datasetId=' + data.id,
-      layerName: data.layerName,
-      layerType: data.layerType,
-      alpha: data.opacity || 1,
-      srs: 'EPSG:4326',
-      key: data.key,
-    };
-    cesium_Map.addWmsMapLayer(attr);
-  }
-
-  static setTmsLayer_3d(cesium_Map, data) {
-    let attr = {
-      url: data.url + '?datasetId=' + data.id,
-      layerName: data.layerName,
-      layerType: data.layerType,
-      alpha: data.opacity || 1,
-      srs: 'EPSG:3857',
-      key: data.key,
-    };
-    cesium_Map.addTmsMapLayer(attr);
-  }
-
-  static setCogLayer_3d(cesium_Map, data) {
-    let attr = {
-      url: data.url,
-      datasetId: data.id,
-      layerName: data.layerName,
-      layerType: data.layerType,
-      alpha: data.opacity || 1,
-      srs: 'EPSG:3857',
-      key: data.key,
-    };
-    cesium_Map.addCogMapLayer(attr);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { cesium_Map } = this.state;
-    //根据id判断轮播layer,先删除再新建
-    if (this.props.updateData && cesium_Map) {
-      if(prevProps.updateData && prevProps.updateData.layerName !== this.props.updateData.layerName){
-        cesium_Map.removeLayerIndatasetbyName(prevProps.updateData.key, prevProps.updateData.layerName);
-        if (this.props.updateData.method && this.props.updateData.method.toLowerCase() === 'wms') {
-          console.log('轮播改变图层', this.props.updateData);
-          TDMap.setWmsLayer_3d(cesium_Map, this.props.updateData);
-        } else if(this.props.updateData.method && this.props.updateData.method.toLowerCase() === 'cog'){
-          console.log('轮播改变图层', this.props.updateData);
-          TDMap.setCogLayer_3d(cesium_Map, this.props.updateData);
-        } else {
-          console.log('轮播改变图层', this.props.updateData);
-          TDMap.setTmsLayer_3d(cesium_Map, this.props.updateData);
-        }
-      }
-      else if(!prevProps.updateData) {
-        cesium_Map.removeAllLayers();
-        if (this.props.updateData.method && this.props.updateData.method.toLowerCase() === 'wms') {
-          console.log('轮播改变图层', this.props.updateData);
-          TDMap.setWmsLayer_3d(cesium_Map, this.props.updateData);
-        } else if(this.props.updateData.method && this.props.updateData.method.toLowerCase() === 'cog'){
-          console.log('轮播改变图层', this.props.updateData);
-          TDMap.setCogLayer_3d(cesium_Map, this.props.updateData);
-        } else {
-          console.log('轮播改变图层', this.props.updateData);
-          TDMap.setTmsLayer_3d(cesium_Map, this.props.updateData);
-        }
-      }
-    }
   }
 
   render() {
