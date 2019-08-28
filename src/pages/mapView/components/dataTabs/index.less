@@ -8,18 +8,25 @@
 .card-container {
   position: absolute;
   //margin-left: 2em;
-  top: 22vh;
-  height: 65vh;
-  left: -20vw;
-  width: 20vw;
-  opacity: .8;
+  top: 10vh;
+  height: 85vh;
+  left: -25vw;
+  width: 25vw;
+  opacity: .7;
   transition: transform 0.3s ease-in;
   .searchCard {
+    padding: 4px;
     width: 100%;
     background-color: #dddddd;
+    border-radius: 4px;
   }
-  .productList {
-    height: calc(100% - 100px) !important;
+  .datasetList_bar {
+    height: calc(80vh - 100px) !important;
+    margin-top: 10px;
+    width: 103% !important;
+  }
+  .layerList_bar {
+    height: calc(80vh) !important;
     margin-top: 10px;
     width: 103% !important;
   }
@@ -73,7 +80,7 @@
     }
 
     .ant-tabs-card > .ant-tabs-content {
-      height: 65vh;
+      height: 80vh;
       margin-top: -16px;
       color: #fff;
     }
@@ -112,8 +119,8 @@
 }
 
 .card-container-show {
-  -webkit-transform: translateX(20vw); /*兼容-webkit-引擎浏览器*/
-  -moz-transform: translateX(20vw); /*兼容-moz-引擎浏览器*/
-  transform: translateX(20vw);
+  -webkit-transform: translateX(25vw); /*兼容-webkit-引擎浏览器*/
+  -moz-transform: translateX(25vw); /*兼容-moz-引擎浏览器*/
+  transform: translateX(25vw);
   transition: transform 0.3s ease-in;
 }

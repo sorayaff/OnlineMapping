@@ -31,7 +31,7 @@ export default class MapView extends Component {
         <LeftPanel  handleShow={this.showPanel} panelVisible={panelVisible}>
           <DataTabs handleClose={this.hidePanel} visible={panelVisible} />
         </LeftPanel>
-        <Colormap/>
+        {/*<Colormap/>*/}
       </div>
     );
   }
