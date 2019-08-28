@@ -112,7 +112,7 @@
     background-image: url("../../assets/home/topdtbg.png"),linear-gradient(rgba(26, 86, 197), rgba(186, 220, 248));
     height: 320px;
     text-align: right;
-    line-height: 70px;
+    line-height: 65px;
     border-style: none none solid none;
     border-width: 0px;
   }
@@ -149,59 +149,7 @@
   margin: @cardMargin 0;
 }
 
-.home__main__left__news {
-  margin: @cardMargin 0;
-  box-shadow: @boxShadow;
-
-  .home__main__left__news__header {
-    position: relative;
-    font-size: 20px;
-    color: @titleColor;
-    font-weight: bold;
-    padding-left: 10px;
-    border-radius: 5px;
-    background-color: @titleBackgroundColor;
-    height: 40px;
-    line-height: 40px;
-  }
-
-  .news__search {
-    position: absolute;
-    bottom: 1px;
-    right: 100px;
-    height: 100%;
-    width: 250px;
-    padding: 6px;
-
-    :global {
-      input {
-        height: 100%;
-        border: none;
-        border-radius: 0;
-      }
-    }
-  }
-
-  .news__all {
-    text-align: right;
-    font-size: 12px;
-    right: 8px;
-    position: absolute;
-    width: 100px;
-    cursor: pointer;
-
-    &:hover {
-      font-size: 11px;
-    }
-  }
-
-  .home__main__left__news__list {
-    overflow: hidden;
-    background-color: @cardBackgroundColor;
-  }
-}
-
-.home__main__right__webInfo {
+.home__main__webInfo {
   margin: @cardMargin 0;
   background-color: @cardBackgroundColor;
   border-radius: 5px;
@@ -252,37 +200,6 @@
   }
 }
 
-.home__main__right__links {
-  margin: @cardMargin 0;
-  background-color: @cardBackgroundColor;
-  border-radius: 5px;
-  padding: 5px;
-  box-shadow: @boxShadow;
-
-  .link__title__box {
-    font-size: 20px;
-    color: @titleColor;
-    padding-left: 10px;
-    background-color: @titleBackgroundColor;
-    height: 40px;
-    line-height: 40px;
-    font-weight: bold;
-    border-style: none none solid none;
-    border-width: 1px;
-  }
-
-  .links__list {
-    background-color: @cardBackgroundColor;
-    padding: 0 8px;
-
-    .link__name {
-      word-break: break-all;
-      margin-left: 10px;
-      font-weight: bold;
-    }
-  }
-}
-
 .home_footer {
   //background-color: @themeColor;
   background-image: url("../../assets/header_back.png");
@@ -302,7 +219,17 @@
   bottom: 10px;
   margin: auto;
 }
-
+.homeLogin{
+  float: right;
+  position: relative;
+  right: 30px;
+  & > a {
+    color: #fff;
+  }
+  & > a:hover {
+    color: #40a9ff;
+  }
+}
 @media screen and (min-width: 980px)and(max-width: 1400px ) {
   .info_box {
     font-size: 14px !important;

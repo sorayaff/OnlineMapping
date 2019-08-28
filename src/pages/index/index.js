@@ -133,7 +133,7 @@ class Home extends React.Component {
           <div className={styles.home__main__welcomeCard}>
             <div className={styles.title__box}>
               {/*登录模块*/}
-              <div style={{ float: 'right' }}>
+              <div className={styles.homeLogin}>
                 {currentUser ? (
                   <HeaderDropdown overlay={menu}>
                     <span className={`${styles.action} ${styles.account}`}>
@@ -149,8 +149,8 @@ class Home extends React.Component {
                   </HeaderDropdown>
                 ) : (
                   <span>
-                    <Link to={{ pathname: '/user/login' }}>login</Link><Divider type="vertical"/>
-                    <Link to={{ pathname: 'user/register' }}>register</Link>
+                    <Link to={{ pathname: '/user/login' }}><FormattedMessage id="app.login.login"/></Link><Divider type="vertical"/>
+                    <Link to={{ pathname: 'user/register' }}><FormattedMessage id="app.register.register"/></Link>
                   </span>
                 )}
               </div>

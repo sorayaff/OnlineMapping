@@ -56,7 +56,7 @@ const CustomPagination = () => {
   return (
     <div onMouseEnter={stopAutoPlay} onMouseLeave={startAutoPlay}>
       <Swiper {...params} getSwiper={updateSwiper} >
-        <div className={styles.home__main__right__webInfo} style={{ width: '75%', height: '180px' }}>
+        <div className={styles.home__main__webInfo} style={{ width: '75%', height: '180px' }}>
           <div className={styles.webInfo__title__box}>
             <Icon type="book"/>&nbsp;<FormattedMessage id="index.webInfo.title" />
           </div>
