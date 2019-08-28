@@ -1,7 +1,8 @@
 export default {
+  'app.login.withoutLogin':'Visits without login',
   'app.login.userName': 'userName',
   'app.login.password': 'password',
-  'app.login.title': 'CASA LOGIN',
+  'app.login.title': 'GEOARC LOGIN',
   'app.login.message-invalid-credentials': 'Invalid username or password（admin/ant.design）',
   'app.login.message-invalid-verification-code': 'Invalid verification code',
   'app.login.tab-login-credentials': 'Credentials',
@@ -12,7 +13,7 @@ export default {
   'app.login.signup': 'Sign up',
   'app.login.login': 'Login',
   'app.register.register': 'Register',
-  'app.register.register.title': 'Register for a CASA Login Profile',
+  'app.register.register.title': 'Register for a GEOARC Login Profile',
   'app.register.get-verification-code': 'Get code',
   'app.login.verification-code-warning':
     'This project is a demo project and will not actually send you a verification code. Please switch to the account password login interface and log in as prompted.',

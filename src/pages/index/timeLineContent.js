@@ -1,5 +1,25 @@
 import p1_2 from '@/assets/news1/2.jpg';
 import empty from '@/assets/empty/empty.jpg';
+import img201201 from '@/assets/report/201201_zb.png';
+import img201202 from '@/assets/report/201202_sy.png';
+import img201301 from '@/assets/report/201301_zb.png';
+import img201302 from '@/assets/report/201202_sy.png';
+import img201303 from '@/assets/report/201303_ly.png';
+import img201304 from '@/assets/report/201304_cx.png';
+import img201401 from '@/assets/report/201401_ly.png';
+import img201402 from '@/assets/report/201402_sd.png';
+import img201403 from '@/assets/report/201403_fz.png';
+import img201404 from '@/assets/report/201404_zgdm.png';
+import img201501 from '@/assets/report/201501_ylyl.png';
+import img201502 from '@/assets/report/201502_ly.png';
+import img2016 from '@/assets/report/2016_ly.png';
+import img201701 from '@/assets/report/201701_ydyl.png';
+import img201702 from '@/assets/report/201702_zb.png';
+import img201801 from '@/assets/report/201801_ydyl.png';
+import img201802 from '@/assets/report/201802_ly.png';
+import img201803 from '@/assets/report/201803_ty.png';
+
+
 /* eslint-disable max-len*/
 const r2012 = [
   '    近代以来，经济和科学技术的迅猛发展，为人类创造了巨大的财富，同时，人类对地球资源的消耗和环境的破坏，导致全球性生态环境问题的日益突出，特别是全球气候变暖、水资源匮乏与污染、生物多样性锐减、土地荒漠化等重大生态环境问题，不仅影响全球经济、社会的可持续发展，而且以越来越快的速度腐蚀着人类生存的基础。\n',
@@ -26,8 +46,8 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title_en:'Growth of terrestrial vegetation',title_ch:'陆地植被生长状况'},
-      {imgSrc:empty,title_en:'Distribution of land and water areas',title_ch:'陆表水域面积分布状况'}
+      {imgSrc:img201201,title_en:'Dynamics of Global Vegetation Leaf Area Index (LAI)',title_ch:'陆地植被生长状况'},
+      {imgSrc:img201202,title_en:'Global Land Surface Water and Dynamic Changes of Sample Lakes',title_ch:'陆表水域面积分布状况'}
     ],
     subtitle: 'Arena',
     content: r2012
@@ -45,10 +65,10 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title_en:'Growth of terrestrial vegetation',title_ch:'陆地植被生长状况'},
-      {imgSrc:empty,title_en:'Spatial and temporal distribution of large surface waters',title_ch:'大型陆表水域面积时空分布'},
-      {imgSrc:p1_2,title_en:'Growth of grain and oil crops',title_ch:'大宗粮油作物生长形势'},
-      {imgSrc:empty,title_en:'Distribution of urban and rural construction land',title_ch:'城乡建设用地分布状况'}
+      {imgSrc:img201301,title_en:'Growth Condition of Global Terrestrial Vegetation',title_ch:'陆地植被生长状况'},
+      {imgSrc:img201302,title_en:'Large Terrestrial Surface Water Areas',title_ch:'大型陆表水域面积时空分布'},
+      {imgSrc:img201303,title_en:'Supply Situation of Maize, Rice, Wheat and Soybean',title_ch:'大宗粮油作物生长形势'},
+      {imgSrc:img201304,title_en:'Urban and Rural Resident Land Cover Distribution',title_ch:'城乡建设用地分布状况'}
     ],
     subtitle: 'Daggerfall',
     content: r2013
@@ -58,7 +78,7 @@ const reportDataSource = [
     title: '2014 Annual Report',
     linkedDataSets:[],
     reportList:[
-      {imgSrc: p1_2, title: 'The Air We Breathe', time: 'May. 16, 2019', description: "Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.", id: 1},
+      {imgSrc: img201401, title: 'The Air We Breathe', time: 'May. 16, 2019', description: "Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.", id: 1},
       {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
@@ -66,10 +86,10 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title_en:'Growth of grain and oil crops',title_ch:'大宗粮油作物生长形势'},
-      {imgSrc:empty,title_en:'Large wetlands of international importance',title_ch:'大型国际重要湿地'},
-      {imgSrc:p1_2,title_en:'African land cover',title_ch:'非洲土地覆盖'},
-      {imgSrc:empty,title_en:'Ecological environment in china-asean region',title_ch:'中国-东盟区域生态环境状况'},
+      {imgSrc:img201401,title_en:'Supply situation of Maize, Rice, Wheat and Soybean',title_ch:'大宗粮油作物生长形势'},
+      {imgSrc:img201402,title_en:'Large Area Wetlands of International Importance',title_ch:'大型国际重要湿地'},
+      {imgSrc:img201403,title_en:'Afica Land Cover',title_ch:'非洲土地覆盖'},
+      {imgSrc:img201404,title_en:'China-ASEAN Ecological and Environrnental Conditions',title_ch:'中国-东盟区域生态环境状况'},
     ],
     subtitle: 'Morrowind',
     content: r2012
@@ -79,7 +99,7 @@ const reportDataSource = [
     title: '2015 Annual Report',
     linkedDataSets:[],
     reportList:[
-      {imgSrc: p1_2, title: 'The Air We Breathe', time: 'May. 16, 2019', description: "Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.", id: 1},
+      {imgSrc: img201501, title: 'The Air We Breathe', time: 'May. 16, 2019', description: "Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.", id: 1},
       {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
@@ -87,8 +107,8 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title_en:'The ecological environment state of OROB',title_ch:'“一带一路”生态环境状况'},
-      {imgSrc:empty,title_en:'Global bulk grain and oil crop production situation',title_ch:'全球大宗粮油作物生产形势'}
+      {imgSrc:img201501,title_en:'The Belt and Road Initiative Ecological and Environmental Conditions',title_ch:'“一带一路”生态环境状况'},
+      {imgSrc:img201502,title_en:'Supply situation of Maize, Rice, Wheat and Soybean',title_ch:'全球大宗粮油作物生产形势'}
     ],
     subtitle: 'Oblivion',
     content: r2012
@@ -106,7 +126,7 @@ const reportDataSource = [
       'unabridged_ch':'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf'
     },
     themeList:[
-      {imgSrc:p1_2,title_en:'Global bulk grain and oil crop production situation',title_ch:'全球大宗粮油作物生产形势'},
+      {imgSrc:img2016,title_en:'Supply situation of Maize, Rice, Wheat and Soybean',title_ch:'全球大宗粮油作物生产形势'},
     ],
     subtitle: 'Skyrim',
     content: r2012
@@ -121,8 +141,8 @@ const reportDataSource = [
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
     themeList:[
-      {imgSrc:p1_2,title_en:'The ecological environment state of OROB',title_ch:'“一带一路”生态环境状况'},
-      {imgSrc:empty,title_en:'The impact of global typical major disasters on vegetation',title_ch:'全球典型重大灾害对植被的影响'}
+      {imgSrc:img201701,title_en:'The Belt and Road Initiative Ecological and Environmental Conditions',title_ch:'“一带一路”生态环境状况'},
+      {imgSrc:img201702,title_en:'The Impacts of Global Natural Disasters on Vegetation',title_ch:'全球典型重大灾害对植被的影响'}
     ],
     subtitle: 'Skyrim',
     content: r2012
@@ -137,29 +157,29 @@ const reportDataSource = [
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
     themeList:[
-      {imgSrc:p1_2,title_en:'The ecological environment state of OROB',title_ch:'“一带一路”生态环境状况'},
-      {imgSrc:empty,title_en:'Global bulk grain and oil crop production situation',title_ch:'全球大宗粮油作物生产形势'},
-      {imgSrc:p1_2,title_en:'Spatial and temporal distribution of global carbon sources and sinks',title_ch:'全球碳源汇时空分布状况'},
+      {imgSrc:img201801,title_en:'Regional Ecosystem Trends along the Belt and Road',title_ch:'“一带一路”生态环境状况'},
+      {imgSrc:img201802,title_en:'Supply Situation of Maize, Rice, Wheat and Soybean',title_ch:'全球大宗粮油作物生产形势'},
+      {imgSrc:img201803,title_en:'Temporal Dynamics and Spatial Distribution of Global Carbon Source and Sink',title_ch:'全球碳源汇时空分布状况'},
     ],
     subtitle: 'Skyrim',
     content: r2012
   },
-  {
-    date: '2019',
-    title: '2019 Annual Report',
-    linkedDataSets:[],
-    reportList:[
-      {imgSrc: p1_2, title: 'The Air We Breathe', time: 'May. 16, 2019', description: "Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.", id: 1},
-      {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
-      {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
-    ],
-    themeList:[
-      {imgSrc:p1_2,title_en:'陆地植被生长状况',title_ch:'陆地植被生长状况'},
-      {imgSrc:empty,title_en:'陆地水域面积分布状况',title_ch:'陆地植被生长状况'}
-    ],
-    subtitle: 'Skyrim',
-    content: r2012
-  },
+  // {
+  //   date: '2019',
+  //   title: '2019 Annual Report',
+  //   linkedDataSets:[],
+  //   reportList:[
+  //     {imgSrc: p1_2, title: 'The Air We Breathe', time: 'May. 16, 2019', description: "Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.", id: 1},
+  //     {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
+  //     {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
+  //   ],
+  //   themeList:[
+  //     {imgSrc:p1_2,title_en:'陆地植被生长状况',title_ch:'陆地植被生长状况'},
+  //     {imgSrc:empty,title_en:'陆地水域面积分布状况',title_ch:'陆地植被生长状况'}
+  //   ],
+  //   subtitle: 'Skyrim',
+  //   content: r2012
+  // },
 ];
 
 export default reportDataSource;

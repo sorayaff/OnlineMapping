@@ -8,10 +8,21 @@ import styles from './index.less'
 
 function handleMenuClick(e) {
   console.log('click', e);
-  // if(e.item)
 }
 
-function ThemeCard({data}) {
+function handleViewData(year,data) {
+  const local = getLocale();
+  const theme = local === 'en-US' ? data.title_en : data.title_ch;
+  router.push({
+    pathname: '/mapView',
+    query: {
+      year: year,
+      name: theme,
+    },
+  });
+}
+
+function ThemeCard({year,data}) {
   const local = getLocale();
   let unabridged_ch;
   if(data.downLoadLink){
@@ -34,7 +45,7 @@ function ThemeCard({data}) {
   );
   const theme = local === 'en-US' ? data.title_en : data.title_ch;
   return (
-    <div style={{padding:'5px',height:'500px',position:'relative'}}>
+    <div style={{padding:'5px',height:'450px',position:'relative'}}>
       <div style={{padding:'5px',fontSize:'18px',textAlign:'center'}}>
         <img src={data.imgSrc} style={{width:'100%',maxWidth:600}}/>
       </div>
@@ -42,7 +53,7 @@ function ThemeCard({data}) {
         <p style={{fontWeight:'bold'}}>{theme}</p>
       </div>
       <div className={styles.downloadArea}>
-        <Button type="primary" icon='eye' ghost onClick={() => (router.push('/mapView'))}>
+        <Button type="primary" icon='eye' ghost onClick={() => handleViewData(year,data)}>
           <FormattedMessage id='index.viewOnMap'/>
         </Button>
         <Dropdown overlay={menu}>
@@ -55,11 +66,11 @@ function ThemeCard({data}) {
   );
 }
 
-function ThemeCardList({dataSource}) {
+function ThemeCardList({year,dataSource}) {
   return (
     <div>
       <Row>
-        {dataSource.map((item) => <Col xs><ThemeCard data={item}/></Col>)}
+        {dataSource.map((item) => <Col xs><ThemeCard year = {year} data={item}/></Col>)}
       </Row>
     </div>
   );

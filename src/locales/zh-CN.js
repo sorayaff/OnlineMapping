@@ -1,4 +1,11 @@
+import home from './zh-CN/home';
+import login from './zh-CN/login';
+import form from './zh-CN/form';
+
 export default {
+  ...home,
+  ...login,
+  ...form,
   'index.start': 'Getting Started',
   'index.webInfo.title':'网站介绍',
   'index.webInfo.content':'网站介绍',

@@ -12,13 +12,10 @@ class BasicLayout extends React.Component {
     this.props.dispatch({
       type: 'global/fetchUserAddress',
     })
-  }
-
-  getCurrentUser=()=>{
     this.props.dispatch({
       type: 'global/fetchCurrentUser',
     });
-  };
+  }
 
   handleLogout =()=>{
     this.props.dispatch({

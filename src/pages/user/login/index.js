@@ -90,7 +90,7 @@ class LoginPage extends Component {
             <h2>
               <FormattedMessage id="app.login.title"/>
             </h2>
-            <h4><Link to='/'>Visits without logining</Link></h4>
+            <h4><Link to='/'><FormattedMessage id="app.login.withoutLogin"/></Link></h4>
           </div>
           {/*<Tab key="account" tab={formatMessage({ id: 'app.login.tab-login-credentials' })}>*/}
           {login.status === 'error' &&
@@ -167,8 +167,7 @@ class LoginPage extends Component {
             </a>
           </div>
           <Submit loading={submitting}>
-            {/*<FormattedMessage id="app.login.login"/>  */}
-            submit
+            <FormattedMessage id="app.login.login"/>
           </Submit>
           <div className={styles.other}>
             {/*<FormattedMessage id="app.login.sign-in-with" />*/}
