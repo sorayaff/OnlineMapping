@@ -3,6 +3,7 @@ let CompressionPlugin = require('compression-webpack-plugin');
 let env = process.env.QA_ENV;
 const cesiumSource = 'node_modules/cesium/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
+
 // const publicPath = './src/public'
 
 function getPlugins() {
@@ -62,7 +63,7 @@ export default {
   },
   publicPath: '/',
   outputPath: './pages',
-  hash:true,
+  hash: true,
   define: {
     CESIUM_BASE_URL: '/cesium',
   },
@@ -89,7 +90,7 @@ export default {
       locale: {
         enable: true,
         default: 'en-US',
-        baseNavigator:false,
+        baseNavigator: false,
       },
       routes: {
         exclude: [
@@ -98,7 +99,7 @@ export default {
           /model\.(t|j)sx?$/,
           /service\.(t|j)sx?$/,
           /components\//,
-        ]
+        ],
       },
     }],
   ],
@@ -128,12 +129,12 @@ export default {
       secure: false,
       pathRewrite: { '/taobao/service': '/service' },
     },
-    '/map/api': {
-      target: 'http://192.168.2.2:8080/v1.0/api',
+    '/v1.0/api/map': {
+      target: 'http://192.168.2.2:8080/v1.0/api/map',
       changeOrigin: true,
       secure: false,
-      pathRewrite: { '^/map/api': '' },
-    }
+      pathRewrite: { '^/v1.0/api/map': '' },
+    },
   },
   alias: {
     'cesium': path.resolve(__dirname, './node_modules/cesium/Source'),
@@ -207,4 +208,4 @@ export default {
       );
     }
   },
-}
+};

@@ -4,13 +4,21 @@ export default {
   namespace: 'mapView',
   state: {
     dataSetList: undefined,            //数据列表，
-    layerList:undefined,              //图层列表，
+    layerList: undefined,              //图层列表，
     defaultColobar: [],         //系统自带色带
-    tagList:undefined,                  //数据标签
+    tagList: undefined,                  //数据标签
   },
   reducers: {
-    addDataSet(state, { payload = {} }) {
-      return { ...state, dataSetList: payload };
+    setDataset(state, { payload = {} }) {
+      return {
+        ...state,
+        dataSetList: {
+          ...payload, datasets: payload.datasets.map((item, index) => {
+            item.key = index;
+            return item;
+          }),
+        },
+      };
     },
     addLayer(state, { payload = {} }) {
       return { ...state, layerList: payload };
@@ -21,20 +29,10 @@ export default {
     setTags(state, { payload = [] }) {
       return { ...state, tagList: payload };
     },
-    setDataset(state, { payload = {} }) {
-      return { ...state, dataSetList: payload };
-    },
   },
   effects: {
-    // 加载数据集
-    * fetchDataset({ payload }, { put, call }) {
-      const response = yield call(getDataset, payload);
-      if (response.success) {
-        yield put({ type: 'addDataSet', payload: response.data });
-      }
-    },
     //根据选中的数据集加载图层
-    * fetchLayer({ payload }, { put, call }) {
+    * fetchLayer({payload}, { put, call }) {
       const response = yield call(getLayer, payload);
       if (response.success) {
         yield put({ type: 'addLayer', payload: response.data });

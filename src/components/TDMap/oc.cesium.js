@@ -1,8 +1,9 @@
 /* eslint-disable */
 import Cesium from 'cesium/Cesium';
-import {getLocalData} from '@/utils/common'
-import $ from 'jquery'
-import CesiumNavigation from 'cesium-navigation-es6'
+import { getLocalData } from '@/utils/common';
+import $ from 'jquery';
+import CesiumNavigation from 'cesium-navigation-es6';
+import { stringify } from 'qs';
 
 let cesiumMap = new Object();
 
@@ -106,37 +107,28 @@ cesiumMap.map.prototype = {
     layer.name = layerName;
     layer.key = key;
   },
-  //添加cog图层  url：地图路径地址 layerName：图层名称 alpha:图层透明度
-  // addCogMapLayer: function(attr) {
-  //   const { key, url, layerName, alpha, dataType } = attr;
-  //   let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
-  //     url:getResource(url),
-  //     format: 'image/png',
-  //     layer: layerName,
-  //   });
-  //   let layer = viewer.imageryLayers.addImageryProvider(titleimgProvider);
-  //   layer.alpha = alpha;
-  //   layer.dataType = dataType || 'layer';
-  //   layer.name = layerName;
-  //   layer.key = key;
-  //   return layer;
-  // },
-  addCogMapLayer: function(attr) {
-    let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
-      url:attr['url'],//"http://192.168.2.2:8001/tile/{x}/{y}/{z}?url=s3://obs-oceantest/obs-oceantest/workspace/ADMIN/userData/cog-tif/SIF_758nm_201702-lzw.tif&colorMap=Accent",
-      format: 'image/png',
-      // layer: layerName,
-    });
-    let layer = viewer.imageryLayers.addImageryProvider(titleimgProvider);
-    layer.alpha = 1;
-    // layer.name = layerName;
-    return layer;
+  addLayer: function(layer) {
+    if (layer.method.toLowerCase() === 'cog') {
+      const { layerName, url, layerType = 'Ecology', key } = layer;
+      let path = `${url}&`;
+      let queryData = {
+        layerName: layerName,
+        layerType: layerType,
+      };
+      let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
+        url: path + stringify(queryData),
+        format: 'image/png',
+      });
+      let imageryLayer = viewer.imageryLayers.addImageryProvider(titleimgProvider);
+      imageryLayer.alpha = 1;
+      imageryLayer.key = key;
+    }
   },
   //添加切片服务
   addTmsMapLayer: function(attr) {
     const { key, url, layerName, alpha, dataType } = attr;
     let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
-      url:url,
+      url: url,
       format: 'image/png',
       layer: layerName,
     });
@@ -146,65 +138,6 @@ cesiumMap.map.prototype = {
     layer.name = layerName;
     layer.key = key;
   },
-  //添加传入的图层
-  addExistLayer:function(item){
-    if(item.dataSource){
-      Cesium.when(item.dataSource, function (dataSource) {
-        // if (viewer.dataSources.indexOf(dataSource) === -1) {
-        //   viewer.dataSources.add(dataSource);
-        //   viewer.flyTo(dataSource);
-        // }
-        dataSource.show = true;
-        viewer.flyTo(dataSource);
-      });
-    }
-    else {
-      let layer = viewer.imageryLayers.addImageryProvider(item.layer._imageryProvider);
-      layer.alpha = item.layer.alpha;
-      layer.dataType = item.layer.dataType || 'layer';
-      layer.name = item.layer.name;
-      layer.key = item.layer.key;
-    }
-  },
-
-  addRenderLayers: function(renderLayers) {
-    let attr;
-    renderLayers.forEach((item) => {
-      if (item.method.toLowerCase() === 'tms') {
-        attr = {
-          url: item.url + '?datasetId=' + item.id,
-          layerName: item.layerName,
-          alpha: item.opacity || 1,
-          srs: 'EPSG:3857',
-          key: item.key,
-          dataType: 'layer',
-        };
-        this.addTmsMapLayer(attr);
-      }
-      if (item.method.toLowerCase() === 'wms') {
-        attr = {
-          url: item.url + '?datasetId=' + item.id,
-          layerName: item.layerName,
-          alpha: item.opacity || 1,
-          srs: 'EPSG:4326',
-          key: item.key,
-          dataType: 'layer',
-        };
-        this.addWmsMapLayer(attr);
-      }
-      if (item.method.toLowerCase() === 'cog') {
-        attr = {
-          url: item.url,
-          layerName: item.layerName,
-          alpha: item.opacity || 1,
-          key: item.layerName,
-          dataType: 'layer',
-        };
-        this.addCogMapLayer(attr);
-      }
-    });
-  },
-
   //添加WMTS地图服务  url：地图路径地址 layerName：图层名称 alpha:图层透
   addWmtsMapLayer: function(attr) {
     let titleimgProvider = new Cesium.WebMapTileServiceImageryProvider({
@@ -228,25 +161,19 @@ cesiumMap.map.prototype = {
     let arcMap = viewer.imageryLayers.addImageryProvider(titleimgProvider);
     arcMap.alpha = attr['alpha'];
   },
-  //移除图层
+  removeLayer: function(layer) {
+    const { key } = layer;
+    if (key) {
+      this.removeLayersByKey(key);
+    }
+  },
+  //根据key移除图层
   removeLayersByKey: function(key) {
-    for (let i = 0; i < viewer.imageryLayers._layers.length; i++) {
+    for (let i = 0, length = viewer.imageryLayers._layers.length; i < length; i++) {
       let item = viewer.imageryLayers._layers[i];
       if (item.key === key) {
         viewer.imageryLayers.remove(item);
       }
-    }
-  },
-  //移除传入的图层
-  removeExistLayer:function(item){
-    if(item.dataSource){
-      Cesium.when(item.dataSource, function (dataSource) {
-        dataSource.show = false;
-        viewer.flyTo(dataSource);
-      });
-    }
-    else {
-      this.removeLayersByKey(item.id);
     }
   },
   removeAllLayers: function() {
@@ -257,7 +184,7 @@ cesiumMap.map.prototype = {
       //   viewer.imageryLayers.remove(item);
       // }
     }
-    for (let i=0;i<viewer.dataSources._dataSources.length;){
+    for (let i = 0; i < viewer.dataSources._dataSources.length;) {
       let item = viewer.dataSources._dataSources[i];
       viewer.dataSources.remove(item);
     }
@@ -271,8 +198,7 @@ cesiumMap.map.prototype = {
       }
     }
   },
-  //加载terrain地形方法
-  //url： 地形的url
+  //加载terrain地形
   addTerrainProvider: function(url) {
     let terrainProvider = new Cesium.CesiumTerrainProvider({
       url: url,
@@ -337,7 +263,7 @@ cesiumMap.map.prototype = {
       // strokeWidth: 3,
       // clampToGround : true
     });
-    Cesium.when(vectorPromise, function (dataSource) {
+    Cesium.when(vectorPromise, function(dataSource) {
       if (viewer.dataSources.indexOf(dataSource) == -1) {
         viewer.dataSources.add(dataSource);
         let entities = dataSource.entities.values;
@@ -346,15 +272,15 @@ cesiumMap.map.prototype = {
           entity.billboard = undefined;
           entity.point = new Cesium.PointGraphics({
             color: Cesium.Color.RED,
-            outlineColor : Cesium.Color.RED,
-            scaleByDistance:new Cesium.NearFarScalar(1.5e2, 3, 8.0e6, 1)
+            outlineColor: Cesium.Color.RED,
+            scaleByDistance: new Cesium.NearFarScalar(1.5e2, 3, 8.0e6, 1),
           });
         }
         viewer.flyTo(dataSource);
       }
     });
     return vectorPromise;
-  }
+  },
 };
 
 /**
@@ -425,7 +351,7 @@ cesiumMap.control = function() {
 
 cesiumMap.control.prototype = {
   //初始化指南针、比例尺控件和放大缩小工具
-  initNavigation:function(options){
+  initNavigation: function(options) {
     CesiumNavigation(viewer, options);
   },
 
@@ -495,21 +421,21 @@ cesiumMap.control.prototype = {
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   },
   //切换二三位视图
-  switchSceneMode:function(mode,node) {
+  switchSceneMode: function(mode, node) {
     let scene = viewer.scene;
     switch (mode) {
-      case "2D":
+      case '2D':
         scene.morphTo2D(0);
-        node.innerText = "3D"
+        node.innerText = '3D';
         break;
-      case "3D":
+      case '3D':
         scene.morphTo3D(0);
-        node.innerText = "2D"
+        node.innerText = '2D';
         break;
       default:
         break;
     }
-  }
+  },
 };
 
 
@@ -1157,10 +1083,6 @@ cesiumMap.events.prototype = {
     //调用方法:obj.addEventListener(viewer.scene.postRender,one)
     event.addEventListener(listener, scope);
   },
-  //移除监听
-  //event：被监听的对象
-  //listener：方法
-  //scope：一个可选的对象作用域
   removeEventListener: function(event, listener, scope) {
     event.removeEventListener(listener, scope);
   },
