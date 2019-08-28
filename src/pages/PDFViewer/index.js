@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
-import testPDF from '@/assets/2018C_en_tan.pdf'
+import testPDF from '@/assets/ldzbsczk.pdf'
 import styles from './sample.less'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
