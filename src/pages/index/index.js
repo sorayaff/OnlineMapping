@@ -1,26 +1,29 @@
 import React from 'react';
 import styles from './index.less';
-import { Icon, List, Tooltip, Button } from 'antd';
+import { Icon, List, Tooltip, Button,Menu, Row, Avatar, Divider } from 'antd';
 import ThemeCardList from './ThemeCardList';
-import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
+import SelectLang from '@/components/SelectLang'
+import HeaderDropdown from '@/components/HeaderDropdown'
 import Link from 'umi/link';
+import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { WelcomeDataSource, SatelliteDataSource, LinksDataSource } from '@/assets/data.source';
 import ygzx_logo from '@/assets/home/ygzx_logo.png';
-import ReportPreviewList from './ReportPreviewList';
-import DataSetTagList from './DataSetTagList';
 import reportDataSource from './timeLineContent';
 import HorizontalTimeline from 'react-horizontal-timeline';
 import SwipeableViews from 'react-swipeable-views';
 import CustomPagination from './CustomPagination ';
-import { IconFont } from '@/utils/common';
-import RouterWrapper from '@/pages/.umi/router';
 
 
-@connect(({ home, loading }) => ({
-  home,
-}))
+const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+
+// @connect(({ home, loading,global,login }) => ({
+//   home,
+//   currentUser:global.currentUser,
+//   pageTitle: global.pageTitle,
+//   login
+// }))
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +34,7 @@ class Home extends React.Component {
     };
     this.dates = reportDataSource.map((entry) => entry.date);
     console.log(getLocale());
-    setLocale('zh-CN');
+    // setLocale('zh-CN');
     // setLocale('en-US');
   }
 
@@ -49,6 +52,23 @@ class Home extends React.Component {
 
 
   render() {
+    const {
+      currentUser,
+    } = this.props;
+    let color="#3fffff"
+    if(currentUser){
+      let name=currentUser.username||'User';
+      let index=name.length%4;
+      color=colorList[index]
+    }
+    const menu = (
+      <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
+        <Menu.Item key="logout">
+          <Icon type="logout"/>
+          <FormattedMessage id="menu.account.logout" defaultMessage="logout"/>
+        </Menu.Item>
+      </Menu>
+    );
     const local = getLocale();
     this.reportData = reportDataSource.map((report, index) => {
       const xuyan1 = report.content.slice(0, 2);
@@ -66,7 +86,7 @@ class Home extends React.Component {
               lineHeight: '32px',
             }}
           >
-            <Button onClick={this.handlePackUp}>pack up</Button>
+            <Button onClick={this.handlePackUp}><FormattedMessage id='index.packUp' /></Button>
           </div>
         </div>
       ) : (
@@ -81,13 +101,13 @@ class Home extends React.Component {
               lineHeight: '32px',
             }}
           >
-            <Button onClick={this.handleLoadMore}>load more</Button>
+            <Button onClick={this.handleLoadMore}><FormattedMessage id='index.loadMore' /></Button>
           </div>
         </div>
       );
       return (
         <div className='container' key={index}>
-          <h1 style={{ textAlign: 'center' }}>{report.title}</h1>
+          <h1 style={{ textAlign: 'center' }}>{report.date + formatMessage({ id: 'index.annualReport' })}</h1>
           <hr/>
           {xuyan}
           <ThemeCardList dataSource={report.themeList}/>
@@ -101,6 +121,30 @@ class Home extends React.Component {
         <div className={styles.home__main}>
           <div className={styles.home__main__welcomeCard}>
             <div className={styles.title__box}>
+              <div>
+                {currentUser ? (
+                  <HeaderDropdown overlay={menu}>
+            <span className={`${styles.action} ${styles.account}`}>
+              <Avatar
+                style={{backgroundColor:color}}
+                size="large"
+                className={styles.avatar}
+              >
+                {currentUser.username||"User"}
+              </Avatar>
+              <span className={styles.name}>{currentUser.username}</span>
+            </span>
+                  </HeaderDropdown>
+                ) : (
+                  <span>
+              <Link to={{pathname: '/user/login'}}>login</Link><Divider type="vertical"/>
+              <Link to={{pathname: 'user/register'}}>register</Link>
+            </span>
+                )}
+              </div>
+              <div className={styles.selectLang}>
+                <SelectLang/>
+              </div>
               <span style={{position:'absolute',left:'30px'}}>
                 <img src={ygzx_logo}/>
               </span>
@@ -108,8 +152,9 @@ class Home extends React.Component {
                 <span style={{ top: 120, position: 'absolute', right: 30,width:900 }}>
                      Global remote sensing monitoring of ecological environment
                 </span> :
-                <span style={{ top: 120, position: 'absolute', right: 30 }}>
-                     全球生态环境遥感监测<br/>年度报告
+                <span style={{ top: 120, position: 'absolute', right: 30}}>
+                  <p style={{margin:0,fontSize:70,letterSpacing:8}}>全球生态环境遥感监测</p>
+                  <p style={{margin:0,letterSpacing:6}}>年度报告</p>
               </span>}
             </div>
             {/*前言*/}
@@ -117,7 +162,7 @@ class Home extends React.Component {
           </div>
 
           {/*年报部分*/}
-          <div style={{ width: '90%', height: '100px', margin: '0 auto' }}>
+          <div style={{ width: '90%', height: '100px', margin: '20px auto auto' }}>
             <HorizontalTimeline
               index={this.state.value}
               minEventPadding={50}
