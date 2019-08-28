@@ -10,8 +10,10 @@ class BasicLayout extends React.Component {
   }
   componentDidMount(){
     this.props.dispatch({
-      type: 'global/fetchUserAddress',
-    })
+      type: 'global/fetchCurrentUser',
+    });
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
     this.props.dispatch({
       type: 'global/fetchCurrentUser',
     });

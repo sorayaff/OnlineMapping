@@ -157,7 +157,7 @@ const reportDataSource = [
       {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
     ],
     themeList:[
-      {imgSrc:img201801,title_en:'Regional Ecosystem Trends along the Belt and Road',title_ch:'“一带一路”生态环境状况'},
+      {imgSrc:img201801,title_en:'Regional Ecosystem Trends along the Belt and Road',title_ch:'“一带一路”生态环境状况',tag:'RegionalEcosystemTrendsAlongtheBeltandRoad'},
       {imgSrc:img201802,title_en:'Supply Situation of Maize, Rice, Wheat and Soybean',title_ch:'全球大宗粮油作物生产形势'},
       {imgSrc:img201803,title_en:'Temporal Dynamics and Spatial Distribution of Global Carbon Source and Sink',title_ch:'全球碳源汇时空分布状况'},
     ],

@@ -18,6 +18,7 @@ function handleViewData(year,data) {
     query: {
       year: year,
       name: theme,
+      tag:data.tag
     },
   });
 }

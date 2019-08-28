@@ -6,7 +6,6 @@ import SelectLang from '@/components/SelectLang';
 import HeaderDropdown from '@/components/HeaderDropdown';
 import Link from 'umi/link';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
-import router from 'umi/router';
 import { connect } from 'dva';
 import { WelcomeDataSource, SatelliteDataSource, LinksDataSource } from '@/assets/data.source';
 import ygzx_logo from '@/assets/home/ygzx_logo.png';
@@ -27,12 +26,12 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 6,
+      value: 6, //时间轴初始index
       previous: 5,
       loadMore: false,
     };
 
-    this.dates = reportDataSource.map((entry) => entry.date);
+    this.dates = reportDataSource.map((entry) => entry.date); //时间轴节点
     console.log(getLocale());
   }
 
@@ -160,10 +159,12 @@ class Home extends React.Component {
                 <SelectLang/>
               </div>
 
+              {/*网站logo*/}
               <span style={{ position: 'absolute', left: '30px' }}>
                 <img src={ygzx_logo}/>
               </span>
 
+              {/*网站title*/}
               {local === 'en-US' ?
                 <span style={{ top: 120, position: 'absolute', right: 30, width: 900, fontSize: 50 }}>
                      Global remote sensing monitoring of ecological environment
@@ -173,7 +174,7 @@ class Home extends React.Component {
                   <p style={{ margin: 0, fontSize: 50, letterSpacing: 6 }}>年度报告</p>
               </span>}
             </div>
-            {/*前言*/}
+            {/*轮播展示*/}
             <CustomPagination/>
           </div>
 
@@ -199,6 +200,7 @@ class Home extends React.Component {
             </SwipeableViews>
           </div>
         </div>
+
         {/*页脚版权声明*/}
         <footer className={styles.home_footer}>
           <div> Copyright <Icon type="copyright"/>The Institute of Remote Sensing and Digital Earth, Chinese Academy of
