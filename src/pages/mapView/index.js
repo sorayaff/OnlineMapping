@@ -26,8 +26,7 @@ export default class MapView extends Component {
     const { dataSetList, updateData } = this.props;
     return (
       <div className={styles.digitalmap_page}>
-        <TDMap dataset={dataSetList}
-               updateData={updateData}/>
+        <TDMap/>
         <LeftPanel  handleShow={this.showPanel} panelVisible={panelVisible}>
           <DataTabs handleClose={this.hidePanel} visible={panelVisible} />
         </LeftPanel>

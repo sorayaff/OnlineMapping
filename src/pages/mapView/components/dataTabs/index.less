@@ -27,8 +27,8 @@
   }
   .layerList_bar {
     height: calc(80vh) !important;
-    margin-top: 10px;
-    width: 103% !important;
+    margin: 4px;
+    width: 100% !important;
   }
   .timeline_content {
     height: 30vh;
@@ -51,32 +51,13 @@
       margin: 0;
     }
     .ant-tree {
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      color: rgba(255, 255, 255, 0.65);
-      background-color: #3C5880;
-      font-size: 14px;
-      font-variant: tabular-nums;
-      line-height: 1;
-      list-style: none;
-      -webkit-font-feature-settings: 'tnum';
-      font-feature-settings: 'tnum';
-      margin: 0;
-      padding: 0;
+      color: rgba(255, 255, 255, 0.75);
     }
     .ant-tree li .ant-tree-node-content-wrapper {
-      display: inline-block;
-      height: 18px;
-      margin: 0;
-      padding: 0 5px;
-      color: rgba(255, 255, 255, 0.65);
-      line-height: 24px;
-      text-decoration: none;
-      vertical-align: top;
-      border-radius: 2px;
-      cursor: pointer;
-      -webkit-transition: all 0.3s;
-      transition: all 0.3s;
+      color: rgba(255, 255, 255, 0.75);
+      &:hover{
+        background-color: transparent!important;
+      }
     }
 
     .ant-tabs-card > .ant-tabs-content {
