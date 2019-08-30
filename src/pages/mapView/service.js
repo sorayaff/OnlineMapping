@@ -1,5 +1,6 @@
 import headerRequest from '@/utils/HeaderRequest';
 import request from '@/utils/request';
+import imgRequest from '@/utils/imgRequest';
 import { stringify } from 'qs';
 
 // 获取查询到的数据集
@@ -71,7 +72,19 @@ export function getColormapList() {
 //获取某个colormap的具体样式
 export function getColormapById(colormapId) {
   return request({
-    url: '/v1.0/api/colormap/custom/' + colormapId,
+    url: '/v1.0/api/colormap/custom/' + colormapId.colorMapId,
+    method: 'GET',
+    headers:{
+      AccessKey:'d26c2762b29145e796b3ccdeb4668bd6',
+      SecretKey:'ef0588377a2f072527dfc107d7c52c87'
+    }
+  });
+}
+
+//获取某个colormap的图片
+export function getColormapPicById(colormapId) {
+  return imgRequest({
+    url: '/v1.0/api/colormap/img/' + colormapId.colorMapId,
     method: 'GET',
     headers:{
       AccessKey:'d26c2762b29145e796b3ccdeb4668bd6',
