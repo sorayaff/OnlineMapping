@@ -1,4 +1,5 @@
 import headerRequest from '@/utils/HeaderRequest';
+import request from '@/utils/request';
 import { stringify } from 'qs';
 
 // 获取查询到的数据集
@@ -41,6 +42,7 @@ export function getTags(groupId) {
   });
 }
 
+//按标签查找数据集
 export function getDatasetByTags({tags=[],start=0,length=10,algebra='and'}) {
   return headerRequest({
     url: '/v1.0/api/dataset/getDatasetByTags',
@@ -51,5 +53,29 @@ export function getDatasetByTags({tags=[],start=0,length=10,algebra='and'}) {
       length: length,
       algebra: algebra,
     },
+  });
+}
+
+//返回用户自定义colormap样式列表
+export function getColormapList() {
+  return request({
+    url: '/v1.0/api/colormap/custom',
+    method: 'GET',
+    headers:{
+      AccessKey:'d26c2762b29145e796b3ccdeb4668bd6',
+      SecretKey:'ef0588377a2f072527dfc107d7c52c87'
+    }
+  });
+}
+
+//获取某个colormap的具体样式
+export function getColormapById(colormapId) {
+  return request({
+    url: '/v1.0/api/colormap/custom/' + colormapId,
+    method: 'GET',
+    headers:{
+      AccessKey:'d26c2762b29145e796b3ccdeb4668bd6',
+      SecretKey:'ef0588377a2f072527dfc107d7c52c87'
+    }
   });
 }

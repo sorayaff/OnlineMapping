@@ -4,6 +4,7 @@ import styles from './index.less';
 import DataTabs from './components/dataTabs';
 import Colormap from './components/colormap';
 import LeftPanel from '@components/LeftPanel';
+import Legend from '@/components/Legend'
 import RenderAuthorized from '@/components/Authorized';
 import { getAuthority } from '@/utils/authority';
 import Redirect from 'umi/redirect';
@@ -37,10 +38,10 @@ export default class MapView extends Component {
       <Authorized authority={['NORMAL', 'admin']} noMatch={noMatch}>
         <div className={styles.digitalmap_page}>
           <TDMap/>
-
           <LeftPanel handleShow={this.showPanel} panelVisible={panelVisible}>
             <DataTabs handleClose={this.hidePanel} visible={panelVisible}/>
           </LeftPanel>
+          <Legend/>
           {/*<Colormap/>*/}
         </div>
       </Authorized>

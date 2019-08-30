@@ -1,4 +1,4 @@
-import { getDataset, getLayer, getTagGroups, getTags, getDatasetByTags } from '../service';
+import { getDataset, getLayer, getTagGroups, getTags, getDatasetByTags, getColormapById,getColormapList } from '../service';
 
 export default {
   namespace: 'mapView',
@@ -7,6 +7,8 @@ export default {
     layerList: undefined,              //图层列表，
     defaultColobar: [],         //系统自带色带
     tagList: undefined,                  //数据标签
+    colormapList:[],
+    currentColormap: undefined,
   },
   reducers: {
     setDataset(state, { payload = {} }) {
@@ -22,6 +24,12 @@ export default {
     },
     addLayer(state, { payload = {} }) {
       return { ...state, layerList: payload };
+    },
+    setCurrentColormap(state,{payload={}}){
+      return {...state,currentColormap:payload}
+    },
+    setColormapList(state,{payload={}}){
+      return {...state,colormapList:payload}
     },
     addDefaultColorbar(state, { payload = {} }) {
       return { ...state, layerList: payload };
@@ -52,6 +60,18 @@ export default {
       const response = yield call(getDatasetByTags, payload);
       if (response.success) {
         yield put({ type: 'setDataset', payload: response.data });
+      }
+    },
+    * fetchColormapList({ payload }, { put, call }) {
+      const response = yield call(getColormapList, payload);
+      if (response.success) {
+        yield put({ type: 'setColormapList', payload: response.data });
+      }
+    },
+    * fetchColormapById({ payload }, { put, call }) {
+      const response = yield call(getColormapById, payload);
+      if (response.success) {
+        yield put({ type: 'setCurrentColormap', payload: response.data });
       }
     },
 

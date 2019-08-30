@@ -1,15 +1,9 @@
 @import "~antd/dist/antd.css";
 
-.card-container {
-  position: absolute;
-  right: 20em;
-  bottom: 5em;
-  width:5vw;
-  background-color: rgba(0,0,0,0.5);
-}
 .rectangle {
   position: relative;
   margin-top:0.5em;
+  margin-bottom: 0.5em;
   margin-right:0.6em;
   left:0.3em;
   width:2em;
@@ -19,44 +13,45 @@
 .rectangleFont {
   margin-top:0.5em;
   margin-left:0.3em;
-  font-size:0.2em;
+  font-size:1em;
   color:white;
 }
-.card-for-pic {
-  position:absolute;
-  left: 0.5em;
-  top: 9em;
-  width:8em;
-  height:2em;
-  //left: -35em;
-  background-color: rgba(0,0,0,0);
+
+.legendContainer {
+  height: 100%;
+  width: 100%;
+  .card-for-pic {
+    height: 100%;
+    width:2.5vw;
+  }
+  .pic {
+    display:block;
+    transform-origin:left top;
+    //margin-bottom:2vh;
+    transform:rotate(-90deg) ;
+    position: relative;
+    left: 0;
+    top: 0;
+    height: 2.5vw;
+    width:100%;
+  }
+  .textContainer {
+    position: absolute;
+    float: left;
+    height: 100%;
+    left: 2.5vw;
+    bottom: 0;
+    width: 5vw;
+  }
+  .text {
+    position: absolute;
+    left: 1em;
+    color:white;
+    margin: 0;
+  }
 }
-.card-container-continuous {
-  position:absolute;
-  right: 50em;
-  bottom:5em;
-  width:8em;
-  height:10em;
-  //left: -35em;
-  background-color: rgba(0,0,0,0.5);
-}
-.pic {
-  display:block;
-  transform-origin:left top;
-  //margin-bottom:2vh;
-  margin-left:0;
-  transform: rotate(-90deg);
-  position: relative;
-  //transform: rotate(-90deg);
-  width:100%;
-}
-.text {
-  left: 2em;
-  position: absolute;
-  //margin-top: 60vh;
-  height:1em;
-  color:white;
-}
+
+
 //.card-container2 {
 //  position:absolute;
 //  left: 10px;

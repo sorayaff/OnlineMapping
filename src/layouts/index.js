@@ -14,9 +14,7 @@ class BasicLayout extends React.Component {
     });
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
-    this.props.dispatch({
-      type: 'global/fetchCurrentUser',
-    });
+
   }
 
   handleLogout =()=>{

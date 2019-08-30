@@ -35,6 +35,12 @@ class Home extends React.Component {
     console.log(getLocale());
   }
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'global/fetchCurrentUser',
+    });
+  }
+
 
   handleLoadMore = () => {
     this.setState({
