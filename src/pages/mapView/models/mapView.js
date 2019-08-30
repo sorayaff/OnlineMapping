@@ -1,12 +1,4 @@
-import {
-  getDataset,
-  getLayer,
-  getTagGroups,
-  getTags,
-  getDatasetByTags,
-  getColormapById,
-  getColormapList,
-} from '../service';
+import { getDataset, getLayer, getTagGroups, getTags, getDatasetByTags, getColormapById,getColormapList,getColormapPicById } from '../service';
 
 export default {
   namespace: 'mapView',
@@ -20,6 +12,7 @@ export default {
     layersForPlay: [],
     colormapList: [],
     currentColormap: undefined,
+    currentColormapPic:undefined,
   },
   reducers: {
     setDataset(state, { payload = {} }) {
@@ -40,8 +33,11 @@ export default {
     setCurrentColormap(state, { payload = {} }) {
       return { ...state, currentColormap: payload };
     },
-    setColormapList(state, { payload = {} }) {
-      return { ...state, colormapList: payload };
+    setCurrentColormapPic(state,{payload={}}){
+      return {...state,currentColormapPic:payload}
+    },
+    setColormapList(state,{payload={}}){
+      return {...state,colormapList:payload}
     },
     addDefaultColorbar(state, { payload = {} }) {
       return { ...state, layerList: payload };
@@ -93,6 +89,13 @@ export default {
       const response = yield call(getColormapById, payload);
       if (response.success) {
         yield put({ type: 'setCurrentColormap', payload: response.data });
+      }
+    },
+    * fetchColormapPicById({ payload }, { put, call }) {
+      const response = yield call(getColormapPicById, payload);
+      console.log(response);
+      if (response) {
+        yield put({ type: 'setCurrentColormapPic', payload: response });
       }
     },
   },

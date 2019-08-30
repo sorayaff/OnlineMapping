@@ -1,18 +1,11 @@
-import React, { PureComponent, useState, useRef, useEffect } from 'react';
+import React, { PureComponent, useState, useEffect } from 'react';
 import styles from './index.less';
+import { connect } from 'dva';
 import classNames from 'classnames';
 import { Rnd } from 'react-rnd';
-import pic from './colorbar2.png';
+import axios from 'axios';
 import {
-  Radio,
-  Tabs,
-  Slider,
-  InputNumber,
-  TreeSelect,
   Row,
-  Col,
-  Input,
-  Icon,
 } from 'antd';
 
 
@@ -35,36 +28,19 @@ function DiscreteLegend({ colorbar }) {
   );
 }
 
-function ContinuesLegend({ colorbar, containerHeight }) {
+function ContinuesLegend({ colorbar, containerHeight, colormapPic }) {
   let tempMarginTop;
   const colorbarHeight = containerHeight - 20;
 
   const colorbarPicStyle = {
     width: containerHeight - 20,
-    // eslint-disable-next-line no-template-curly-in-string
-    // transform:trans,
     top: containerHeight - 10,
-    // transform:'translateY(450px)'
   };
-
-
-  const refContainer = useRef(null);
-  //
-  // useEffect(() => {
-  //   // const subscription = containerHeight.subscribe();
-  //   if(refContainer){
-  //     refContainer.current.style.width = containerHeight;
-  //     refContainer.current.style.transform = colorbarPicStyle.transform;
-  //   }
-  //   // return () => {
-  //   //   subscription.unsubscribe();
-  //   // };
-  // }, [containerHeight]);
 
   return (
     <div className={classNames(styles['legendContainer'])}>
       <div className={classNames(styles['card-for-pic'])}>
-        <img className={classNames(styles['pic'])} ref={refContainer} src={pic} style={colorbarPicStyle}/>
+        <img className={classNames(styles['pic'])} src={colormapPic} style={colorbarPicStyle}/>
       </div>
       <div className={styles.textContainer}>
         {colorbar['legend'].map(item => {
@@ -76,7 +52,8 @@ function ContinuesLegend({ colorbar, containerHeight }) {
   );
 }
 
-function Legend(colorbarId) {
+function Legend(props) {
+
   const [width, setWidth] = useState(100);
   const [height, setHeight] = useState(200);
   const [x, setX] = useState(1200);
@@ -152,8 +129,10 @@ function Legend(colorbarId) {
     'min': 395.0,
     'max': 415.0,
   };
+  const [colorMapPic, setColorMapPic] = useState(null);
 
-  const colorbar = colorbar1;
+  const colorMapId = props.colorMapId || '34ac9adc-80b9-46c1-980a-716c0988bfe3';
+  const colorbar = props.currentColormap;
 
   const style = {
     display: 'flex',
@@ -165,38 +144,91 @@ function Legend(colorbarId) {
 
   const Enable = {
     bottom: false,
-  bottomLeft: false,
-  bottomRight: false,
-  left: false,
-  right: false,
-  top: false,
-  topLeft: false,
-  topRight: false,
+    bottomLeft: false,
+    bottomRight: false,
+    left: false,
+    right: false,
+    top: false,
+    topLeft: false,
+    topRight: false,
+  };
+
+  function blobToDataURI(blob, callback) {
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      callback(e.target.result);
+    };
+    reader.readAsDataURL(blob);
+  }
+
+  useEffect(() => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'mapView/fetchColormapById',
+      payload: {
+        colorMapId: colorMapId,
+      },
+    });
+
+
+    const options = {
+      url: '/v1.0/api/colormap/img/' + colorMapId,
+      headers: {
+        AccessKey: 'd26c2762b29145e796b3ccdeb4668bd6',
+        SecretKey: 'ef0588377a2f072527dfc107d7c52c87',
+      },
+    };
+    const {
+      url,
+      data,
+      headers,
+    } = options;
+    axios
+      .get(url, { params: data, headers: headers, timeout: 1000 * 20, responseType: 'blob' })
+      .then((response) => {
+        let blob = response.data;
+        blobToDataURI(blob, function(data) {
+          setColorMapPic(data);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        return null;
+      });
+  }, [colorMapId, props]); // 仅在 colorMapId 更改时更新
+
+  if (colorbar) {
+    return (
+      <Rnd
+        style={style}
+        size={{ width: width, height: height }}
+        position={{ x: x, y: y }}
+        onDragStop={(e, d) => {
+          setX(d.x);
+          setY(d.y);
+        }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          // setHeight(ref.style.height);
+          // setWidth(ref.style.width);
+          // setX(position.x);
+          // setY(position.y);
+        }}
+        enableResizing={Enable}
+        bounds='window'
+      >
+        {colorbar.type === 'discrete' ? <DiscreteLegend colorbar={colorbar}/> :
+          <ContinuesLegend colorbar={colorbar} containerHeight={height} colormapPic={colorMapPic}/>}
+      </Rnd>
+    );
+  }
+  else {
+    return (<div/>);
+  }
 }
 
-  return (
-    <Rnd
-      style={style}
-      size={{ width: width, height: height }}
-      position={{ x: x, y: y }}
-      onDragStop={(e, d) => {
-        setX(d.x);
-        setY(d.y);
-      }}
-      onResizeStop={(e, direction, ref, delta, position) => {
-        // setHeight(ref.style.height);
-        // setWidth(ref.style.width);
-        // setX(position.x);
-        // setY(position.y);
-      }}
-      enableResizing={Enable}
-      bounds='window'
-    >
-      {colorbar.type === 'discrete' ? <DiscreteLegend colorbar={colorbar}/> :
-        <ContinuesLegend colorbar={colorbar} containerHeight={height}/>}
-    </Rnd>
+export default connect(({ mapView }) => ({
+  currentColormap: mapView.currentColormap,
+  currentColormapPic: mapView.currentColormapPic,
+  mapView,
+}))(Legend);
 
-  );
-}
-
-export default Legend;
