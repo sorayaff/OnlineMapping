@@ -335,7 +335,7 @@ const reportDataSource = [
   {
     key: '6',
     date: '2018',
-    title: '2018 Annual Report',
+    title_en: '2018 Annual Report',
     title_ch: '2018年度报告',
     linkedDataSets: [],
     reportList: [
@@ -374,14 +374,14 @@ const reportDataSource = [
         imgSrc: img201802,
         title_en: 'Supply Situation of Maize, Rice, Wheat and Soybean',
         title_ch: '全球大宗粮油作物生产形势',
-        tags: ['2018'],
+        tags: ['2018','SupplySituationofMaizeRiceWheatandSoybean'],
       },
       {
         key: '6-2',
         imgSrc: img201803,
         title_en: 'Temporal Dynamics and Spatial Distribution of Global Carbon Source and Sink',
         title_ch: '全球碳源汇时空分布状况',
-        tags: ['2018'],
+        tags: ['2018','TemporalDynamicsandSpatialDistributionGlobalCarbon'],
       },
     ],
     subtitle: 'Skyrim',

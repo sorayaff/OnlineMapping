@@ -3,7 +3,7 @@ import TDMap from '@components/TDMap';
 import styles from './index.less';
 import DataTabs from './components/dataTabs';
 import Colormap from './components/colormap';
-import LayerSlider from './components/layerSlider';
+import LayerPlayer from './components/layerPlayer';
 import LeftPanel from '@components/LeftPanel';
 import Legend from '@/components/Legend'
 import RenderAuthorized from '@/components/Authorized';
@@ -39,9 +39,7 @@ class MapView extends Component {
     this.props.dispatch({
       type: 'mapView/closeLayerPlayer',
     });
-  }
-  ;
-
+  };
 
   render() {
     const { panelVisible } = this.state;
@@ -55,7 +53,7 @@ class MapView extends Component {
           </LeftPanel>
           <Legend/>
           {/*<Colormap/>*/}
-          {layerPlayerVisible && <LayerSlider handleClose={this.closeLayerPlayer} layers={layersForPlay}/>}
+          {layerPlayerVisible && <LayerPlayer handleClose={this.closeLayerPlayer} datasetWithLayers={layersForPlay}/>}
         </div>
       </Authorized>
     );

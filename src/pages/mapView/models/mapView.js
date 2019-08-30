@@ -1,4 +1,12 @@
-import { getDataset, getLayer, getTagGroups, getTags, getDatasetByTags, getColormapById,getColormapList } from '../service';
+import {
+  getDataset,
+  getLayer,
+  getTagGroups,
+  getTags,
+  getDatasetByTags,
+  getColormapById,
+  getColormapList,
+} from '../service';
 
 export default {
   namespace: 'mapView',
@@ -10,7 +18,7 @@ export default {
     urlQuery: undefined,
     layerPlayerVisible: false,
     layersForPlay: [],
-    colormapList:[],
+    colormapList: [],
     currentColormap: undefined,
   },
   reducers: {
@@ -20,14 +28,20 @@ export default {
         dataSetList: payload,
       };
     },
+    saveLayersForPlay(state, { payload = [] }) {
+      return {
+        ...state,
+        layersForPlay: payload,
+      };
+    },
     addLayer(state, { payload = {} }) {
       return { ...state, layerList: payload };
     },
-    setCurrentColormap(state,{payload={}}){
-      return {...state,currentColormap:payload}
+    setCurrentColormap(state, { payload = {} }) {
+      return { ...state, currentColormap: payload };
     },
-    setColormapList(state,{payload={}}){
-      return {...state,colormapList:payload}
+    setColormapList(state, { payload = {} }) {
+      return { ...state, colormapList: payload };
     },
     addDefaultColorbar(state, { payload = {} }) {
       return { ...state, layerList: payload };

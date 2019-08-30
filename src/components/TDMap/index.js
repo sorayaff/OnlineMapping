@@ -50,7 +50,7 @@ class TDMap extends Component {
       alpha: 1,
     });
     // 地图初始视角
-    cesium_map.setView(119, 36, 20000000);
+    cesium_map.setView(58.97, 24.96, 2000000);
   }
 
   render() {

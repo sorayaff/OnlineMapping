@@ -44,28 +44,28 @@
     }
   }
   //数据列表的每一个标题栏
-  .data_list_title_box {
-    .icon_box{
-      display: inline;
-      position: absolute;
-      right: 5px;
-      i {
-        margin-right: 4px;
-        &:hover {
-          color: #40a9ff;
-          cursor: pointer;
-        }
-      }
+  .data_list_meta_header {
+    width: calc(100% - 10px);
+    color: white;
+    font-size: 16px;
+    &:hover {
+      color: #40a9ff;
+      cursor: pointer;
     }
-    .data_list_title {
-      display: inline;
-      width: calc(100% - 50px);
-      color: white;
+  }
+  .icon_box {
+    margin-right: 10px;
+    float: right;
+    i {
+      margin-right: 4px;
       &:hover {
         color: #40a9ff;
         cursor: pointer;
       }
     }
+  }
+  .data_list_description {
+    width: 100%;
   }
   .query_empty {
     margin-top: 30%;
@@ -104,7 +104,7 @@
       margin: 0;
     }
     .ant-tree {
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.85);
     }
     .ant-tree li .ant-tree-node-content-wrapper {
       color: rgba(255, 255, 255, 0.75);

@@ -155,7 +155,6 @@ function Legend(colorbarId) {
 
   const colorbar = colorbar1;
 
-
   const style = {
     display: 'flex',
     alignItems: 'center',
@@ -174,7 +173,6 @@ function Legend(colorbarId) {
   topLeft: false,
   topRight: false,
 }
-
 
   return (
     <Rnd
