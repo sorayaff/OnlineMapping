@@ -9,7 +9,7 @@ import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/local
 import { connect } from 'dva';
 import { WelcomeDataSource, SatelliteDataSource, LinksDataSource } from '@/assets/data.source';
 import ygzx_logo from '@/assets/home/ygzx_logo.png';
-import reportDataSource from './timeLineContent';
+import reportDataSource from '@/assets/timeLineContent';
 import HorizontalTimeline from 'react-horizontal-timeline';
 import SwipeableViews from 'react-swipeable-views';
 import CustomPagination from './CustomPagination ';

@@ -171,10 +171,20 @@ cesiumMap.map.prototype = {
   removeLayersByKey: function(key) {
     for (let i = 0, length = viewer.imageryLayers._layers.length; i < length; i++) {
       let item = viewer.imageryLayers._layers[i];
-      if (item.key === key) {
+      if (item && item.key === key) {
         viewer.imageryLayers.remove(item);
       }
     }
+  },
+  getRenderLayerKeys: function() {
+    let keys = [];
+    for (let i = 0, length = viewer.imageryLayers._layers.length; i < length; i++) {
+      let item = viewer.imageryLayers._layers[i];
+      if (item.key) {
+        keys.push(item.key);
+      }
+    }
+    return keys;
   },
   removeAllLayers: function() {
     for (let i = 2; i < viewer.imageryLayers._layers.length;) {

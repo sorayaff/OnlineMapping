@@ -10,15 +10,11 @@ function handleMenuClick(e) {
   console.log('click', e);
 }
 
-function handleViewData(year,data) {
-  const local = getLocale();
-  const theme = local === 'en-US' ? data.title_en : data.title_ch;
+function handleViewData(data) {
   router.push({
     pathname: '/mapView',
     query: {
-      year: year,
-      name: theme,
-      tag:data.tag
+      key:data.key
     },
   });
 }
@@ -54,7 +50,7 @@ function ThemeCard({year,data}) {
         <p style={{fontWeight:'bold'}}>{theme}</p>
       </div>
       <div className={styles.downloadArea}>
-        <Button type="primary" icon='eye' ghost onClick={() => handleViewData(year,data)}>
+        <Button type="primary" icon='eye' ghost onClick={() => handleViewData(data)}>
           <FormattedMessage id='index.viewOnMap'/>
         </Button>
         <Dropdown overlay={menu}>

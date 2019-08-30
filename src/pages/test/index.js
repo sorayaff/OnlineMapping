@@ -1,9 +1,13 @@
 import React from 'react';
 import router from 'umi/router';
-import { Slider ,Tree} from 'antd';
+import { Slider, Tree } from 'antd';
 import moment from 'moment';
-import { stringify} from 'qs'
-const {TreeNode} = Tree;
+import { stringify } from 'qs';
+import styles from './index.less';
+// import DnR from 'DnR';
+import img201303 from '@/assets/report/201303_ly.png';
+
+const { TreeNode } = Tree;
 export default class Test extends React.Component {
   handleClick = () => {
     router.push({
@@ -39,20 +43,11 @@ export default class Test extends React.Component {
       return moment(value).format('YYYY-MM-DD HH:mm:ss');
     };
 
-    let aa = stringify({a:'aaa',b:'bbbbb'})
+    let aa = stringify({ a: 'aaa', b: 'bbbbb' });
     return <div>
-      {aa}
-      <div onClick={this.handleClick}>
-        test
+      <div className={styles.parent}>
+        <img src={img201303} className={styles.rotate}/>
       </div>
-      <Tree checkable>
-        <TreeNode title={"sad"} ley='111' checkable={false}/>
-        <TreeNode title={"sad"} ley='111'/>
-        <TreeNode title={"sad"} ley='112'/>
-      </Tree>
-      <div style={style}>
-        <Slider  min={t1} max={t2} tipFormatter={(value) => transTime(value)}/>
-      </div>
-    </div>;
+      <img src={img201303} id="rotate"/></div>;
   }
 }

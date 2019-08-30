@@ -7,6 +7,9 @@ export default {
     layerList: undefined,              //图层列表，
     defaultColobar: [],         //系统自带色带
     tagList: undefined,                  //数据标签
+    urlQuery: undefined,
+    layerPlayerVisible: false,
+    layersForPlay: [],
     colormapList:[],
     currentColormap: undefined,
   },
@@ -14,12 +17,7 @@ export default {
     setDataset(state, { payload = {} }) {
       return {
         ...state,
-        dataSetList: {
-          ...payload, datasets: payload.datasets.map((item, index) => {
-            item.key = index;
-            return item;
-          }),
-        },
+        dataSetList: payload,
       };
     },
     addLayer(state, { payload = {} }) {
@@ -37,10 +35,19 @@ export default {
     setTags(state, { payload = [] }) {
       return { ...state, tagList: payload };
     },
+    saveQuery(state, { payload = {} }) {
+      return { ...state, urlQuery: payload };
+    },
+    closeLayerPlayer(state, { payload }) {
+      return { ...state, layerPlayerVisible: false };
+    },
+    showLayerPlayer(state, { payload }) {
+      return { ...state, layerPlayerVisible: true };
+    },
   },
   effects: {
     //根据选中的数据集加载图层
-    * fetchLayer({payload}, { put, call }) {
+    * fetchLayer({ payload }, { put, call }) {
       const response = yield call(getLayer, payload);
       if (response.success) {
         yield put({ type: 'addLayer', payload: response.data });
@@ -74,12 +81,15 @@ export default {
         yield put({ type: 'setCurrentColormap', payload: response.data });
       }
     },
-
   },
   subscriptions: {
     setup({ dispatch, history }, done) {
       history.listen(({ pathname, query }) => {
         if (pathname === '/mapView') {
+          dispatch({
+            type: 'saveQuery',
+            payload: query,
+          });
         }
       });
     },

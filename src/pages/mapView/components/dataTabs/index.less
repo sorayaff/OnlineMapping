@@ -14,6 +14,10 @@
   width: 25vw;
   opacity: .7;
   transition: transform 0.3s ease-in;
+  .catalogThemeList_bar {
+    height: calc(75vh) !important;
+    width: 103% !important;
+  }
   .searchCard {
     padding: 4px;
     width: 100%;
@@ -30,7 +34,7 @@
     margin: 4px;
     width: 100% !important;
   }
-  .timeline_content {
+  .timeline_tree_box {
     height: 30vh;
     overflow: auto;
     :global {
@@ -39,6 +43,55 @@
       }
     }
   }
+  //数据列表的每一个标题栏
+  .data_list_title_box {
+    .icon_box{
+      display: inline;
+      position: absolute;
+      right: 5px;
+      i {
+        margin-right: 4px;
+        &:hover {
+          color: #40a9ff;
+          cursor: pointer;
+        }
+      }
+    }
+    .data_list_title {
+      display: inline;
+      width: calc(100% - 50px);
+      color: white;
+      &:hover {
+        color: #40a9ff;
+        cursor: pointer;
+      }
+    }
+  }
+  .query_empty {
+    margin-top: 30%;
+    display: flex;
+    justify-content: center;
+    .img_query {
+      width: 50%;
+    }
+  }
+  .parent_node {
+    width: 100%;
+    .parent_node_ellipsis {
+      display: inline-block;
+      width: calc(25vw - 100px);
+    }
+    .parent_node_icon {
+      margin-left: 6px;
+      color: #40a9ff;
+      font-size: 19px;
+      vertical-align: baseline;
+    }
+  }
+  .layer_name_box {
+    width: 18vw;
+  }
+
   :global {
     .tab {
       font-size: .8em;
@@ -55,9 +108,12 @@
     }
     .ant-tree li .ant-tree-node-content-wrapper {
       color: rgba(255, 255, 255, 0.75);
-      &:hover{
-        background-color: transparent!important;
+      &:hover {
+        background-color: rgba(250, 250, 250, 0.1);
       }
+    }
+    .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
+      background-color: #0fae78;
     }
 
     .ant-tabs-card > .ant-tabs-content {

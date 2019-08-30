@@ -3,33 +3,28 @@ import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/local
 import styles from './index.less';
 import classNames from 'classnames';
 import { connect } from 'dva';
-import { IconFont } from '@/utils/common';
-import Ellipsis from '@components/Ellipsis';
 import { Scrollbars } from 'react-custom-scrollbars';
-import moment from 'moment';
 import {
-  Anchor,
   Tabs,
   Tree,
-  Timeline,
   Select,
   List,
-  Input,
   Icon,
   Spin,
-  Slider,
+  Empty,
 } from 'antd';
-import { themeData } from './themeData';
-import { getLayer } from '../../service';
-import cesiumMap from '@/components/TDMap/oc.cesium'
+import cesiumMap from '@/components/TDMap/oc.cesium';
+import loc_search from '@/assets/digitalMap/loc_search.png';
+import { IconFont } from '@/utils/common';
+import Ellipsis from '@components/Ellipsis';
+import themeData from '@/assets/timeLineContent';
+import { getLayer, getDatasetByTags } from '../../service';
 
 const { TabPane } = Tabs;
-const { Search } = Input;
 const { Option } = Select;
-const { link } = Anchor;
 const { TreeNode } = Tree;
 const cesium_map = new cesiumMap.map();
-const selectedLang = getLocale();
+const isCh = getLocale() === 'zh-CN';
 
 @connect(({ mapView, loading }) => ({
   fetchDataLoading: loading.effects['mapView/fetchDatasetByTags'],
@@ -40,7 +35,8 @@ class DataTabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedYear: null,
+      catalogThemeData: themeData,
+      selectedYear: undefined,
       selectedTags: undefined,          //已选择的标签集
       selectedDataset: undefined,       //选择的数据集
       selectedKeys: undefined,
@@ -50,14 +46,16 @@ class DataTabs extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
+    this.props.dispatch({
       type: 'mapView/fetchTags',
     });
   }
 
-  nodeOnSelect = (keys, event) => {
-    console.log(keys);
+  //点击catalog叶子节点跳转到tab3
+  handleCatalogTreeSelect = (selectedKeys, e) => {
+    const { node } = e;
+    let selectedDataset = node.props.dataRef;
+    this.goToThirdTab(selectedDataset);
   };
 
   //数据集分页异步查询
@@ -80,7 +78,8 @@ class DataTabs extends Component {
   //点击数据前往图层列表
   goToThirdTab = (dataset) => {
     const { selectedDataset = [] } = this.state;
-    if (!selectedDataset.some(item => item.key === dataset.key)) {
+    if (!selectedDataset.some(item => item.id === dataset.id)) {
+      dataset.key = selectedDataset.length;
       this.setState({
         activeKey: '3',
         selectedDataset: [...selectedDataset, dataset],
@@ -105,60 +104,72 @@ class DataTabs extends Component {
       type: 'mapView/fetchDatasetByTags',
       payload: { tags: [value, ...selectedTags] },
     });
-    this.setState({ selectedYear: value });
+    this.setState({ selectedYear: [value] });
   };
 
   //搜索条件标签变化
   handleSelectChange = (tags) => {
     const { dispatch } = this.props;
-    const { selectedYear } = this.state;
+    const { selectedYear = [] } = this.state;
     this.setState({ selectedTags: tags });
     dispatch({
       type: 'mapView/fetchDatasetByTags',
-      payload: { tags: [selectedYear, ...tags] },
+      payload: { tags: [...selectedYear, ...tags] },
     });
   };
 
-  renderTimeSlider = (style, layerList) => {
-    let type = layerList.layerDimension.type;
-    let layers = layerList.layers;
-    let length = layers.length;
-    if (type.toLowerCase() === 'timestamp' && length > 1) {
-      let minTime = layers[0].dimensionValue;
-      let maxTime = layers[length - 1].dimensionValue;
-      let t2 = moment(maxTime).valueOf();
-      let t1 = moment(minTime).valueOf();
-      return <div style={style}>
-        <Slider min={t1} max={t2} tipFormatter={(value) => moment(value).format('YYYY-MM-DD HH:mm:ss')}/>
-      </div>;
+//点击播放，传递图层,清除已选selected图层
+  setLayers = (data) => {
+    let layers = [];
+    // this.props
+    if (data.children) {
+      layers = data.children;
+      this.setState({ timePlayLayers: layers, sliderVisible: true });
+    } else {
+      let id = data.dataRef.id;
+      getLayer(id).then((response) => {
+        if (response.success && response.data) {
+          layers = response.data;
+          this.setState({ timePlayLayers: layers, sliderVisible: true });
+        }
+      });
     }
   };
 
+//渲染数据tab节点
   renderDatalsetTreeNodes = (data) =>
     data.map(item => {
-      return <TreeNode checkable={false}
+      return <TreeNode selectable={false} checkable={false}
                        key={item.key}
-                       title={<div><Ellipsis length={10}
-                                             tooltip>{selectedLang === 'zh-CN' ? item.nameChn || '无名' : item.nameEn}</Ellipsis>
-                       </div>}
+                       title={<div className={styles.parent_node}>
+                         <Ellipsis className={styles.parent_node_ellipsis}
+                                   lines={1}
+                                   tooltip>{isCh ? item.nameChn || '没有数据名' : item.nameEn}
+                         </Ellipsis>
+                         <Icon className={styles.parent_node_icon} title={'数据时间轴'} type="play-circle"
+                               onClick={() => this.setLayers(item)}/>
+                       </div>
+                       }
                        dataRef={item}>
         {item.children && item.children.map((layer) => {
           return (
-            <TreeNode title={layer.layerName}
+            <TreeNode selectable={false}
+                      title={<div className={styles.layer_name_box}>
+                        <Ellipsis lines={1}
+                                  tooltip>{layer.layerName}
+                        </Ellipsis></div>}
                       checkable
                       key={layer.key}
                       dataRef={layer}
                       isLeaf={true}
-                      selectable={false}
-                      checkable={true}/>
+            />
           );
         })}
       </TreeNode>;
     });
 
+  //异步加载图层
   loadLayerData = treeNode => {
-    const { dispatch } = this.props;
-    let that = this;
     return new Promise(resolve => {
       if (treeNode.props.children) {
         resolve();
@@ -179,53 +190,75 @@ class DataTabs extends Component {
       });
     });
   };
-
-  datasetOnCheck = (keys) => {
-    const { selectedDataset, selectedKeys = [] } = this.state;
-    let keysLen = keys.length;
-    let selectedKeysLen = selectedKeys.length;
-    let addKey, keyArr, removeKey;
-    if (keysLen > selectedKeysLen) {
-      addKey = keys[keysLen - 1];
-      keyArr = addKey.split('-');
-      if (keyArr.length === 2) {
-        let datasetNodeKey = keyArr[0];
-        let layerNodeKey = keyArr[1];
-        let layer = selectedDataset[datasetNodeKey].children[layerNodeKey];
-        cesium_map.addLayer(layer);
-      }
-    } else if (keysLen < selectedKeysLen) {
-      removeKey = selectedKeys[selectedKeysLen - 1];
-      keyArr = removeKey.split('-');
-      if (keyArr.length === 2) {
-        let datasetNodeKey = keyArr[0];
-        let layerNodeKey = keyArr[1];
-        let layer = selectedDataset[datasetNodeKey].children[layerNodeKey];
-        cesium_map.removeLayer(layer);
-      }
+  //异步加载tab1数据集
+  loadCatalogTreeDataset = treeNode => new Promise((resolve, reject) => {
+    let parentKey = treeNode.props.eventKey;
+    console.log(treeNode, parentKey);
+    let tags = treeNode.props.tags;
+    if (tags) {
+      let query = {
+        tags: tags,
+        algebra: 'and',
+      };
+      getDatasetByTags(query).then((response) => {
+        if (response.success) {
+          treeNode.props.dataRef.children = response.data.datasets.map((layer, index) => {
+            layer.key = `${parentKey}-${index}`;
+            return layer;
+          });
+          this.setState({ ...this.state.catalogThemeData });
+          resolve();
+        } else {
+          reject();
+        }
+      });
+    } else resolve();
+  });
+  //图层复选框
+  datasetOnCheck = (keys, e) => {
+    const { checked, node } = e;
+    let layer = node.props.dataRef;
+    if (checked) {
+      cesium_map.addLayer(layer);
+    } else {
+      cesium_map.removeLayer(layer);
     }
-    this.setState({ selectedKeys: keys });
   };
 
   render() {
-    const { visible, handleClose, mapView, fetchDataLoading = false, fetchLayerLoading = false } = this.props;
-    const { selectedDataset = [] } = this.state;
-    const { dataSetList = {}, layerList = {}, tagList = [] } = mapView;
-    const style = {
-      float: 'left',
-      width: '100%',
-    };
-    const getCatalogTreenodes = data =>
-      data.map(item => {
-        if (item.children) {
+    const { visible, handleClose, mapView, fetchDataLoading = false } = this.props;
+    const { selectedDataset = [], catalogThemeData, selectedYear, selectedTags } = this.state;
+    const { dataSetList = {}, timePlayLayers, sliderVisible, tagList = [], urlQuery = {} } = mapView;
+    const renderCatalogTree = (data) => {
+      return data.map(item => {
+        if (item.themeList) {
           return (
-            <TreeNode kty={item.dataId || item.name} title={item.name}>
-              {getCatalogTreenodes(item.children)}
+            <TreeNode key={item.key} title={isCh ? item.title_ch : item.title_en} selectable={false}>
+              {renderCatalogTree(item.themeList)}
             </TreeNode>
           );
-        }
-        return <TreeNode key={item.key} title={item.name}/>;
+        } else if (item.children) {
+          return (
+            <TreeNode key={item.key}
+                      selectable={false}
+                      tags={item.tags}
+                      title={isCh ? item.title_ch : item.title_en}
+                      dataRef={item}>
+              {item.children.map((dataset => <TreeNode key={dataset.key}
+                                                       isLeaf={true}
+                                                       title={isCh ? dataset.nameChn || '无中文名' : dataset.nameEn}
+                                                       selectable={true}
+                                                       dataRef={dataset}/>))}
+            </TreeNode>
+          );
+        } else
+          return <TreeNode key={item.key}
+                           selectable={false}
+                           tags={item.tags}
+                           title={isCh ? item.title_ch : item.title_en}
+                           dataRef={item}/>;
       });
+    };
     return (
       <div className={classNames(styles['card-container'], { [styles['card-container-show']]: visible })}>
         <Tabs type="card"
@@ -235,34 +268,24 @@ class DataTabs extends Component {
                 <IconFont type="icon-eyeoff" style={{ fontSize: 24 }} onClick={handleClose}/>
               </div>}>
           <TabPane tab="Catalog" key="1">
-            <Timeline>
-              <Timeline.Item>
-                <div className={styles.timeline_content}>
-                  <h2>2018年报数据</h2>
-                  <Tree style={{ float: 'left', display: 'inline' }} onSelect={this.nodeOnSelect}>
-                    {getCatalogTreenodes(themeData['2018'])}
-                  </Tree>
-                </div>
-              </Timeline.Item>
-              <Timeline.Item>
-                <div className={styles.timeline_content}>
-                  <h2>2019年报数据</h2>
-                  <Tree style={{ float: 'left', display: 'inline' }} onSelect={this.nodeOnSelect}>
-                    {getCatalogTreenodes(themeData['2019'])}
-                  </Tree>
-                </div>
-              </Timeline.Item>
-            </Timeline>
+            <Scrollbars className={styles.catalogThemeList_bar}>
+              <Tree onSelect={this.handleCatalogTreeSelect}
+                    loadData={this.loadCatalogTreeDataset}
+                    autoExpandParent={true}
+                    defaultExpandedKeys={[urlQuery.key]}
+                    filterTreeNode={(node) => node.props.eventKey === urlQuery.key}>
+                {renderCatalogTree(catalogThemeData)}
+              </Tree>
+            </Scrollbars>
           </TabPane>
           <TabPane tab="Search" key="2">
             <div className={styles.searchCard}>
-              <h6>Search ecology data by tags:</h6>
               <Select
                 style={{ width: '30%' }}
                 placeholder="year"
                 onChange={this.handleSelectYear}
               >
-                {[2016, 2017, 2018, 2019].map((item) => <Option value={item} key={item}>
+                {[2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019].map((item) => <Option value={item} key={item}>
                   {item}
                 </Option>)}
               </Select>
@@ -278,15 +301,12 @@ class DataTabs extends Component {
                 </Option>)}
               </Select>
             </div>
-            {/*<Button type="primary" icon="search" onClick={this.searchByQuery}>Search</Button>*/}
             <Scrollbars className={styles.datasetList_bar}>
-              {/*首次打开默认不检索，无数据时不显示list组件，数据请求时显示加载中状态*/}
               <Spin spinning={fetchDataLoading}>
                 {dataSetList.datasets && dataSetList.datasets.length > 0 ?
                   <List
                     itemLayout="vertical"
                     dataSource={dataSetList.datasets}
-                    // 控制分页，每页十条数据，异步请求数据
                     pagination={{
                       size: 'small',
                       showQuickJumper: true,
@@ -300,15 +320,26 @@ class DataTabs extends Component {
                         <List.Item.Meta
                           id={item.id}
                           title={
-                            <p
-                              onClick={() => this.goToThirdTab(item)}>{selectedLang === 'zh-CN' ? item.nameChn || '无名' : item.nameEn}</p>}
-                          description={<Ellipsis lines={3}>{item.description}</Ellipsis>}
+                            <div className={styles.data_list_title_box}>
+                              <Ellipsis lines={1}
+                                        tooltip
+                                        className={styles.data_list_title}
+                                        onClick={() => this.goToThirdTab(item)}>
+                                {isCh ? item.nameChn || '无中文名' : item.nameEn}
+                              </Ellipsis>
+                              <div className={styles.icon_box}><Icon type="eye" title={'detail'}/><Icon type="cloud-download" title={'download'} /></div>
+                            </div>}
+                          description={<div>
+                            <Ellipsis lines={3}
+                                      style={{ color: '#D2D2D2', fontSize: '12px' }}>
+                              {item.description}
+                            </Ellipsis>
+                          </div>}
                         />
                       </List.Item>
                     )}
-                  /> : <div className={styles.search_bg}>
-                    No Data
-                  </div>
+                  /> : <div className={styles.query_empty}>{selectedYear ? <Empty/> :
+                    <img className={styles.img_query} src={loc_search} alt={'please search one year'}/>}</div>
                 }
               </Spin>
             </Scrollbars>
@@ -316,7 +347,6 @@ class DataTabs extends Component {
           <TabPane tab="Dataset" key="3">
             {/*<Card className={styles.resultCard}>*/}
             <Scrollbars className={styles.layerList_bar}>
-              {/*{layerList && this.renderTimeSlider(style, layerList)}*/}
               {selectedDataset.length > 0 &&
               <Tree checkable onCheck={this.datasetOnCheck}
                     loadData={this.loadLayerData}>{this.renderDatalsetTreeNodes(selectedDataset)}</Tree>}
