@@ -4,8 +4,10 @@ import { Icon, Slider, Empty } from 'antd';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import { Rnd } from 'react-rnd';
 import moment from 'moment';
+import cesiumMap from '@/components/TDMap/oc.cesium';
 
 const clientWidth = document.body.clientWidth;
+const cesium_map = new cesiumMap.map();
 
 export default class LayerSlider extends React.Component {
   constructor(props) {
@@ -20,7 +22,6 @@ export default class LayerSlider extends React.Component {
   }
 
   handleDragStop = (e, node) => {
-    console.log(e,node)
     this.setState({
       positionX: node.x,
       positionY: node.y,
@@ -32,36 +33,57 @@ export default class LayerSlider extends React.Component {
     e.stopPropagation();
   };
 
+  handleDragStart = (e) => {
+    console.log(e);
+    e.stopPropagation();
+  };
+
   handleSliderChange = (value) => {
-    this.setState({ sliderValue: value });
+    this.setState({ sliderValue: value});
+    const {datasetWithLayers,onSliderChange} =this.props;
+    let layer= datasetWithLayers.layers[value];
+    cesium_map.addLayer(layer,false);
+    if(onSliderChange){
+      onSliderChange(layer)
+    }
   };
 
   render() {
     const { handleClose, datasetWithLayers = {} } = this.props;
+    console.log(datasetWithLayers)
     const { width, height, positionX, positionY, sliderValue } = this.state;
-    const isTimeDimension = datasetWithLayers.layerDimension && datasetWithLayers.layerDimension.type.toLowerCase() === 'timestamp';
     const renderSlider = (data) => {
-      let layers = data.layers;
+      const isTimeDimension = data.layerDimension && data.layerDimension.type.toLowerCase() === 'timestamp';
+      const layers = data.layers;
       const length = layers.length;
-      if (length > 1) {
-        const marks = {
-          0: {
-            style: { width: '40px', color: '#ddd' },
-            label: layers[0].dimensionValue,
-          },
-          [length - 1]:
-            {
+      if (isTimeDimension) {
+        if (length > 1) {
+          const marks = {
+            0: {
               style: { width: '40px', color: '#ddd' },
-              label: layers[length - 1].dimensionValue,
+              label: layers[0].dimensionValue,
             },
-        };
+            [length - 1]:
+              {
+                style: { width: '40px', color: '#ddd' },
+                label: layers[length - 1].dimensionValue,
+              },
+          };
+          return <div className={styles.slider_box}>
+            {length>0 ? <Slider min={0} max={length - 1} step={1} marks={marks} onChange={this.handleSliderChange}
+              tipFormatter={(index) => {
+              let unixTime = moment(layers[index].dimensionValue).valueOf();
+              return moment(unixTime).format('YYYY-MM-DD');
+            }
+            }/>:<Empty/>}
+
+          </div>;
+        }
+      }
+      else {
         return <div className={styles.slider_box}>
-          <Slider min={0} max={length - 1} step={1} marks={marks} onChange={this.handleSliderChange}
-                  tipFormatter={(index) => {
-                    let unixTime = moment(layers[index].dimensionValue).valueOf();
-                    return moment(unixTime).format('YYYY-MM-DD');
-                  }
-                  }/>
+          <Slider min={0} max={length - 1} step={1} onChange={this.handleSliderChange}
+                  tipFormatter={(index) => layers[index].dimensionValue || index}/>
         </div>;
       }
     };
@@ -75,17 +97,19 @@ export default class LayerSlider extends React.Component {
       topLeft: false,
       topRight: false,
     };
+    const focusLayer= datasetWithLayers.layers[sliderValue];
 
     return <Rnd size={{ width: width, height: height }}
                 position={{ x: positionX, y: positionY }}
                 onDragStop={this.handleDragStop}
+                onDragStart={this.handleDragStart}
                 onDrag={this.handleDrag}
                 onResize={(e, direction, ref, delta, position) => {
                   this.setState({
                     width: ref.style.width,
                     height: ref.style.height,
-                    positionX:position.x,
-                    positionY:position.y
+                    positionX: position.x,
+                    positionY: position.y,
                   });
                 }}
                 bounds="window"
@@ -98,12 +122,12 @@ export default class LayerSlider extends React.Component {
         </div>
         <div className={styles.divider}/>
         <div className={styles.content}>
-          {datasetWithLayers.layers.length > 1 && isTimeDimension ? <div>
+          <div>
             <div>
-              <label>{formatMessage({ id: 'mapView.timePlayer.layer.name' })}</label> &nbsp;&nbsp;{datasetWithLayers.layers[sliderValue].layerName}
+              <label>{formatMessage({ id: 'mapView.timePlayer.layer.name' })}</label> &nbsp;:&nbsp;{focusLayer?focusLayer.layerName:'' }
             </div>
             {renderSlider(datasetWithLayers)}
-          </div> : <Empty/>}
+          </div>
         </div>
       </div>
     </Rnd>;

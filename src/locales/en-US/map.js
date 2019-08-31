@@ -5,4 +5,10 @@ export default {
   'mapView.timePlayer.layer.count':'layer numbers',
   'mapView.timePlayer.layer.name':'layer name',
   'mapView.load.catalog.nodata': 'this theme can not find datasets',
+  'mapView.dataTree.more': 'more action',
+  'mapView.dataTree.more.remove': 'remove',
+  'mapView.dataTree.more.player': 'player',
+  'mapView.search.placeholder': 'keyword search',
+  'mapView.search.enterButton': 'search',
+  'mapView.dataTree.legend': 'legend',
 };

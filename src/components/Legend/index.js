@@ -8,7 +8,6 @@ import {
   Row,
 } from 'antd';
 
-
 function DiscreteLegend({ colorbar }) {
   let tempColor, tempFont;
   return (
@@ -169,8 +168,7 @@ function Legend(props) {
         colorMapId: colorMapId,
       },
     });
-
-
+    //todo : unsafe
     const options = {
       url: '/v1.0/api/colormap/img/' + colorMapId,
       headers: {
@@ -183,6 +181,7 @@ function Legend(props) {
       data,
       headers,
     } = options;
+
     axios
       .get(url, { params: data, headers: headers, timeout: 1000 * 20, responseType: 'blob' })
       .then((response) => {

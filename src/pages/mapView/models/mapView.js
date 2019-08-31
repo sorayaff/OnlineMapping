@@ -1,30 +1,23 @@
-import { getDataset, getLayer, getTagGroups, getTags, getDatasetByTags, getColormapById,getColormapList,getColormapPicById } from '../service';
+import { getDataset, getLayer, getTagGroups, getTags, getDatasetByTags, getColormapIdByLayerName,getColormapById,getColormapList,getColormapPicById } from '../service';
 
 export default {
   namespace: 'mapView',
   state: {
     dataSetList: undefined,            //数据列表，
     layerList: undefined,              //图层列表，
-    defaultColobar: [],         //系统自带色带
-    tagList: undefined,                  //数据标签
+    defaultColobar: [],                 //系统自带色带
+    tagList: undefined,                //数据标签
     urlQuery: undefined,
-    layerPlayerVisible: false,
-    layersForPlay: [],
     colormapList: [],
     currentColormap: undefined,
     currentColormapPic:undefined,
+    layerColormap:undefined,
   },
   reducers: {
     setDataset(state, { payload = {} }) {
       return {
         ...state,
         dataSetList: payload,
-      };
-    },
-    saveLayersForPlay(state, { payload = [] }) {
-      return {
-        ...state,
-        layersForPlay: payload,
       };
     },
     addLayer(state, { payload = {} }) {
@@ -48,12 +41,9 @@ export default {
     saveQuery(state, { payload = {} }) {
       return { ...state, urlQuery: payload };
     },
-    closeLayerPlayer(state, { payload }) {
-      return { ...state, layerPlayerVisible: false };
-    },
-    showLayerPlayer(state, { payload }) {
-      return { ...state, layerPlayerVisible: true };
-    },
+    setLayerColormap(state,{payload={}}){
+      return {...state,layerColormap:payload}
+    }
   },
   effects: {
     //根据选中的数据集加载图层
@@ -98,6 +88,15 @@ export default {
         yield put({ type: 'setCurrentColormapPic', payload: response });
       }
     },
+    *fetchColormapIdByLayerName({payload},{put,call}){
+      const {layerName,key}=payload;
+      console.log(payload)
+      const response = yield call(getColormapIdByLayerName, layerName);
+      if (response.success) {
+        response.data.key=key;
+        yield put({ type: 'setLayerColormap', payload: response.data });
+      }
+    }
   },
   subscriptions: {
     setup({ dispatch, history }, done) {

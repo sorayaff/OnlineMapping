@@ -10,8 +10,8 @@
   //margin-left: 2em;
   top: 10vh;
   height: 85vh;
-  left: -25vw;
-  width: 25vw;
+  left: -30vw;
+  width: 30vw;
   opacity: .7;
   transition: transform 0.3s ease-in;
   .catalogThemeList_bar {
@@ -23,14 +23,17 @@
     width: 100%;
     background-color: #dddddd;
     border-radius: 4px;
+    .searchCard_search{
+      margin-top: 5px;
+    }
   }
   .datasetList_bar {
-    height: calc(80vh - 100px) !important;
+    height: calc(75vh - 100px) !important;
     margin-top: 10px;
     width: 103% !important;
   }
   .layerList_bar {
-    height: calc(80vh) !important;
+    height: 75vh !important;
     margin: 4px;
     width: 100% !important;
   }
@@ -54,10 +57,18 @@
     }
   }
   .icon_box {
-    margin-right: 10px;
+    margin:5px 10px;
     float: right;
+    .icon_divider{
+      display: inline-block;
+      background-color: #fff;
+      width: 1px;
+      height: 16px;
+    }
     i {
-      margin-right: 4px;
+      color: white;
+      margin: 4px 8px;
+      font-size: 18px;
       &:hover {
         color: #40a9ff;
         cursor: pointer;
@@ -75,17 +86,37 @@
       width: 50%;
     }
   }
-  .parent_node {
+  .tab3_parent_node {
     width: 100%;
+    line-height: 1;
     .parent_node_ellipsis {
+      font-size: 18px;
       display: inline-block;
-      width: calc(25vw - 100px);
+      width: calc(30vw - 100px);
+    }
+    .child_node_ellipsis {
+      display: inline-block;
+      width: calc(30vw - 140px);
     }
     .parent_node_icon {
+      color: #188ffe;
       margin-left: 6px;
-      color: #40a9ff;
-      font-size: 19px;
+      font-size: 20px;
+      font-weight: bold;
       vertical-align: baseline;
+      &:hover{
+        color: #3fffff;
+      }
+    }
+    .child_node_icon {
+      color: #188ffe;
+      margin-left: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      vertical-align: baseline;
+      &:hover{
+        color: #3fffff;
+      }
     }
   }
   .layer_name_box {
@@ -156,8 +187,8 @@
 }
 
 .card-container-show {
-  -webkit-transform: translateX(25vw); /*兼容-webkit-引擎浏览器*/
-  -moz-transform: translateX(25vw); /*兼容-moz-引擎浏览器*/
-  transform: translateX(25vw);
+  -webkit-transform: translateX(30vw); /*兼容-webkit-引擎浏览器*/
+  -moz-transform: translateX(30vw); /*兼容-moz-引擎浏览器*/
+  transform: translateX(30vw);
   transition: transform 0.3s ease-in;
 }

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import {Icon } from 'antd';
-import classNames from 'classnames';
 import styles from './index.less';
 
 class LeftPanel extends PureComponent {

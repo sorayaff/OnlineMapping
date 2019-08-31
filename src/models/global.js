@@ -1,8 +1,5 @@
 import {getUserInfo} from "@/services/user";
 import {getCountryByIP,getUserIP} from "@/services/api";
-import {reloadAuthorized} from "@/utils/Authorized";
-import {getPageQuery, setLoalData, isSetLoacl} from "@/utils/common";
-import {routerRedux} from 'dva/router';
 
 export default {
   namespace: 'global',

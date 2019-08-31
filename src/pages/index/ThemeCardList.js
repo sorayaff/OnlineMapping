@@ -42,7 +42,7 @@ function ThemeCard({year,data}) {
   );
   const theme = local === 'en-US' ? data.title_en : data.title_ch;
   return (
-    <div style={{padding:'5px',height:'450px',position:'relative'}}>
+    <div style={{padding:'5px',height:'350px',position:'relative'}}>
       <div style={{padding:'5px',fontSize:'18px',textAlign:'center'}}>
         <img src={data.imgSrc} style={{width:'100%',maxWidth:600}}/>
       </div>

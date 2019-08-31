@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.less';
-import { Icon, List, Tooltip, Button, Menu, Row, Avatar, Divider } from 'antd';
+import { Icon, Button, Menu,Avatar, Divider } from 'antd';
 import ThemeCardList from './ThemeCardList';
 import SelectLang from '@/components/SelectLang';
 import HeaderDropdown from '@/components/HeaderDropdown';

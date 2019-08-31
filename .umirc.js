@@ -5,7 +5,6 @@ const cesiumSource = 'node_modules/cesium/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
 
 // const publicPath = './src/public'
-
 function getPlugins() {
   if (env === 'build') {
     return {
@@ -135,6 +134,13 @@ export default {
       secure: false,
       pathRewrite: { '^/v1.0/api/map': '' },
     },
+    '/geoserver/ecology': {
+      target: 'http://192.168.2.2:8000/geoserver/ecology',
+      changeOrigin: true,
+      secure: false,
+      pathRewrite: { '^/geoserver/ecology': '' },
+    },
+
   },
   alias: {
     'cesium': path.resolve(__dirname, './node_modules/cesium/Source'),
