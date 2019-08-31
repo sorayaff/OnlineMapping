@@ -42,36 +42,30 @@ function blobToDataURI(blob, callback) {
   reader.readAsDataURL(blob);
 }
 
-
-
-export default async function imgRequest(options) {
-  // let response = axios.get(url, {params: data, headers: headers, timeout: 1000 * 20,responseType: 'blob'});
-  const response = await fetch(options);
-  let blob = response.data;
-  let pic = null;
-  await blobToDataURI(blob, function(data) {
-    pic = data;
-  });
-  return pic;
-  // return fetch(options).then((response) => {
-  //   const {statusText, status} = response;
-  //   let blob = response.data;
+export default function imgRequest(options) {
+  return fetch(options).then((response) => {
+    const {statusText, status} = response;
+    let data = response.data;
+    return Promise.resolve({
+      success: true,
+      message: statusText,
+      statusCode: status,
+      data: data,
+    })
+  }).catch((error) => {
+    const {response} = error;
+    let msg;
+    let statusCode;
+    if (response && response instanceof Object) {
+      const {data, statusText} = response;
+      statusCode = response.status;
+      msg = data.message || statusText
+    } else {
+      statusCode = 600;
+      msg = error.message || 'Network Error'
+    }
+    ApiNotification(statusCode, msg);
+    /* eslint-disable */
+    return Promise.resolve({success: false, statusCode, message: msg});
+  })
 }
-
-  // }).catch((error) => {
-  //   const {response} = error;
-  //   let msg;
-  //   let statusCode;
-  //   if (response && response instanceof Object) {
-  //     const {data, statusText} = response;
-  //     statusCode = response.status;
-  //     msg = data.message || statusText
-  //   } else {
-  //     statusCode = 600;
-  //     msg = error.message || 'Network Error'
-  //   }
-  //   ApiNotification(statusCode, msg);
-  //   /* eslint-disable */
-  //   return Promise.resolve({success: false, statusCode, message: msg});
-  // })
-// }
