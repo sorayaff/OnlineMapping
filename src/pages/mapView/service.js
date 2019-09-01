@@ -1,7 +1,6 @@
 import headerRequest from '@/utils/HeaderRequest';
 import request from '@/utils/request';
 import imgRequest from '@/utils/imgRequest';
-import { stringify } from 'qs';
 
 // 获取查询到的数据集
 export function getDataset({ tag1 = null, tag2 = null, start = 0, length = 16, algebra = 'and' }) {
@@ -86,9 +85,16 @@ export function getColormapPicById(colormapId) {
   return imgRequest({
     url: '/v1.0/api/colormap/img/' + colormapId.colorMapId,
     method: 'GET',
-    headers:{
-      AccessKey:'d26c2762b29145e796b3ccdeb4668bd6',
-      SecretKey:'ef0588377a2f072527dfc107d7c52c87'
+    headers: {
+      AccessKey: 'd26c2762b29145e796b3ccdeb4668bd6',
+      SecretKey: 'ef0588377a2f072527dfc107d7c52c87'
     }
+  });
+}
+//获取图层的 colormap Id
+export function getColormapIdByLayerName(layerName) {
+  return headerRequest({
+    url: '/v1.0/api/ecology/colormap?layerName='+layerName,
+    method: 'GET',
   });
 }

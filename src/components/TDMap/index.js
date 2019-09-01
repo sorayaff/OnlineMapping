@@ -49,8 +49,10 @@ class TDMap extends Component {
       url: annotationUrl,
       alpha: 1,
     });
+    let attr={  key:'111' , url:'/geoserver/ecology/wms' , layerName:"ecology:ecology_pacific", srs:'EPSG:4326' }
+    cesium_map.addWmsMapLayer(attr);
     // 地图初始视角
-    cesium_map.setView(119, 36, 20000000);
+    cesium_map.setView(136,37, 20000000);
   }
 
   render() {

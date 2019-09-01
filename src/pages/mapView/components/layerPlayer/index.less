@@ -1,0 +1,38 @@
+@content-color: rgba(255, 255, 255, 0.75);
+
+.layerPlayer_main {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(31, 75, 122, 0.45);
+  //backgxround-color: rgba(255, 255, 255, 0.75);
+  padding: 10px;
+  .title {
+    color: @content-color;
+    font-size: 18px;
+    font-weight: bold;
+    .close_icon {
+      margin-top: 4px;
+      float: right;
+      &:hover {
+        background-color: #ff7e6a;
+        cursor: pointer;
+      }
+    }
+  }
+  .divider {
+    background-color: #ddd;
+    height: 1px;
+    width: 100%;
+    margin: auto;
+  }
+  .content {
+    color: @content-color;
+    padding: 10px;
+    .slider_box {
+      width: 90%;
+      margin: auto;
+      padding: 5px 5px;
+    }
+  }
+}

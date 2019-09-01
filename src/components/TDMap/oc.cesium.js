@@ -22,17 +22,6 @@ function refreshTokenRetryCallback(resource, error) {
   return false;
 }
 
-function getResource(url) {
-  return new Cesium.Resource({
-    url: url,
-    headers: {
-      'rzpj': getLocalData({ dataName: 'rzpj' }),
-    },
-    retryCallback: refreshTokenRetryCallback,
-    retryAttempts: 1,
-  });
-}
-
 function getWmsResource(url, layerName) {
   return new Cesium.Resource({
     url: url,
@@ -40,15 +29,16 @@ function getWmsResource(url, layerName) {
       'rzpj': getLocalData({ dataName: 'rzpj' }),
     },
     queryParameters: {
-      LAYERS: layerName,
+      layers: layerName,
     },
     retryCallback: refreshTokenRetryCallback,
     retryAttempts: 1,
   });
 }
 
-
 let viewer;
+let layerOnShowKeys=[];
+let imageryLayerMap=new Map();
 
 /**
  * Created by on 2019/3/6.
@@ -56,7 +46,6 @@ let viewer;
 /*******************************************************
  *  地图(图层)管理类
  *********************************************************/
-
 
 cesiumMap.map = function() {
 };
@@ -91,39 +80,26 @@ cesiumMap.map.prototype = {
   addWmsMapLayer: function(attr) {
     const { key, url, layerName, alpha, srs, dataType } = attr;
     let imgProvider = new Cesium.WebMapServiceImageryProvider({
-      url: getWmsResource(url, layerName, srs),
+      url: url,
       serverType: 'geoserver',
       crossOrigin: 'anonymous',
       layers: layerName,
       parameters: {
         service: 'WMS',
         format: 'image/png',
-        transparent: true,
+        layers: layerName,
+        version:'1.1.1',
+        TRANSPARENT:true,
+        exceptions:'application/vnd.ogc.se_inimage',
+        // bbox:'-179.99999999999997,-54.77730657999996,180.0000000000001,28.401556498000048',
+        width:768,
+        height:330
       },
     });
     let layer = viewer.imageryLayers.addImageryProvider(imgProvider);
-    layer.alpha = alpha;
-    layer.dataType = dataType;
-    layer.name = layerName;
     layer.key = key;
   },
-  addLayer: function(layer) {
-    if (layer.method.toLowerCase() === 'cog') {
-      const { layerName, url, layerType = 'Ecology', key } = layer;
-      let path = `${url}&`;
-      let queryData = {
-        layerName: layerName,
-        layerType: layerType,
-      };
-      let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
-        url: path + stringify(queryData),
-        format: 'image/png',
-      });
-      let imageryLayer = viewer.imageryLayers.addImageryProvider(titleimgProvider);
-      imageryLayer.alpha = 1;
-      imageryLayer.key = key;
-    }
-  },
+
   //添加切片服务
   addTmsMapLayer: function(attr) {
     const { key, url, layerName, alpha, dataType } = attr;
@@ -152,14 +128,64 @@ cesiumMap.map.prototype = {
     let wmts = viewer.imageryLayers.addImageryProvider(titleimgProvider);
     wmts.alpha = attr['alpha'];
   },
-  //添加arcgis地图服务
-  addArcGisMapLayer: function(attr) {
-    let titleimgProvider = new Cesium.ArcGisMapServerImageryProvider({
-      url: attr['url'],
-      layer: attr['layerName'],
-    });
-    let arcMap = viewer.imageryLayers.addImageryProvider(titleimgProvider);
-    arcMap.alpha = attr['alpha'];
+  addLayer: function(layer,multiple=true) {
+    let key = layer.key;
+    const showLayer=(flag)=>{
+      if(flag){
+        layerOnShowKeys.push(key);
+        this.showLayerBykey(layer.key)
+      }else {
+        this.hideAllLayer();
+        layerOnShowKeys=[key];
+        this.createimageryLayer(layer)
+      }
+    };
+    if (imageryLayerMap.has(key)){
+      showLayer(multiple)
+    }else {
+      layerOnShowKeys.push(key);
+      this.createimageryLayer(layer)
+    }
+  },
+  createimageryLayer:function(layer){
+    const { layerName, url, layerType = 'Ecology', key } = layer;
+    if (layer.method.toLowerCase() === 'cog') {
+      let path = `${url}&`;
+      let queryData = {
+        layerName: layerName,
+        layerType: layerType,
+      };
+      let titleimgProvider = new Cesium.UrlTemplateImageryProvider({
+        url: path + stringify(queryData),
+        format: 'image/png',
+      });
+      let imageryLayer = viewer.imageryLayers.addImageryProvider(titleimgProvider);
+      imageryLayer.alpha = 1;
+      imageryLayer.key = key;
+      imageryLayerMap.set(key,imageryLayer);
+    }
+  },
+  hideLayer:function(layer){
+    layerOnShowKeys.splice(layerOnShowKeys.findIndex(item => item === layer.key), 1);
+    imageryLayerMap.get(layer.key).show=false
+  },
+  hideAllLayer:function(){
+    layerOnShowKeys.forEach((key)=>imageryLayerMap.get(key).show=false)
+  },
+  showLayerBykey:function(key){
+    imageryLayerMap.get(key).show=true
+  },
+  removeDataset:function(dataset){
+    let parentKey =dataset.id;
+    layerOnShowKeys =layerOnShowKeys.filter((item)=> item.indexOf(parentKey) === -1);
+    let removeKeys=[]
+    imageryLayerMap.forEach((value,key)=>{
+      if ( key.indexOf(parentKey) > -1) {
+        viewer.imageryLayers.remove(value);
+        removeKeys.push(key)
+      }
+    })
+    removeKeys.forEach(key=>imageryLayerMap.delete(key))
   },
   removeLayer: function(layer) {
     const { key } = layer;
@@ -173,38 +199,6 @@ cesiumMap.map.prototype = {
       let item = viewer.imageryLayers._layers[i];
       if (item && item.key === key) {
         viewer.imageryLayers.remove(item);
-      }
-    }
-  },
-  getRenderLayerKeys: function() {
-    let keys = [];
-    for (let i = 0, length = viewer.imageryLayers._layers.length; i < length; i++) {
-      let item = viewer.imageryLayers._layers[i];
-      if (item.key) {
-        keys.push(item.key);
-      }
-    }
-    return keys;
-  },
-  removeAllLayers: function() {
-    for (let i = 2; i < viewer.imageryLayers._layers.length;) {
-      let item = viewer.imageryLayers._layers[i];
-      viewer.imageryLayers.remove(item);
-      // if (item.key !== undefined) {  //移除注册了key的图层
-      //   viewer.imageryLayers.remove(item);
-      // }
-    }
-    for (let i = 0; i < viewer.dataSources._dataSources.length;) {
-      let item = viewer.dataSources._dataSources[i];
-      viewer.dataSources.remove(item);
-    }
-    viewer.scene.requestRender();
-  },
-  removeLayerIndatasetbyName: function(key, name) {
-    for (let i = 0; i < viewer.imageryLayers._layers.length; i++) {
-      let item = viewer.imageryLayers._layers[i];
-      if (item.key === key && item.name === name) {
-        viewer.imageryLayers.remove(item.layer);
       }
     }
   },
@@ -673,8 +667,6 @@ cesiumMap.cover.prototype = {
 /*******************************************************
  *  绘画类
  *********************************************************/
-//let 3d.Draw=new 3d.Draw(colors,width,id,alpha);
-//3d.Draw.drawPoint()
 /**
  * 颜色--colors
  * 宽度--width
