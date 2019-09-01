@@ -11,7 +11,7 @@ function blobToDataURI(blob, callback) {
   reader.readAsDataURL(blob);
 }
 
-function ContinuesLegend(props) {
+function ContinuousLegend(props) {
   const [colorMapPic,setColorMapPic] = useState(null);
   const colorMapId = props.colorMapId;
   const colorbar = props.colorbar;
@@ -39,7 +39,6 @@ function ContinuesLegend(props) {
         colorMapId:colorMapId
       },
     });
-
   },[colorMapId, props]);
 
   return (
@@ -60,4 +59,4 @@ function ContinuesLegend(props) {
 export default connect(({ mapView }) => ({
   currentColormapPic:mapView.currentColormapPic,
   mapView
-}))(ContinuesLegend);
+}))(ContinuousLegend);
