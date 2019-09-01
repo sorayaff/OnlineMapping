@@ -130,20 +130,15 @@ cesiumMap.map.prototype = {
   },
   addLayer: function(layer,multiple=true) {
     let key = layer.key;
-    const showLayer=(flag)=>{
-      if(flag){
-        layerOnShowKeys.push(key);
-        this.showLayerBykey(layer.key)
-      }else {
-        this.hideAllLayer();
-        layerOnShowKeys=[key];
-        this.createimageryLayer(layer)
-      }
-    };
-    if (imageryLayerMap.has(key)){
-      showLayer(multiple)
-    }else {
+    if(multiple){
       layerOnShowKeys.push(key);
+    }else {
+      this.hideAllLayer();
+      layerOnShowKeys=[key];
+    }
+    if (imageryLayerMap.has(key)){
+      this.showLayerBykey(key)
+    }else {
       this.createimageryLayer(layer)
     }
   },
