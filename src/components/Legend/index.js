@@ -41,6 +41,7 @@ function Legend(props) {
         colorMapId:colorMapId
       },
     });
+
   },[colorMapId, props]);
 
   if(colorbar){
