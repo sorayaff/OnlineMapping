@@ -18,7 +18,7 @@ import {
 } from 'antd';
 import cesiumMap from '@/components/TDMap/oc.cesium';
 import loc_search from '@/assets/digitalMap/loc_search.png';
-import Legend from '@/components/Legend'
+import Legend from '@/components/Legend';
 import { IconFont } from '@/utils/common';
 import Ellipsis from '@components/Ellipsis';
 import themeData from '@/assets/timeLineContent';
@@ -48,9 +48,9 @@ class DataTabs extends Component {
       selectedKeys: undefined,
       currentPageDataset: 1,
       activeKey: '1',                   //面板key
-      layerPlayerVisible:false,
-      datasetWithLayersForPlayer:undefined,
-      layerCheckedKeys:[]
+      layerPlayerVisible: false,
+      datasetWithLayersForPlayer: undefined,
+      layerCheckedKeys: [],
     };
   }
 
@@ -149,7 +149,7 @@ class DataTabs extends Component {
     const { dispatch } = this.props;
     const { selectedYear = [] } = this.state;
     this.setState({ selectedTags: tags });
-    if(tags.length>0 || selectedYear.length>0){
+    if (tags.length > 0 || selectedYear.length > 0) {
       dispatch({
         type: 'mapView/fetchDatasetByTags',
         payload: { tags: [...selectedYear, ...tags] },
@@ -159,10 +159,10 @@ class DataTabs extends Component {
 
 //tab3 点击播放，传递准备播放的图层,清除已check的图层
   setLayers = (data) => {
-    const saveLayers=(layers)=>{
+    const saveLayers = (layers) => {
       this.setState({
-        datasetWithLayersForPlayer:layers,
-        layerPlayerVisible:true,
+        datasetWithLayersForPlayer: layers,
+        layerPlayerVisible: true,
       });
     };
     if (data.datasetLayers) {
@@ -171,8 +171,8 @@ class DataTabs extends Component {
       let id = data.id;
       getLayer(id).then((response) => {
         if (response.success && response.data) {
-          response.data.key=id;
-          response.data.layers.map(((layer,index) =>{
+          response.data.key = id;
+          response.data.layers.map(((layer, index) => {
             layer.key = `${id}-${index}`;
             return layer;
           }));
@@ -182,17 +182,17 @@ class DataTabs extends Component {
     }
   };
 
-  closeLayerPlayer=()=>{
-    this.setState({layerPlayerVisible:false})
+  closeLayerPlayer = () => {
+    this.setState({ layerPlayerVisible: false });
   };
 
   //todo:请求colormapId 然后渲染
-  showLegend=(e,layer)=>{
+  showLegend = (e, layer) => {
     e.stopPropagation();
     this.props.dispatch({
-      type:'mapView/fetchColormapIdByLayerName',
-      payload:layer
-    })
+      type: 'mapView/fetchColormapIdByLayerName',
+      payload: layer,
+    });
   };
 
 //渲染数据tab3节点
@@ -217,11 +217,11 @@ class DataTabs extends Component {
                                   lines={1}
                                   tooltip>{layer.layerName}
                         </Ellipsis>
-                        { this.state.layerCheckedKeys.indexOf(layer.key)> -1
+                        {this.state.layerCheckedKeys.indexOf(layer.key) > -1
                         && <Icon className={styles.child_node_icon}
-                                type="bg-colors"
-                                title={formatMessage({id:'mapView.dataTree.legend'})}
-                                onClick={(e) => this.showLegend(e,layer)}/>}
+                                 type="bg-colors"
+                                 title={formatMessage({ id: 'mapView.dataTree.legend' })}
+                                 onClick={(e) => this.showLegend(e, layer)}/>}
                       </span>
                       }
                       checkable
@@ -265,13 +265,13 @@ class DataTabs extends Component {
   };
 //移除图层，如果有layerPlayer也移除,同时移除已经展示的图层
   removeDataset = (dataset) => {
-    let { selectedDataset,datasetWithLayersForPlayer } = this.state;
+    let { selectedDataset, datasetWithLayersForPlayer } = this.state;
     let newSelectedDataset = selectedDataset.filter((item) => item.id !== dataset.id);
-    if(datasetWithLayersForPlayer &&datasetWithLayersForPlayer.key === dataset.id){
-      datasetWithLayersForPlayer = undefined
+    if (datasetWithLayersForPlayer && datasetWithLayersForPlayer.key === dataset.id) {
+      datasetWithLayersForPlayer = undefined;
     }
-    this.setState({ selectedDataset: newSelectedDataset,datasetWithLayersForPlayer:datasetWithLayersForPlayer });
-    cesium_map.removeDataset(dataset)
+    this.setState({ selectedDataset: newSelectedDataset, datasetWithLayersForPlayer: datasetWithLayersForPlayer });
+    cesium_map.removeDataset(dataset);
   };
 
   //异步加载tab3数据集的图层
@@ -285,7 +285,7 @@ class DataTabs extends Component {
       let parentKey = treeNode.props.eventKey;
       getLayer(id).then((response) => {
         if (response.success && response.data.layers) {
-          response.data.key=id;
+          response.data.key = id;
           response.data.layers.map((layer, index) => {
             layer.key = `${parentKey}-${index}`;
             return layer;
@@ -307,19 +307,25 @@ class DataTabs extends Component {
     } else {
       cesium_map.hideLayer(layer);
     }
-    this.setState({layerCheckedKeys:keys})
+    this.setState({ layerCheckedKeys: keys });
   };
 
   //图层播放，拖动滚动条
-  handleLayerPlayerSliderChange=(layer)=>{
-    let key =layer.key;
-    this.setState({layerCheckedKeys:[key]})
+  handleLayerPlayerSliderChange = (layer) => {
+    let key = layer.key;
+    this.setState({ layerCheckedKeys: [key] });
+  };
+
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'mapView/clearState',
+    });
   };
 
   render() {
     const { visible, handleClose, mapView, fetchDataLoading = false } = this.props;
-    const { selectedDataset = [], catalogThemeData, selectedYear, selectedTags ,layerPlayerVisible,datasetWithLayersForPlayer,layerCheckedKeys} = this.state;
-    const { dataSetList = {}, tagList = [], urlQuery = {} ,layerColormap} = mapView;
+    const { selectedDataset = [], catalogThemeData, selectedYear, selectedTags, layerPlayerVisible, datasetWithLayersForPlayer, layerCheckedKeys } = this.state;
+    const { dataSetList = {}, tagList = [], urlQuery = {}, layerColormap } = mapView;
     const renderCatalogTree = (data) => {
       return data.map(item => {
         if (item.themeList) {
@@ -352,106 +358,106 @@ class DataTabs extends Component {
     };
     return (
       <div>
-      <div className={classNames(styles['card-container'], { [styles['card-container-show']]: visible })}>
-        <Tabs type="card"
-              activeKey={this.state.activeKey}
-              onChange={this.tabOnChange}
-              tabBarExtraContent={<div className="icons-list" id="tab_close" title="Hide">
-                <IconFont type="icon-eyeoff" style={{ fontSize: 24 }} onClick={handleClose}/>
-              </div>}>
-          <TabPane tab="Catalog" key="1">
-            <Scrollbars className={styles.catalogThemeList_bar}>
-              <Tree onSelect={this.handleCatalogTreeSelect}
-                    loadData={this.loadCatalogTreeDataset}
-                    autoExpandParent={true}
-                    defaultExpandedKeys={[urlQuery.key]}
-                    defaultSelectedKeys={[urlQuery.key]}>
-                {renderCatalogTree(catalogThemeData)}
-              </Tree>
-            </Scrollbars>
-          </TabPane>
-          <TabPane tab='Search' key="2">
-            <div className={styles.searchCard}>
-              <Select
-                style={{ width: '30%' }}
-                placeholder="year"
-                onChange={this.handleSelectYear}
-              >
-                {[2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019].map((item) => <Option value={item} key={item}>
-                  {item}
-                </Option>)}
-              </Select>
-              <Select
-                mode="multiple"
-                style={{ width: '70%' }}
-                placeholder="select tags"
-                onChange={this.handleSelectChange}
-                optionLabelProp="label"
-              >
-                {tagList.map((item) => <Option value={item.tagName} label={item.tagName}>
-                  {item.tagName}
-                </Option>)}
-              </Select>
-              <Search
-                className={styles.searchCard_search}
-                placeholder={formatMessage({ id: 'mapView.search.placeholder' })}
-                enterButton={formatMessage({ id: 'mapView.search.enterButton' })}
-                size="default"
-                onSearch={value => console.log(value)}
-              />
-            </div>
-            <Scrollbars className={styles.datasetList_bar}>
-              {dataSetList.datasets && dataSetList.datasets.length > 0 ?
-                <List
-                  itemLayout="vertical"
-                  dataSource={dataSetList.datasets}
-                  loading={fetchDataLoading}
-                  pagination={{
-                    size: 'small',
-                    showQuickJumper: true,
-                    onChange: this.handlePaginationChange1,
-                    pageSize: 10,
-                    total: dataSetList.totalCount,
-                    current: this.state.currentPageDataset,
-                  }}
-                  renderItem={item => (
-                    <List.Item key={item.key || item.id}>
-                      <div className={styles.data_list_meta_header}>
-                        <Ellipsis lines={1} tooltip onClick={() => this.goToThirdTab(item)}>
-                          {isCh ? item.nameChn || '无中文名' : item.nameEn}
-                        </Ellipsis>
-                      </div>
-                      <div className={styles.icon_box}><Icon type="eye" title={'detail'}/>
-                        <div className={styles.icon_divider}/>
-                        <Icon
-                          type="cloud-download" title={'download'}/></div>
-                      <div className={styles.data_list_description}>
-                        <Ellipsis lines={3}
-                                  style={{ color: '#D2D2D2', fontSize: '12px' }}>
-                          {item.description}
-                        </Ellipsis>
-                      </div>
-                    </List.Item>
-                  )}
-                /> : <div className={styles.query_empty}>{selectedYear ? <Empty/> :
-                  <img className={styles.img_query} src={loc_search} alt={'please search one year'}/>}</div>
-              }
-            </Scrollbars>
-          </TabPane>
-          <TabPane tab="Dataset" key="3">
-            <Scrollbars className={styles.layerList_bar}>
-              {selectedDataset.length > 0 &&
-              <Tree checkable
-                    checkedKeys={layerCheckedKeys}
-                    onCheck={this.layerOnCheck}
-                    loadData={this.loadLayerData}>{this.renderDatalsetTreeNodes(selectedDataset)}</Tree>}
-            </Scrollbars>
-          </TabPane>
-        </Tabs>
-      </div>
+        <div className={classNames(styles['card-container'], { [styles['card-container-show']]: visible })}>
+          <Tabs type="card"
+                activeKey={this.state.activeKey}
+                onChange={this.tabOnChange}
+                tabBarExtraContent={<div className="icons-list" id="tab_close" title="Hide">
+                  <IconFont type="icon-eyeoff" style={{ fontSize: 24 }} onClick={handleClose}/>
+                </div>}>
+            <TabPane tab="Catalog" key="1">
+              <Scrollbars className={styles.catalogThemeList_bar}>
+                <Tree onSelect={this.handleCatalogTreeSelect}
+                      loadData={this.loadCatalogTreeDataset}
+                      autoExpandParent={true}
+                      defaultExpandedKeys={[urlQuery.key]}
+                      selectedKeys={[urlQuery.key]}>
+                  {renderCatalogTree(catalogThemeData)}
+                </Tree>
+              </Scrollbars>
+            </TabPane>
+            <TabPane tab='Search' key="2">
+              <div className={styles.searchCard}>
+                <Select
+                  style={{ width: '30%' }}
+                  placeholder="year"
+                  onChange={this.handleSelectYear}
+                >
+                  {[2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019].map((item) => <Option value={item} key={item}>
+                    {item}
+                  </Option>)}
+                </Select>
+                <Select
+                  mode="multiple"
+                  style={{ width: '70%' }}
+                  placeholder="select tags"
+                  onChange={this.handleSelectChange}
+                  optionLabelProp="label"
+                >
+                  {tagList.map((item) => <Option value={item.tagName} label={item.tagName}>
+                    {item.tagName}
+                  </Option>)}
+                </Select>
+                <Search
+                  className={styles.searchCard_search}
+                  placeholder={formatMessage({ id: 'mapView.search.placeholder' })}
+                  enterButton={formatMessage({ id: 'mapView.search.enterButton' })}
+                  size="default"
+                  onSearch={value => console.log(value)}
+                />
+              </div>
+              <Scrollbars className={styles.datasetList_bar}>
+                {dataSetList.datasets && dataSetList.datasets.length > 0 ?
+                  <List
+                    itemLayout="vertical"
+                    dataSource={dataSetList.datasets}
+                    loading={fetchDataLoading}
+                    pagination={{
+                      size: 'small',
+                      showQuickJumper: true,
+                      onChange: this.handlePaginationChange1,
+                      pageSize: 10,
+                      total: dataSetList.totalCount,
+                      current: this.state.currentPageDataset,
+                    }}
+                    renderItem={item => (
+                      <List.Item key={item.key || item.id}>
+                        <div className={styles.data_list_meta_header}>
+                          <Ellipsis lines={1} tooltip onClick={() => this.goToThirdTab(item)}>
+                            {isCh ? item.nameChn || '无中文名' : item.nameEn}
+                          </Ellipsis>
+                        </div>
+                        <div className={styles.icon_box}><Icon type="eye" title={'detail'}/>
+                          <div className={styles.icon_divider}/>
+                          <Icon
+                            type="cloud-download" title={'download'}/></div>
+                        <div className={styles.data_list_description}>
+                          <Ellipsis lines={3}
+                                    style={{ color: '#D2D2D2', fontSize: '12px' }}>
+                            {item.description}
+                          </Ellipsis>
+                        </div>
+                      </List.Item>
+                    )}
+                  /> : <div className={styles.query_empty}>{selectedYear ? <Empty/> :
+                    <img className={styles.img_query} src={loc_search} alt={'please search one year'}/>}</div>
+                }
+              </Scrollbars>
+            </TabPane>
+            <TabPane tab="Dataset" key="3">
+              <Scrollbars className={styles.layerList_bar}>
+                {selectedDataset.length > 0 &&
+                <Tree checkable
+                      checkedKeys={layerCheckedKeys}
+                      onCheck={this.layerOnCheck}
+                      loadData={this.loadLayerData}>{this.renderDatalsetTreeNodes(selectedDataset)}</Tree>}
+              </Scrollbars>
+            </TabPane>
+          </Tabs>
+        </div>
         {layerPlayerVisible && datasetWithLayersForPlayer && <LayerPlayer handleClose={this.closeLayerPlayer}
-                                             datasetWithLayers={datasetWithLayersForPlayer}
-                                             onSliderChange={this.handleLayerPlayerSliderChange}/>}
+                                                                          datasetWithLayers={datasetWithLayersForPlayer}
+                                                                          onSliderChange={this.handleLayerPlayerSliderChange}/>}
         {layerColormap && <Legend colorMapId={layerColormap.colormapId}/>}
       </div>
     );

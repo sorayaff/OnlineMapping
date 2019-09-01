@@ -11,4 +11,6 @@ export default {
   'mapView.search.placeholder': '关键字检索',
   'mapView.search.enterButton': '搜索',
   'mapView.dataTree.legend': '图例',
+  'mapView.layer.play.stop': '停止',
+  'mapView.layer.play.start': '播放',
 };

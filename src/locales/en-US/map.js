@@ -11,4 +11,6 @@ export default {
   'mapView.search.placeholder': 'keyword search',
   'mapView.search.enterButton': 'search',
   'mapView.dataTree.legend': 'legend',
+  'mapView.layer.play.stop': 'stop play',
+  'mapView.layer.play.start': 'start play',
 };
