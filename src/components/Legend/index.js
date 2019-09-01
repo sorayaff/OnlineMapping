@@ -8,7 +8,7 @@ function Legend(props) {
   const [width, setWidth] = useState(100);
   const [height, setHeight] = useState(200);
   const [x, setX] = useState(1200);
-  const [y, setY] = useState(500);
+  const [y, setY] = useState(450);
 
   const colorMapId = props.colorMapId || '34ac9adc-80b9-46c1-980a-716c0988bfe3';
 
@@ -18,7 +18,7 @@ function Legend(props) {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: 'solid 1px #ddd',
+    // border: 'solid 1px #ddd',
     background: 'transparent',
   };
 

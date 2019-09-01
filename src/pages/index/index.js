@@ -85,8 +85,15 @@ class Home extends React.Component {
     );
 
     this.reportData = reportDataSource.map((report, index) => {
-      const xuyan1 = report.content.slice(0, 2);
-      const xuyan2 = report.content;
+      let xuyan1,xuyan2;
+      if(local === 'zh-CN'){
+        xuyan1 = report.content.slice(0, 2);
+        xuyan2 = report.content;
+      }
+      else{
+        xuyan1 = report.content_en.slice(0, 2);
+        xuyan2 = report.content_en;
+      }
       const { loadMore } = this.state;
       const xuyan = loadMore ? (
         <div>
@@ -172,8 +179,8 @@ class Home extends React.Component {
 
               {/*网站title*/}
               {local === 'en-US' ?
-                <span style={{ top: 120, position: 'absolute', right: 30, width: 900, fontSize: 50 }}>
-                     Global remote sensing monitoring of ecological environment
+                <span style={{ top: 120, position: 'absolute', right: 30, width: 1000, fontSize:42 }}>
+                     Global Ecosystems and Environment Observation Analysis Research Cooperation
                 </span> :
                 <span style={{ top: 120, position: 'absolute', right: 30 }}>
                   <p style={{ margin: 0, fontSize: 70, letterSpacing: 8 }}>全球生态环境遥感监测</p>

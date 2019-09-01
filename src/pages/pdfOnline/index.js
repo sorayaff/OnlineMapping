@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.css';
 import PDFViewer from '@/components/PDFiframe/index'
-import mypdf from '@/assets/ldzbsczk.pdf'
+import mypdf from '@/assets/2018C_en_tan.pdf'
 
 class PDFJs {
   init = (source, element) => {

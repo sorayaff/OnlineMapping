@@ -28,7 +28,7 @@ function ThemeCard({year,data}) {
   const menu = local === 'en-US' ? (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="1" data-link={unabridged_ch}>
-        <a href="http://localhost:8000/pdfjs-2.1.266-dist/web/viewer.html?file=/static/ldzbsczk.1bb01db0.pdf" target="_Blank">unabridged version</a>
+        <a href="http://localhost:8000/pdfjs-2.1.266-dist/web/viewer.html?file=/static/2018C_en_tan.8ef08439.pdf" target="_Blank">unabridged version</a>
       </Menu.Item>
       <Menu.Item key="2">abridged version</Menu.Item>
     </Menu>

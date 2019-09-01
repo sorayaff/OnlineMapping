@@ -30,6 +30,26 @@ const r2013 = [
   '　　中国政府一贯重视生态环境的保护和建设，在科学研究、政策制定和行动落实等层面开展生态环境研究和保护等工作。作为重要的技术保障措施，中国逐步建立了气象、资源、环境和海洋等地球观测卫星应用体系，观测能力日益提高。同时，作为地球观测组织（GEO）的创始国和联合主席国，中国正努力推动在GEO框架下向世界开放共享地球观测数据并提供相关的全球信息产品和服务。\n',
   '　　为满足全球生态环境变化监测和积极应对全球变化的需要，在中国参加GEO工作部际协调小组的领导下和国务院办公厅、财政部的支持下，科学技术部按照“部门协同、内外结合、成果集成、数据共享、国际合作”的基本思路，于2012年启动了“全球生态环境遥感监测年度报告”工作。为保证年报工作的高效组织和年报质量，国家遥感中心（GEO中国秘书处）与遥感科学国家重点实验室共同组建生态环境遥感研究中心，建立了年报工作合作的长效机制，成立了顾问组、专家组和编写组。各编写组在集成863等国家科技计划地球观测相关研究项目成果的基础上，以GEO框架下国家综合地球观测数据共享服务工作为依托，进一步整合和分析数据形成年报。',
 ];
+const r2018_ch = [
+  '近代以来，经济和科技的迅猛发展，为人类创造了巨大的财富，同时，人类对地球资源的消耗和环境的破坏，导致全球性生态环境问题的日益突出，特别是全球气候变暖、资源匮乏、环境恶化、灾害频发等重大问题，不仅影响全球经济、社会的可持续发展，而且以越来越快的速度威胁着人类生存的基础，引起国际社会的高度关注。\n',
+  '中国政府一贯重视生态环境保护和生态文明建设，在科学研究、政策制定和行动落实等层面开展生态环境研究和保护等工作。作为重要的技术保障措施，中国已经逐步建立了气象、资源、环境和海洋等地球观测卫星应用体系，随着高分辨率对地观测系统和国家空间基础设施的逐步建设到位，观测能力日益提高。同时，作为地球观测组织（GEO）的创始国和联合主席国，中国正努力推动在GEO框架下向世界开放共享地球观测数据并提供相关的全球信息产品和服务。\n',
+
+  '为满足全球生态环境变化监测和积极应对全球变化的需要，推动我国生态文明建设迈上新台阶，科学技术部按照“部门协同、内外结合、成果集成、数据共享、国际合作”的基本思路，于2012年启动了“全球生态环境遥感监测年度报告”工作。2013年5月，科学技术部向国内外正式公开发布了《全球生态环境遥感监测2012年度报告》。该领域第一次出现了中国发布的权威数据，产生了广泛和良好的国内外影响，被誉为开创性的工作。\n',
+
+  '年报工作围绕全球生态环境典型要素、全球性生态环境热点问题和全球热点区域这3大类主题逐年发布，已经形成品牌，为中国深入参与全球科技创新治理提供了有效的信息保障途径，为各国政府、研究机构和国际组织的环境问题研究和制定环境政策提供了依据，加深了社会公众对全球生态环境状况的理解，推动了中国GEO工作的深入开展。这项工作可以有效发挥科技超前引领作用，带动各个行业部门形成全球综合地球观测能力和实际应用能力，是中国遥感科技界为解决全球生态环境研究所做的实质贡献。\n',
+
+  '2018年度报告继续面向国家重大需求、国际社会可持续发展、粮食安全以及全球应对气候变化的迫切需要，聚焦“‘一带一路’生态环境状况及态势”、“全球大宗粮油作物生产形势”和“全球碳源汇时空分布状况”3个专题报告，生成了首套我国碳卫星2017年全球叶绿素荧光产品与全球30m土地覆盖数据集等遥感数据产品，监测分析了“一带一路”沿线典型农牧交错带、海岸带与国家公园的生态环境现状与态势，评价了“一带一路”框架下重大工程建设对当地经济发展和生态环境的影响，探讨了影响全球及重点地区的碳源、碳汇时空分布格局和动态变化的驱动机制，分析并预估了2017-2018年全球大宗粮油作物生产形势。报告及数据集产品可为推进绿色“一带一路”建设、应对全球气候与环境变化以及维护全球粮油贸易稳定与全球粮食安全提供基础数据与信息支撑。\n',
+
+  '“全球生态环境遥感监测年度报告”是一项长期性的工作，应积极面向联合国2030年可持续发展目标和我国“共谋全球生态文明建设，深度参与全球环境治理”的要求，围绕“一带一路”倡议和《国家创新驱动发展战略纲要》的实施，强化顶层设计与协同创新，进一步加强国产卫星数据的应用与共享，不断提高报告的国际影响力，为推动构建人类命运共同体，共建美好地球贡献中国力量与中国智慧。'
+];
+const r2018_en = [
+  'Since modern times, the rapid development of economy and science and technology, created enormous wealth for human being, at the same time, the human consumption of the earth\'s resources and environment destruction, lead to global ecological environment problem increasingly prominent, especially the global warming, and shortage of resources, environmental degradation, disasters and other major problems, not only affects the sustainable development of global economic, social, and faster and faster threatening human survival foundation, cause the attention of the international community.',
+  'The Chinese government has always attached great importance to the protection of the ecological environment and the building of ecological civilization, and carried out research and protection of the ecological environment at the levels of scientific research, policy formulation and action implementation.As an important technical guarantee, China has gradually established earth observation satellite application systems for meteorology, resources, environment and oceans. With the establishment of high-resolution earth observation systems and national space infrastructure, China\'s observation capacity has been increasingly improved.At the same time, as the founding member and co-chair of GEO, China is pushing for the open sharing of earth observation data and the provision of relevant global information products and services to the world within the GEO framework.',
+  'To meet the change of global ecological environment monitoring and actively respond to the needs of the global change, promote the construction of ecological civilization in our country to a new level, the ministry of science and technology, in accordance with the "department coordination, integration, data sharing, achievements, international cooperation," the basic train of thought, launched in 2012, the global ecological environment of remote sensing monitoring of the annual report ".In May 2013, the ministry of science and technology officially released the 2012 annual report on global remote sensing monitoring of ecological environment to the public at home and abroad.For the first time in this field, authoritative data released by China has produced extensive and good influence at home and abroad, and is hailed as pioneering work.',
+  'Annual report work around the typical elements of global ecological environment, global ecological environment issues and the global hot spots this theme has released three categories, has formed the brand, deeply involved in the global scientific and technological innovation in China governance offers an effective way of information security, for governments, research institutions and international organizations to the environmental problems of research and provide a basis for the environmental policy, deepened the social public understanding of the global ecological environment, promoting the in-depth development of China\'s GEO work.This work can effectively give play to the leading role of science and technology, and drive various industries to form a comprehensive global earth observation capacity and practical application capacity, which is the substantial contribution of China\'s remote sensing science and technology community to solve the global ecological environment research institute.',
+  '2018 annual reports continue to adapt to the need of the major national and international social sustainable development, food security and the urgent needs of the global response to climate change, focus on all the way "\' area \'ecological environmental condition and situation", "global commodity grain and oil crops production situation" and "time and space distribution of the global carbon source" three special reports, to generate the first set of carbon satellite 2017 global chlorophyll fluorescence products in China and the world 30 m land cover data sets such as remote sensing data products, monitoring and analysis of the typical patterns, coastal zone along the "area" and the ecological environment present situation and the situation of the national park,This paper evaluates the impact of major project construction under the framework of "One Belt And One Road" on local economic development and ecological environment, discusses the spatial and temporal distribution pattern of carbon sources and carbon sinks and the driving mechanism of dynamic changes affecting the global and key regions, and analyzes and estimates the global production situation of bulk grain and oil crops in 2017-2018.The report and data set products can provide basic data and information support for promoting green "One Belt And One Road" construction, coping with global climate and environmental change, and maintaining the stability of global grain and oil trade and global food security.',
+  '"Remote sensing monitoring of the annual report of global ecological environment" is a long-term work, should actively face to the UN sustainable development goals in 2030 and China\'s "conspiracy to global ecological civilization construction, deeply involved in the global environment governance", around the "area" initiatives and the implementation of the "outline of national innovation driven development strategy, strengthen the top-level design and collaborative innovation, further strengthen the application of domestic satellite data and sharing, and constantly improve the international influence of the report, to promote the construction of human fate community, to build good earth\'s contribution to China\'s power and wisdom.'
+];
 /* eslint-enable max-len*/
 
 const reportDataSource = [
@@ -81,6 +101,7 @@ const reportDataSource = [
     ],
     subtitle: 'Arena',
     content: r2012,
+    content_en:r2018_en,
   },
   {
     key: '1',
@@ -137,6 +158,7 @@ const reportDataSource = [
     ],
     subtitle: 'Daggerfall',
     content: r2013,
+    content_en:r2018_en,
   },
   {
     key: '2',
@@ -193,6 +215,7 @@ const reportDataSource = [
     ],
     subtitle: 'Morrowind',
     content: r2012,
+    content_en:r2018_en,
   },
   {
     key: '3',
@@ -242,6 +265,7 @@ const reportDataSource = [
     ],
     subtitle: 'Oblivion',
     content: r2012,
+    content_en:r2018_en,
   },
   {
     key: '4',
@@ -285,6 +309,7 @@ const reportDataSource = [
     ],
     subtitle: 'Skyrim',
     content: r2012,
+    content_en:r2018_en,
   },
   {
     key: '5',
@@ -331,6 +356,7 @@ const reportDataSource = [
     ],
     subtitle: 'Skyrim',
     content: r2012,
+    content_en:r2018_en,
   },
   {
     key: '6',
@@ -385,24 +411,9 @@ const reportDataSource = [
       },
     ],
     subtitle: 'Skyrim',
-    content: r2012,
+    content: r2018_ch,
+    content_en:r2018_en,
   },
-  // {
-  //   date: '2019',
-  //   title: '2019 Annual Report',
-  //   linkedDataSets:[],
-  //   reportList:[
-  //     {imgSrc: p1_2, title: 'The Air We Breathe', time: 'May. 16, 2019', description: "Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.", id: 1},
-  //     {imgSrc: empty, title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD', time: 'April. 26, 2019', description: "Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.", id: 2},
-  //     {imgSrc: empty, title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase', time: 'April. 19, 2019', description: "The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release." ,id: 3},
-  //   ],
-  //   themeList:[
-  //     {imgSrc:p1_2,title_en:'陆地植被生长状况',title_ch:'陆地植被生长状况'},
-  //     {imgSrc:empty,title_en:'陆地水域面积分布状况',title_ch:'陆地植被生长状况'}
-  //   ],
-  //   subtitle: 'Skyrim',
-  //   content: r2012
-  // },
 ];
 
 export default reportDataSource;

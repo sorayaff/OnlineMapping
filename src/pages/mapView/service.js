@@ -62,8 +62,8 @@ export function getColormapList() {
     url: '/v1.0/api/colormap/custom',
     method: 'GET',
     headers:{
-      AccessKey:'d26c2762b29145e796b3ccdeb4668bd6',
-      SecretKey:'ef0588377a2f072527dfc107d7c52c87'
+      AccessKey:'b460dc394e47ed0da076eaaaf6e4b323',
+      SecretKey:'3bb4e9d41a080ff9439263b0939e4376'
     }
   });
 }
@@ -74,8 +74,8 @@ export function getColormapById(colormapId) {
     url: '/v1.0/api/colormap/custom/' + colormapId.colorMapId,
     method: 'GET',
     headers:{
-      AccessKey:'d26c2762b29145e796b3ccdeb4668bd6',
-      SecretKey:'ef0588377a2f072527dfc107d7c52c87'
+      AccessKey:'b460dc394e47ed0da076eaaaf6e4b323',
+      SecretKey:'3bb4e9d41a080ff9439263b0939e4376'
     }
   });
 }
@@ -86,8 +86,8 @@ export function getColormapPicById(colormapId) {
     url: '/v1.0/api/colormap/img/' + colormapId.colorMapId,
     method: 'GET',
     headers: {
-      AccessKey: 'd26c2762b29145e796b3ccdeb4668bd6',
-      SecretKey: 'ef0588377a2f072527dfc107d7c52c87'
+      AccessKey: 'b460dc394e47ed0da076eaaaf6e4b323',
+      SecretKey: '3bb4e9d41a080ff9439263b0939e4376'
     }
   });
 }
