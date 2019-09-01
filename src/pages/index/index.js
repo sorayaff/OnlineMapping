@@ -30,9 +30,7 @@ class Home extends React.Component {
       previous: 5,
       loadMore: false,
     };
-
     this.dates = reportDataSource.map((entry) => entry.date); //时间轴节点
-    console.log(getLocale());
   }
 
   componentDidMount() {

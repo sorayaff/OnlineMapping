@@ -43,6 +43,9 @@ export default {
     },
     setLayerColormap(state,{payload={}}){
       return {...state,layerColormap:payload}
+    },
+    clearState(state,{payload}){
+      return {...state,layerColormap:undefined}
     }
   },
   effects: {

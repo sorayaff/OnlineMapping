@@ -316,6 +316,12 @@ class DataTabs extends Component {
     this.setState({layerCheckedKeys:[key]})
   };
 
+  componentWillMount(){
+    this.props.dispatch({
+      type:'mapView/clearState'
+    })
+  };
+
   render() {
     const { visible, handleClose, mapView, fetchDataLoading = false } = this.props;
     const { selectedDataset = [], catalogThemeData, selectedYear, selectedTags ,layerPlayerVisible,datasetWithLayersForPlayer,layerCheckedKeys} = this.state;
@@ -365,7 +371,7 @@ class DataTabs extends Component {
                     loadData={this.loadCatalogTreeDataset}
                     autoExpandParent={true}
                     defaultExpandedKeys={[urlQuery.key]}
-                    defaultSelectedKeys={[urlQuery.key]}>
+                    selectedKeys={[urlQuery.key]}>
                 {renderCatalogTree(catalogThemeData)}
               </Tree>
             </Scrollbars>
