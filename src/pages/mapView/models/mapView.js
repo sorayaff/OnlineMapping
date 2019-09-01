@@ -88,8 +88,8 @@ export default {
     * fetchColormapPicById({ payload }, { put, call }) {
       const response = yield call(getColormapPicById, payload);
       console.log(response);
-      if (response) {
-        yield put({ type: 'setCurrentColormapPic', payload: response });
+      if (response.success) {
+        yield put({ type: 'setCurrentColormapPic', payload: response.data });
       }
     },
   },
