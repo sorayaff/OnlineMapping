@@ -99,7 +99,6 @@ cesiumMap.map.prototype = {
     let layer = viewer.imageryLayers.addImageryProvider(imgProvider);
     layer.key = key;
   },
-
   //添加切片服务
   addTmsMapLayer: function(attr) {
     const { key, url, layerName, alpha, dataType } = attr;
