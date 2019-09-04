@@ -1,8 +1,7 @@
 import React, { useState} from 'react';
 import Swiper from 'react-id-swiper';
 import 'react-id-swiper/lib/styles/css/swiper.css';
-import { WelcomeDataSource, ExhibitDataSource, LinksDataSource } from '@/assets/data.source';
-import ygzx_logo from '@/assets/home/ygzx_logo.png';
+import { ExhibitDataSource } from '@/assets/data.source';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import DatasetCard from '@/components/DatasetCard';
 import styles from '@/pages/index/index.less';

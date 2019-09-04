@@ -9,9 +9,9 @@ export default {
     tagList: undefined,                //数据标签
     urlQuery: undefined,
     colormapList: [],
-    currentColormap: undefined,
-    currentColormapPic:undefined,
-    layerColormap:undefined,
+    currentColormap: undefined,       //当前色带
+    currentColormapPic:undefined,     //当前色带图片
+    layerColormap:undefined,          //该图层对应色带
   },
   reducers: {
     setDataset(state, { payload = {} }) {
@@ -66,24 +66,28 @@ export default {
         yield put({ type: 'setTags', payload: tagsResponse.data.list });
       }
     },
+    //根据标签获取数据集列表
     * fetchDatasetByTags({ payload }, { put, call }) {
       const response = yield call(getDatasetByTags, payload);
       if (response.success) {
         yield put({ type: 'setDataset', payload: response.data });
       }
     },
+    //获取用户色带列表
     * fetchColormapList({ payload }, { put, call }) {
       const response = yield call(getColormapList, payload);
       if (response.success) {
         yield put({ type: 'setColormapList', payload: response.data });
       }
     },
+    //根据colorMapId查找相应色带
     * fetchColormapById({ payload }, { put, call }) {
       const response = yield call(getColormapById, payload);
       if (response.success) {
         yield put({ type: 'setCurrentColormap', payload: response.data });
       }
     },
+    //根据colorMapId查找相应色带图片
     * fetchColormapPicById({ payload }, { put, call }) {
       const response = yield call(getColormapPicById, payload);
       console.log(response);
@@ -91,6 +95,7 @@ export default {
         yield put({ type: 'setCurrentColormapPic', payload: response.data });
       }
     },
+    //根据图层名称查找相应色带的colorMapId
     *fetchColormapIdByLayerName({payload},{put,call}){
       const {layerName,key}=payload;
       console.log(payload)

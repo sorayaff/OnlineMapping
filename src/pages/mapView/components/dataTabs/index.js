@@ -41,7 +41,7 @@ class DataTabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      catalogThemeData: themeData,
+      catalogThemeData: themeData,      //每一年份的数据集列表
       selectedYear: undefined,
       selectedTags: undefined,          //已选择的标签集
       selectedDataset: undefined,       //选择的数据集

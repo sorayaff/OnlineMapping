@@ -1,5 +1,3 @@
-import p1_2 from '@/assets/news1/2.jpg';
-import empty from '@/assets/empty/empty.jpg';
 import img201201 from '@/assets/report/201201_zb.png';
 import img201202 from '@/assets/report/201202_sy.png';
 import img201301 from '@/assets/report/201301_zb.png';
@@ -59,29 +57,6 @@ const reportDataSource = [
     title_en: '2012 Annual Report',
     title_ch: '2012年度报告',
     linkedDataSets: [],
-    reportList: [
-      {
-        imgSrc: p1_2,
-        title: 'The Air We Breathe',
-        time: 'May. 16, 2019',
-        description: 'Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.',
-        id: 1,
-      },
-      {
-        imgSrc: empty,
-        title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD',
-        time: 'April. 26, 2019',
-        description: 'Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.',
-        id: 2,
-      },
-      {
-        imgSrc: empty,
-        title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase',
-        time: 'April. 19, 2019',
-        description: 'The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release.',
-        id: 3,
-      },
-    ],
     downLoadLink: {
       'unabridged_ch': 'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf',
     },
@@ -99,7 +74,6 @@ const reportDataSource = [
         title_ch: '陆表水域面积分布状况',
       },
     ],
-    subtitle: 'Arena',
     content: r2012,
     content_en:r2018_en,
   },
@@ -109,29 +83,6 @@ const reportDataSource = [
     title_en: '2013 Annual Report',
     title_ch: '2013年度报告',
     linkedDataSets: [],
-    reportList: [
-      {
-        imgSrc: p1_2,
-        title: 'The Air We Breathe',
-        time: 'May. 16, 2019',
-        description: 'Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.',
-        id: 1,
-      },
-      {
-        imgSrc: empty,
-        title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD',
-        time: 'April. 26, 2019',
-        description: 'Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.',
-        id: 2,
-      },
-      {
-        imgSrc: empty,
-        title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase',
-        time: 'April. 19, 2019',
-        description: 'The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release.',
-        id: 3,
-      },
-    ],
     downLoadLink: {
       'unabridged_ch': 'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf',
     },
@@ -156,7 +107,6 @@ const reportDataSource = [
         title_ch: '城乡建设用地分布状况',
       },
     ],
-    subtitle: 'Daggerfall',
     content: r2013,
     content_en:r2018_en,
   },
@@ -166,29 +116,6 @@ const reportDataSource = [
     title_en: '2014 Annual Report',
     title_ch: '2014年度报告',
     linkedDataSets: [],
-    reportList: [
-      {
-        imgSrc: img201401,
-        title: 'The Air We Breathe',
-        time: 'May. 16, 2019',
-        description: 'Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.',
-        id: 1,
-      },
-      {
-        imgSrc: empty,
-        title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD',
-        time: 'April. 26, 2019',
-        description: 'Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.',
-        id: 2,
-      },
-      {
-        imgSrc: empty,
-        title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase',
-        time: 'April. 19, 2019',
-        description: 'The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release.',
-        id: 3,
-      },
-    ],
     downLoadLink: {
       'unabridged_ch': 'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf',
     },
@@ -213,7 +140,6 @@ const reportDataSource = [
         title_ch: '中国-东盟区域生态环境状况',
       },
     ],
-    subtitle: 'Morrowind',
     content: r2012,
     content_en:r2018_en,
   },
@@ -223,29 +149,6 @@ const reportDataSource = [
     title_en: '2015 Annual Report',
     title_ch: '2015年度报告',
     linkedDataSets: [],
-    reportList: [
-      {
-        imgSrc: img201501,
-        title: 'The Air We Breathe',
-        time: 'May. 16, 2019',
-        description: 'Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.',
-        id: 1,
-      },
-      {
-        imgSrc: empty,
-        title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD',
-        time: 'April. 26, 2019',
-        description: 'Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.',
-        id: 2,
-      },
-      {
-        imgSrc: empty,
-        title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase',
-        time: 'April. 19, 2019',
-        description: 'The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release.',
-        id: 3,
-      },
-    ],
     downLoadLink: {
       'unabridged_ch': 'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf',
     },
@@ -263,7 +166,6 @@ const reportDataSource = [
         title_ch: '全球大宗粮油作物生产形势',
       },
     ],
-    subtitle: 'Oblivion',
     content: r2012,
     content_en:r2018_en,
   },
@@ -273,29 +175,6 @@ const reportDataSource = [
     title_en: '2016 Annual Report',
     title_ch: '2016年度报告',
     linkedDataSets: [],
-    reportList: [
-      {
-        imgSrc: p1_2,
-        title: 'The Air We Breathe',
-        time: 'May. 16, 2019',
-        description: 'Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.',
-        id: 1,
-      },
-      {
-        imgSrc: empty,
-        title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD',
-        time: 'April. 26, 2019',
-        description: 'Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.',
-        id: 2,
-      },
-      {
-        imgSrc: empty,
-        title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase',
-        time: 'April. 19, 2019',
-        description: 'The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release.',
-        id: 3,
-      },
-    ],
     downLoadLink: {
       'unabridged_ch': 'http://www.chinageoss.org/gee/2012/ldzbsczk.pdf',
     },
@@ -307,7 +186,6 @@ const reportDataSource = [
         title_ch: '全球大宗粮油作物生产形势',
       },
     ],
-    subtitle: 'Skyrim',
     content: r2012,
     content_en:r2018_en,
   },
@@ -317,29 +195,6 @@ const reportDataSource = [
     title_en: '2017 Annual Report',
     title_ch: '2017年度报告',
     linkedDataSets: [],
-    reportList: [
-      {
-        imgSrc: p1_2,
-        title: 'The Air We Breathe',
-        time: 'May. 16, 2019',
-        description: 'Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.',
-        id: 1,
-      },
-      {
-        imgSrc: empty,
-        title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD',
-        time: 'April. 26, 2019',
-        description: 'Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.',
-        id: 2,
-      },
-      {
-        imgSrc: empty,
-        title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase',
-        time: 'April. 19, 2019',
-        description: 'The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release.',
-        id: 3,
-      },
-    ],
     themeList: [
       {
         key: '5-0',
@@ -354,7 +209,6 @@ const reportDataSource = [
         title_ch: '全球典型重大灾害对植被的影响',
       },
     ],
-    subtitle: 'Skyrim',
     content: r2012,
     content_en:r2018_en,
   },
@@ -364,29 +218,6 @@ const reportDataSource = [
     title_en: '2018 Annual Report',
     title_ch: '2018年度报告',
     linkedDataSets: [],
-    reportList: [
-      {
-        imgSrc: p1_2,
-        title: 'The Air We Breathe',
-        time: 'May. 16, 2019',
-        description: 'Air pollution is a global environmental health problem, especially for those living in urban areas. Not only does it negatively impact our ecosystems, it considerably affects our health. According to the World Health Organization (WHO), around 8 million premature deaths per year are linked to air pollution, more than double of previous estimates.',
-        id: 1,
-      },
-      {
-        imgSrc: empty,
-        title: 'Prof. Li Guoqing Attended the GEO Data Technology Workshop on Behalf of IRCSD',
-        time: 'April. 26, 2019',
-        description: 'Prof. Li Guoqing Joined the Group on Earth Observations international data community in Vienna, Austria from 23-25 April 2019 for the GEO Data Technology Workshop.',
-        id: 2,
-      },
-      {
-        imgSrc: empty,
-        title: 'IBUKI-2 (GOSAT-2) Successful Launch and Completion of Critical Operations Phase',
-        time: 'April. 19, 2019',
-        description: 'The GOSAT-2 Project at the National Institute for Environmental Studies (NIES) announces that NIES has issued a press release.',
-        id: 3,
-      },
-    ],
     themeList: [
       {
         key: '6-0',
@@ -410,7 +241,6 @@ const reportDataSource = [
         tags: ['2018','TemporalDynamicsandSpatialDistributionGlobalCarbon'],
       },
     ],
-    subtitle: 'Skyrim',
     content: r2018_ch,
     content_en:r2018_en,
   },

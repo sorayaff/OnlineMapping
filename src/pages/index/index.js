@@ -7,7 +7,6 @@ import HeaderDropdown from '@/components/HeaderDropdown';
 import Link from 'umi/link';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import { connect } from 'dva';
-import { WelcomeDataSource, SatelliteDataSource, LinksDataSource } from '@/assets/data.source';
 import ygzx_logo from '@/assets/home/ygzx_logo.png';
 import reportDataSource from '@/assets/timeLineContent';
 import HorizontalTimeline from 'react-horizontal-timeline';
