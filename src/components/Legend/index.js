@@ -1,6 +1,6 @@
 import React, { PureComponent, useState, useEffect } from 'react';
 import DiscreteLegend from './DiscreteLegend';
-import ContinuousLegend from './ContinuousLegend'
+import ContinuousLegend from './ContinuousLegend';
 import { connect } from 'dva';
 import { Rnd } from 'react-rnd';
 
@@ -35,15 +35,17 @@ function Legend(props) {
 
   useEffect(() => {
     const { dispatch } = props;
-    dispatch({
-      type: 'mapView/fetchColormapById',
-      payload: {
-        colorMapId:colorMapId
-      },
-    });
-  },[colorMapId, props]);
+    if (props.colorMapId) {
+      dispatch({
+        type: 'mapView/fetchColormapById',
+        payload: {
+          colorMapId: props.colorMapId,
+        },
+      });
+    }
+  }, [props, props.colorMapId]);
 
-  if(colorbar){
+  if (colorbar) {
     return (
       <Rnd
         style={style}
@@ -67,13 +69,13 @@ function Legend(props) {
       </Rnd>
     );
   }
-  else{
-    return (<div/>)
+  else {
+    return (<div/>);
   }
 }
 
 export default connect(({ mapView }) => ({
-  currentColormap:mapView.currentColormap,
-  mapView
+  currentColormap: mapView.currentColormap,
+  mapView,
 }))(Legend);
 

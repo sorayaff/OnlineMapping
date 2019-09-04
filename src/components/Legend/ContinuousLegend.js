@@ -5,14 +5,14 @@ import { connect } from 'dva';
 
 function blobToDataURI(blob, callback) {
   let reader = new FileReader();
-  reader.onload = function (e) {
+  reader.onload = function(e) {
     callback(e.target.result);
   };
   reader.readAsDataURL(blob);
 }
 
 function ContinuousLegend(props) {
-  const [colorMapPic,setColorMapPic] = useState(null);
+  const [colorMapPic, setColorMapPic] = useState(null);
   const colorMapId = props.colorMapId;
   const colorbar = props.colorbar;
   const containerHeight = props.containerHeight;
@@ -20,10 +20,10 @@ function ContinuousLegend(props) {
   const colorbarHeight = containerHeight - 20;
 
   const picBlob = props.currentColormapPic;
-  if(picBlob){
-    blobToDataURI(picBlob,function(data) {
+  if (picBlob) {
+    blobToDataURI(picBlob, function(data) {
       setColorMapPic(data);
-    })
+    });
   }
 
   const colorbarPicStyle = {
@@ -33,13 +33,16 @@ function ContinuousLegend(props) {
 
   useEffect(() => {
     const { dispatch } = props;
-    dispatch({
-      type: 'mapView/fetchColormapPicById',
-      payload: {
-        colorMapId:colorMapId
-      },
-    });
-  },[colorMapId, props]);
+    const id = props.colorMapId;
+    if (id) {
+      dispatch({
+        type: 'mapView/fetchColormapPicById',
+        payload: {
+          colorMapId: id,
+        },
+      });
+    }
+  }, [props, props.colorMapId]);
 
   return (
     <div className={classNames(styles['legendContainer'])}>
@@ -57,6 +60,6 @@ function ContinuousLegend(props) {
 }
 
 export default connect(({ mapView }) => ({
-  currentColormapPic:mapView.currentColormapPic,
-  mapView
+  currentColormapPic: mapView.currentColormapPic,
+  mapView,
 }))(ContinuousLegend);
