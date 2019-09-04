@@ -32,17 +32,16 @@ function ContinuousLegend(props) {
   };
 
   useEffect(() => {
-    const { dispatch } = props;
     const id = props.colorMapId;
     if (id) {
-      dispatch({
+      props.dispatch({
         type: 'mapView/fetchColormapPicById',
         payload: {
           colorMapId: id,
         },
       });
     }
-  }, [props, props.colorMapId]);
+  }, [props.dispatch, props.colorMapId, props]);
 
   return (
     <div className={classNames(styles['legendContainer'])}>
