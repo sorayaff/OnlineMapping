@@ -1,12 +1,12 @@
 import React, { PureComponent, useState, useEffect } from 'react';
 import DiscreteLegend from './DiscreteLegend';
-import ContinuesLegend from './ContinuesLegend'
+import ContinuousLegend from './ContinuousLegend'
 import { connect } from 'dva';
 import { Rnd } from 'react-rnd';
 
 function Legend(props) {
-  const [width, setWidth] = useState(100);
-  const [height, setHeight] = useState(200);
+  const [width, setWidth] = useState(200);
+  const [height, setHeight] = useState(245);
   const [x, setX] = useState(1200);
   const [y, setY] = useState(450);
 
@@ -18,7 +18,7 @@ function Legend(props) {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    // border: 'solid 1px #ddd',
+    border: 'solid 1px #ddd',
     background: 'transparent',
   };
 
@@ -41,7 +41,6 @@ function Legend(props) {
         colorMapId:colorMapId
       },
     });
-
   },[colorMapId, props]);
 
   if(colorbar){
@@ -55,16 +54,16 @@ function Legend(props) {
           setY(d.y);
         }}
         onResizeStop={(e, direction, ref, delta, position) => {
-          // setHeight(ref.style.height);
-          // setWidth(ref.style.width);
-          // setX(position.x);
-          // setY(position.y);
+          setHeight(ref.style.height);
+          setWidth(ref.style.width);
+          setX(position.x);
+          setY(position.y);
         }}
-        enableResizing={Enable}
-        bounds='window'
+        // enableResizing={Enable}
+        bounds='body'
       >
         {colorbar.type === 'discrete' ? <DiscreteLegend colorbar={colorbar}/> :
-          <ContinuesLegend colorbar={colorbar} containerHeight={height} colorMapId={colorMapId}/>}
+          <ContinuousLegend colorbar={colorbar} containerHeight={height} colorMapId={colorMapId}/>}
       </Rnd>
     );
   }

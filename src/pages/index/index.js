@@ -125,14 +125,15 @@ class Home extends React.Component {
         </div>
       );
 
+      const containerStyle = local === 'zh-CN' ? {height:700} : {height:850};
+
       return (
-        <div className='container' key={index}>
+        <div className='container' style={containerStyle} key={index}>
           <h1 style={{ textAlign: 'center' }}>{report.date + formatMessage({ id: 'index.annualReport' })}</h1>
           <hr/>
           {xuyan}
           <ThemeCardList year={report.date} dataSource={report.themeList}/>
           {/*<ReportPreviewList dataSource={report.reportList}/>*/}
-          <hr/>
         </div>
       );
     });
