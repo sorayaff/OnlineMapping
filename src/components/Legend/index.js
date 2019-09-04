@@ -43,7 +43,8 @@ function Legend(props) {
         colorMapId:colorMapId
       },
     });
-  },[colorMapId, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[colorMapId]);
 
 
   if(colorbar){

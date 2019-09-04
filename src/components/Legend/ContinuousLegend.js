@@ -39,7 +39,8 @@ function ContinuousLegend(props) {
         colorMapId:colorMapId
       },
     });
-  },[colorMapId, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[colorMapId]);
 
   return (
     <div className={classNames(styles['legendContainer'])}>
