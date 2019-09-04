@@ -9,6 +9,7 @@ function Legend(props) {
   const [height, setHeight] = useState(245);
   const [x, setX] = useState(1200);
   const [y, setY] = useState(450);
+  const { dispatch } = props;
 
   const colorMapId = props.colorMapId || '34ac9adc-80b9-46c1-980a-716c0988bfe3';
 
@@ -33,15 +34,17 @@ function Legend(props) {
     topRight: false,
   };
 
-  useEffect(() => {
-    const { dispatch } = props;
+
+
+  useEffect(()=> {
     dispatch({
       type: 'mapView/fetchColormapById',
       payload: {
         colorMapId:colorMapId
       },
     });
-  },[colorMapId, props]);
+  },[colorMapId, dispatch]);
+
 
   if(colorbar){
     return (

@@ -12,6 +12,7 @@ function blobToDataURI(blob, callback) {
 }
 
 function ContinuousLegend(props) {
+  const { dispatch } = props;
   const [colorMapPic,setColorMapPic] = useState(null);
   const colorMapId = props.colorMapId;
   const colorbar = props.colorbar;
@@ -32,14 +33,13 @@ function ContinuousLegend(props) {
   };
 
   useEffect(() => {
-    const { dispatch } = props;
     dispatch({
       type: 'mapView/fetchColormapPicById',
       payload: {
         colorMapId:colorMapId
       },
     });
-  },[colorMapId, props]);
+  },[colorMapId, dispatch]);
 
   return (
     <div className={classNames(styles['legendContainer'])}>
