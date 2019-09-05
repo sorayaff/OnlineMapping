@@ -9,6 +9,72 @@
   margin: 0px auto;;
   padding: 12px 24px;
 
+  .home__main__welcomeCard {
+    background-color: @cardBackgroundColor;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: @boxShadow;
+
+    .banner {
+      height: 200px
+    }
+
+    .title {
+      position: absolute;
+      right: 5%;
+      top: 300px;
+      font-size: 40px;
+      width: 300px;
+      color: #fff;
+    }
+
+    .title__box {
+      position: relative;
+      //font-size: 50px;
+      color: #ffffff;
+      padding-left: 0px;
+      font-weight: bold;
+      background-image: url("../../assets/home/topdtbg.png"),linear-gradient(rgba(26, 86, 197), rgba(186, 220, 248));
+      height: 320px;
+      text-align: right;
+      line-height: 65px;
+      border-style: none none solid none;
+      border-width: 0px;
+
+      .web_logo_container {
+        position: absolute;
+        left: 30px;
+      }
+    }
+
+    .belong__box {
+      font-size: 40px;
+      color: #ffffff;
+      padding-left: 0px;
+      font-weight: bold;
+      background-color: #78dbff;
+      height: 300px;
+      text-align: left;
+      line-height: 70px;
+      border-style: none none solid none;
+      border-width: 0px;
+    }
+
+    .text__box {
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin: 10px 0 5px 0;
+      text-align: justify;
+    }
+
+    .touxiang {
+      margin: 15px 2.5% 15px;
+      height: 100px;
+      width: 95%;
+      box-shadow: @boxShadow;
+    }
+  }
+
   :global {
     .ant-list-vertical .ant-list-item-action {
       text-align: right;
@@ -84,66 +150,7 @@
   display: none;
 }
 
-.home__main__welcomeCard {
-  background-color: @cardBackgroundColor;
-  border-radius: 5px;
-  padding: 5px;
-  box-shadow: @boxShadow;
 
-  .banner {
-    height: 200px
-  }
-
-  .title {
-    position: absolute;
-    right: 5%;
-    top: 300px;
-    font-size: 40px;
-    width: 300px;
-    color: #fff;
-  }
-
-  .title__box {
-    position: relative;
-    //font-size: 50px;
-    color: #ffffff;
-    padding-left: 0px;
-    font-weight: bold;
-    background-image: url("../../assets/home/topdtbg.png"),linear-gradient(rgba(26, 86, 197), rgba(186, 220, 248));
-    height: 320px;
-    text-align: right;
-    line-height: 65px;
-    border-style: none none solid none;
-    border-width: 0px;
-  }
-
-  .belong__box {
-    font-size: 40px;
-    color: #ffffff;
-    padding-left: 0px;
-    font-weight: bold;
-    background-color: #78dbff;
-    height: 300px;
-    text-align: left;
-    line-height: 70px;
-    border-style: none none solid none;
-    border-width: 0px;
-  }
-
-  .text__box {
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin: 10px 0 5px 0;
-    text-align: justify;
-  }
-
-  .touxiang {
-    margin: 15px 2.5% 15px;
-    height: 100px;
-    width: 95%;
-    box-shadow: @boxShadow;
-  }
-}
 
 .home__main__datasetTag {
   margin: @cardMargin 0;

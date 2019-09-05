@@ -169,12 +169,10 @@ class Home extends React.Component {
               <div className={styles.selectLang}>
                 <SelectLang/>
               </div>
-
               {/*网站logo*/}
-              <span style={{ position: 'absolute', left: '30px' }}>
+              <span className={styles.web_logo_container}>
                 <img src={ygzx_logo}/>
               </span>
-
               {/*网站title*/}
               {local === 'en-US' ?
                 <span style={{ top: 120, position: 'absolute', right: 30, width: 1000, fontSize:42 }}>
