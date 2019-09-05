@@ -13,4 +13,5 @@ export default {
   'mapView.dataTree.legend': '图例',
   'mapView.layer.play.stop': '停止',
   'mapView.layer.play.start': '播放',
+  'mapView.tree.node.title.bigData': '数据量过大，建议使用播放功能',
 };

@@ -209,7 +209,7 @@ class DataTabs extends Component {
                        </div>
                        }
                        dataRef={item}>
-        {item.datasetLayers && item.datasetLayers.layers.map((layer) => {
+        {item.datasetLayers && (item.datasetLayers.layers.length < 100 ? item.datasetLayers.layers.map((layer) => {
           return (
             <TreeNode selectable={false}
                       title={<span className={styles.tab3_parent_node}>
@@ -230,7 +230,11 @@ class DataTabs extends Component {
                       isLeaf={true}
             />
           );
-        })}
+        }) : <TreeNode selectable={false}
+                       title={<FormattedMessage id="mapView.tree.node.title.bigData"/> }
+                       key={`${item.key}-0`}
+                       isLeaf={true}
+                       checkable={false}/>)}
       </TreeNode>;
     });
 
@@ -263,6 +267,7 @@ class DataTabs extends Component {
         console.log('no select');
     }
   };
+
 //移除图层，如果有layerPlayer也移除,同时移除已经展示的图层
   removeDataset = (dataset) => {
     let { selectedDataset, datasetWithLayersForPlayer } = this.state;
