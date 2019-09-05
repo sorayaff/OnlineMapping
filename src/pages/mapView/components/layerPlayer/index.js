@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.less';
-import { Icon, Slider, Empty, Button } from 'antd';
+import { Icon, Slider, Empty, Button, Pagination } from 'antd';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import { Rnd } from 'react-rnd';
 import moment from 'moment';
@@ -15,12 +15,13 @@ export default class LayerSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 400,
-      height: 280,
-      positionX: clientWidth - 500,
+      width: 450,
+      height: 250,
+      positionX: clientWidth - 550,
       positionY: 10,
       sliderValue: 0,
       isPlay: false,
+      pageIndex: 0,
     };
   }
 
@@ -49,44 +50,53 @@ export default class LayerSlider extends React.Component {
   };
 
   handleSliderChange = (value) => {
-    this.setState({ sliderValue: value, isPlay: false });
+    this.setState({ sliderValue: value });
     this.stopPlayer();
     this.sliderValueChange(value);
   };
 
   sliderValueChange = (value) => {
     const { datasetWithLayers, onSliderChange } = this.props;
-    let layer = datasetWithLayers.layers[value];
+    const { pageIndex } = this.state;
+    let index = pageIndex * 10 + value;
+    let layer = datasetWithLayers.layers[index];
     cesium_map.addLayer(layer, false);
     if (onSliderChange) {
       onSliderChange(layer);
     }
   };
 
-  playLayer = (data) => {
+  playLayer = () => {
     this.setState({ isPlay: true });
-    let layers = data.layers;
+    const { datasetWithLayers } = this.props;
+    let layers = datasetWithLayers.layers;
     let length = layers.length;
     this.sliderValueChange(this.state.sliderValue);
     this.player = setInterval(() => {
-      const { sliderValue } = this.state;
-      let newSldierValue;
-      if (sliderValue < length - 1) {
-        newSldierValue = sliderValue + 1;
-        this.setState({ sliderValue: newSldierValue });
-        this.sliderValueChange(newSldierValue);
-      } else {
+      const { sliderValue, pageIndex } = this.state;
+      if (pageIndex * 10 + sliderValue < length - 1) {  //未到达所有图层右边界
+        if (sliderValue < 9) {
+          let newSliderValue = sliderValue + 1;
+          this.sliderValueChange(newSliderValue);
+          this.setState({ sliderValue: newSliderValue });
+        } else {
+          this.sliderValueChange(0);
+          if ((pageIndex + 1) * 10 < length) {     //如果下一页存在，pageIndex+1
+            this.setState({ pageIndex: pageIndex + 1, sliderValue: 0 });
+          } else {
+            this.setState({ pageIndex: 0, sliderValue: 0 });
+          }
+        }
+      } else {                                    //到达所有图层右边界
         this.sliderValueChange(0);
-        this.setState({ sliderValue: 0 });
+        this.setState({ sliderValue: 0, pageIndex: 0 });
       }
     }, this.interval);
   };
 
   stopPlayer = () => {
-    if (this.state.isPlay) {
-      this.setState({ isPlay: false });
-      clearInterval(this.player);
-    }
+    this.setState({ isPlay: false });
+    clearInterval(this.player);
   };
 
   handleSliderRef = (n) => {
@@ -97,50 +107,86 @@ export default class LayerSlider extends React.Component {
     clearInterval(this.player);
   }
 
+  resetPageIndex = (value) => {
+    this.setState({ pageIndex: value });
+  };
+
+  renderSlider = (data) => {
+    const { pageIndex, sliderValue } = this.state;
+    if (data.layers) {
+      const allCount = data.layers.length;
+      const transDimension = (value) => {
+        if (isTimeDimension) {
+          let unixTime = moment(value).valueOf();
+          return moment(unixTime).format('YYYY-MM-DD');
+        } else
+          return value;
+      };
+      let startKey = pageIndex * 10;
+      let endKey;
+      if ((pageIndex + 1) * 10 >= allCount) {
+        endKey = pageIndex * 10 + allCount % 10;
+      } else {
+        endKey = (pageIndex + 1) * 10;
+      }
+      const layers = data.layers.slice(startKey, endKey);
+      const isTimeDimension = data.layerDimension && data.layerDimension.type.toLowerCase() === 'timestamp';
+      const length = layers.length;
+      let marks = {};
+      for (let i = 0; i < length; i++) {
+        marks[i] = {
+          style: { width: '40px', color: '#ddd' },
+          label: transDimension(layers[i].dimensionValue),
+        };
+      }
+      return <div className={styles.slider_box}>
+        <div className={styles.icon_wrapper}>
+          {pageIndex > 0 ? (
+            <Icon className={styles.slider_box_icon_click}
+                  type="left-circle"
+                  style={{ left: 0 }}
+                  theme="filled"
+                  onClick={() => this.resetPageIndex(pageIndex - 1)}
+            />
+          ) : null}
+          {isTimeDimension ?
+            <Slider min={0}
+                    max={endKey - startKey - 1}
+                    value={sliderValue}
+                    step={1}
+                    marks={marks}
+                    included={false}
+                    ref={(node) => this.handleSliderRef(node)}
+                    onChange={this.handleSliderChange}
+                    tipFormatter={(index) => transDimension(layers[index].dimensionValue)}/> :
+            <Slider min={0} max={length - 1} step={1} onChange={this.handleSliderChange}
+                    tipFormatter={(index) => layers[index].dimensionValue || index}/>}
+          {(pageIndex + 1) * 10 < allCount ? (
+            <Icon className={styles.slider_box_icon_click}
+                  style={{ right: 0 }}
+                  type="right-circle"
+                  theme="filled"
+                  onClick={() => this.resetPageIndex(pageIndex + 1)}
+            />
+          ) : null}
+        </div>
+      </div>;
+    }
+    else {
+      return <div className={styles.slider_box}>
+        <Empty/>
+      </div>;
+    }
+  };
+
+  handelPaginationChange = (page, pageSize) => {
+    this.setState({ pageIndex: page - 1 });
+    this.handleSliderChange(0);
+  };
+
   render() {
     const { handleClose, datasetWithLayers = {} } = this.props;
-    const { width, height, positionX, positionY, sliderValue, isPlay } = this.state;
-    const renderSlider = (data) => {
-      const isTimeDimension = data.layerDimension && data.layerDimension.type.toLowerCase() === 'timestamp';
-      const layers = data.layers;
-      const length = layers.length;
-      if (isTimeDimension) {
-        if (length > 1) {
-          const marks = {
-            0: {
-              style: { width: '40px', color: '#ddd' },
-              label: layers[0].dimensionValue,
-            },
-            [length - 1]:
-              {
-                style: { width: '40px', color: '#ddd' },
-                label: layers[length - 1].dimensionValue,
-              },
-          };
-          return <div className={styles.slider_box}>
-            {length > 0 ? <Slider min={0}
-                                  max={length - 1}
-                                  value={sliderValue}
-                                  step={1}
-                                  marks={marks}
-                                  ref={(node) => this.handleSliderRef(node)}
-                                  onChange={this.handleSliderChange}
-                                  tipFormatter={(index) => {
-                                    let unixTime = moment(layers[index].dimensionValue).valueOf();
-                                    return moment(unixTime).format('YYYY-MM-DD');
-                                  }
-                                  }/> : <Empty/>}
-
-          </div>;
-        }
-      }
-      else {
-        return <div className={styles.slider_box}>
-          <Slider min={0} max={length - 1} step={1} onChange={this.handleSliderChange}
-                  tipFormatter={(index) => layers[index].dimensionValue || index}/>
-        </div>;
-      }
-    };
+    const { width, height, positionX, positionY, sliderValue, isPlay, pageIndex } = this.state;
     const Enable = {
       bottom: true,
       bottomLeft: false,
@@ -151,7 +197,12 @@ export default class LayerSlider extends React.Component {
       topLeft: false,
       topRight: false,
     };
-    const focusLayer = datasetWithLayers.layers[sliderValue];
+    let allCount = 0;
+    let focusLayer = null;
+    if (datasetWithLayers.layers) {
+      allCount = datasetWithLayers.layers.length;
+      focusLayer = datasetWithLayers.layers[pageIndex + sliderValue];
+    }
 
     return <Rnd size={{ width: width, height: height }}
                 position={{ x: positionX, y: positionY }}
@@ -180,11 +231,22 @@ export default class LayerSlider extends React.Component {
           <div>
             <label>{formatMessage({ id: 'mapView.timePlayer.layer.name' })}</label> &nbsp;:&nbsp;{focusLayer ? focusLayer.layerName : ''}
           </div>
-          {renderSlider(datasetWithLayers)}
+          {this.renderSlider(datasetWithLayers)}
+          <div className={styles.pagination_box}>
+            <Pagination simple
+                        defaultCurrent={1}
+                        total={allCount}
+                        defaultPageSize={10}
+                        current={pageIndex + 1}
+                        onChange={this.handelPaginationChange}
+            />
+          </div>
         </div>
         <div className={styles.footer}>
-          {isPlay ? <Button className={styles.play_control_btn} onClick={() => this.stopPlayer()}>{formatMessage({ id: 'mapView.layer.play.stop' })}</Button> :
-            <Button className={styles.play_control_btn} onClick={() => this.playLayer(datasetWithLayers)}>{formatMessage({ id: 'mapView.layer.play.start' })}</Button>
+          {isPlay ? <Button className={styles.play_control_btn}
+                            onClick={() => this.stopPlayer()}>{formatMessage({ id: 'mapView.layer.play.stop' })}</Button> :
+            <Button className={styles.play_control_btn}
+                    onClick={() => this.playLayer()}>{formatMessage({ id: 'mapView.layer.play.start' })}</Button>
           }
         </div>
       </div>

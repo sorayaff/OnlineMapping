@@ -35,12 +35,6 @@ class MapView extends Component {
     this.setState({ panelVisible: true });
   };
 
-  closeLayerPlayer = () => {
-    this.props.dispatch({
-      type: 'mapView/closeLayerPlayer',
-    });
-  };
-
   render() {
     const { panelVisible } = this.state;
     return (

@@ -13,4 +13,5 @@ export default {
   'mapView.dataTree.legend': 'legend',
   'mapView.layer.play.stop': 'stop play',
   'mapView.layer.play.start': 'start play',
+  'mapView.tree.node.title.bigData': 'length of layers too large, suggest user try \'Player\' function',
 };

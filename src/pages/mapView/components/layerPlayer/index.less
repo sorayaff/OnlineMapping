@@ -28,17 +28,47 @@
     margin: auto;
   }
   .content {
+    position: relative;
     color: @content-color;
     padding: 10px;
     .slider_box {
-      width: 90%;
-      margin: 5px auto;
-      padding: 5px 5px;
+      //width: 100%;
+      .icon_wrapper {
+        position: relative;
+        padding: 0 30px;
+        :global {
+          .anticon {
+            position: absolute;
+            top: -2px;
+            width: 16px;
+            height: 16px;
+            line-height: 1;
+            font-size: 19px;
+          }
+        }
+      }
+      .slider_box_icon_click {
+        &:hover {
+          color: #40a9ff;
+        }
+      }
+    }
+    .pagination_box {
+      margin-top: 30px;
+      position: absolute;
+      right: 20px;
+      :global{
+        .ant-pagination-simple-pager {
+          font-size: 18px;
+          font-weight: 400 !important;
+          color: #40a9ff;
+        }
+      }
     }
   }
-  .footer{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+
+  .footer {
+    margin : 20px 0 0 20px;
+    float:left;
   }
 }
