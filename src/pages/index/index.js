@@ -95,30 +95,14 @@ class Home extends React.Component {
       const xuyan = loadMore ? (
         <div>
           {xuyan2.map((item) => <p style={{ fontSize: '16px' }}>{item}<br/></p>)}
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: 12,
-              marginBottom: 25,
-              height: 32,
-              lineHeight: '32px',
-            }}
-          >
+          <div className={styles.report_intro_button_container}>
             <Button onClick={this.handlePackUp}><FormattedMessage id='index.packUp'/></Button>
           </div>
         </div>
       ) : (
         <div>
           {xuyan1.map((item) => <p style={{ fontSize: '16px' }}>{item}<br/></p>)}
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: 12,
-              marginBottom: 25,
-              height: 32,
-              lineHeight: '32px',
-            }}
-          >
+          <div className={styles.report_intro_button_container}>
             <Button onClick={this.handleLoadMore}><FormattedMessage id='index.loadMore'/></Button>
           </div>
         </div>
@@ -188,7 +172,7 @@ class Home extends React.Component {
           </div>
 
           {/*年报部分*/}
-          <div style={{ width: '90%', height: '100px', margin: '20px auto auto' }}>
+          <div className={styles.report_timeline_selector}>
             <HorizontalTimeline
               index={this.state.value}
               minEventPadding={50}

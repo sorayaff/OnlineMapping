@@ -1,8 +1,7 @@
 import React from 'react'
 import {Button,Menu,Dropdown,Icon} from 'antd';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Row, Col } from 'react-flexbox-grid';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
-import Link from 'umi/link';
 import router from 'umi/router';
 import styles from './index.less'
 
@@ -42,12 +41,12 @@ function ThemeCard({year,data}) {
   );
   const theme = local === 'en-US' ? data.title_en : data.title_ch;
   return (
-    <div style={{padding:'5px',height:'350px',position:'relative'}}>
-      <div style={{padding:'5px',fontSize:'18px',textAlign:'center'}}>
-        <img src={data.imgSrc} style={{width:'100%',maxWidth:600}}/>
+    <div className={styles.report_theme_list}>
+      <div className={styles.image_container}>
+        <img className={styles.theme_image}/>
       </div>
-      <div style={{fontSize:'18px',textAlign:'center'}}>
-        <p style={{fontWeight:'bold'}}>{theme}</p>
+      <div className={styles.theme_name_container}>
+        <p className={styles.theme_name}>{theme}</p>
       </div>
       <div className={styles.downloadArea}>
         <Button type="primary" icon='eye' ghost onClick={() => handleViewData(data)}>

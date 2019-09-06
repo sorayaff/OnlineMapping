@@ -9,6 +9,108 @@
   margin: 0px auto;;
   padding: 12px 24px;
 
+  .homeLogin {
+    float: right;
+    position: relative;
+    right: 30px;
+
+    & a {
+      color: #fff;
+    }
+
+    & a:hover {
+      color: #40a9ff;
+    }
+
+    .action {
+      display: inline-block;
+      height: 100%;
+      padding: 0 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      > i {
+        color: #f3f5f8;
+        vertical-align: middle;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    .account {
+      .avatar {
+        margin: 12px 0 2px 0;
+        vertical-align: top;
+        background: rgba(255, 255, 255, 0.85);
+      }
+    }
+
+    .name {
+      display: none;
+    }
+  }
+
+  .home__main__webInfo {
+    margin: @cardMargin 0;
+    background-color: @cardBackgroundColor;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: @boxShadow;
+
+    .webInfo__title__box {
+      font-size: 20px;
+      color: @titleColor;
+      padding-left: 10px;
+      background-color: @titleBackgroundColor;
+      height: 40px;
+      line-height: 40px;
+      font-weight: bold;
+      border-style: none none solid none;
+      border-width: 1px;
+    }
+
+    .webInfo__content__box {
+      .info_listItem {
+        display: flex;
+        margin: 5px;
+        height: auto;
+        position: relative;
+        align-items: center;
+      }
+
+      .info_icon {
+        width: 40%;
+        font-size: 90px;
+        margin: 5px
+      }
+
+      .info_box {
+        width: 60%;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .info_value {
+        font-size: 22px;
+        color: #1E71A2;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .selectLang {
+        float: right;
+        position: absolute;
+        right: 150px;
+        top: 0;
+      }
+
+    }
+  }
+
   .home__main__welcomeCard {
     background-color: @cardBackgroundColor;
     border-radius: 5px;
@@ -34,7 +136,7 @@
       color: #ffffff;
       padding-left: 0px;
       font-weight: bold;
-      background-image: url("../../assets/home/topdtbg.png"),linear-gradient(rgba(26, 86, 197), rgba(186, 220, 248));
+      background-image: url("../../assets/home/topdtbg.png"), linear-gradient(rgba(26, 86, 197), rgba(186, 220, 248));
       height: 320px;
       text-align: right;
       line-height: 65px;
@@ -72,6 +174,57 @@
       height: 100px;
       width: 95%;
       box-shadow: @boxShadow;
+    }
+  }
+
+  .report_timeline_selector {
+    width: 90%;
+    height: 100px;
+    margin: 20px auto auto;
+  }
+
+  .report_intro_button_container {
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 25px;
+    height: 32px;
+    line-height: 32px;
+  }
+
+
+  .home__main__datasetTag {
+    margin: @cardMargin 0;
+  }
+
+  .report_theme_list {
+    padding: 5px;
+    height: 350px;
+    position: relative;
+
+    .image_container {
+      padding: 5px;
+      font-size: 18px;
+      text-align: center;
+
+      .theme_image {
+        width: 100%;
+        max-width: 600px;
+      }
+    }
+
+    .theme_name_container {
+      font-size: 18px;
+      text-align: center;
+
+      .theme_name {
+        font-weight: bold;
+      }
+    }
+
+    .downloadArea {
+      position: relative;
+      text-align: center;
+      margin: auto;
     }
   }
 
@@ -114,97 +267,8 @@
   }
 }
 
-.selectLang {
-  float: right;
-  position: absolute;
-  right: 150px;
-  top: 0;
-}
+.user {
 
-.action {
-  display: inline-block;
-  height: 100%;
-  padding: 0 12px;
-  cursor: pointer;
-  transition: all 0.3s;
-  > i {
-    color: #f3f5f8;
-    vertical-align: middle;
-  }
-  &:hover {
-    background: rgba(255,255,255,0.4);
-  }
-}
-.user{
-
-}
-
-.account {
-  .avatar {
-    margin: 12px 0 2px 0;
-    vertical-align: top;
-    background: rgba(255, 255, 255, 0.85);
-  }
-}
-.name{
-  display: none;
-}
-
-
-
-.home__main__datasetTag {
-  margin: @cardMargin 0;
-}
-
-.home__main__webInfo {
-  margin: @cardMargin 0;
-  background-color: @cardBackgroundColor;
-  border-radius: 5px;
-  padding: 5px;
-  box-shadow: @boxShadow;
-
-  .webInfo__title__box {
-    font-size: 20px;
-    color: @titleColor;
-    padding-left: 10px;
-    background-color: @titleBackgroundColor;
-    height: 40px;
-    line-height: 40px;
-    font-weight: bold;
-    border-style: none none solid none;
-    border-width: 1px;
-  }
-
-  .webInfo__content__box {
-    .info_listItem {
-      display: flex;
-      margin: 5px;
-      height: auto;
-      position: relative;
-      align-items: center;
-    }
-
-    .info_icon {
-      width: 40%;
-      font-size: 90px;
-      margin: 5px
-    }
-
-    .info_box {
-      width: 60%;
-      margin: 20px 0;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .info_value {
-      font-size: 22px;
-      color: #1E71A2;
-      font-weight: bold;
-      text-align: center;
-    }
-  }
 }
 
 .home_footer {
@@ -218,22 +282,7 @@
   padding: 25px;
 }
 
-.downloadArea {
-  position: relative;
-  text-align: center;
-  margin: auto;
-}
-.homeLogin{
-  float: right;
-  position: relative;
-  right: 30px;
-  &  a {
-    color: #fff;
-  }
-  &  a:hover {
-    color: #40a9ff;
-  }
-}
+
 @media screen and (min-width: 980px)and(max-width: 1400px ) {
   .info_box {
     font-size: 14px !important;
