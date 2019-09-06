@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.less';
-import { Icon, Slider, Empty, Button, Pagination } from 'antd';
+import { Icon, Slider, Empty, Button, Pagination,DatePicker   } from 'antd';
 import { formatMessage, setLocale, getLocale, FormattedMessage } from 'umi/locale';
 import { Rnd } from 'react-rnd';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import cesiumMap from '@/components/TDMap/oc.cesium';
 
 const clientWidth = document.body.clientWidth;
 const cesium_map = new cesiumMap.map();
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 export default class LayerSlider extends React.Component {
   interval = 4000;
@@ -22,7 +23,18 @@ export default class LayerSlider extends React.Component {
       sliderValue: 0,
       isPlay: false,
       pageIndex: 0,
+      layerMonths:[],
     };
+
+  }
+
+  componentDidMount() {
+    let layers = this.props.datasetWithLayers.layers;
+    let layerMonths = [];
+    layers.map(item => layerMonths.push(this.transDimension(item.dimensionValue)))
+    this.setState({
+      layerMonths:layerMonths
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,11 +44,34 @@ export default class LayerSlider extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.datasetWithLayers !== this.props.datasetWithLayers) {
+      let layers = this.props.datasetWithLayers.layers;
+      let layerMonths = [];
+      layers.map(item => layerMonths.push(this.transDimension(item.dimensionValue)))
+      this.setState({
+        layerMonths:layerMonths
+      })
+    }
+    console.log(this.state.layerMonths)
+  }
+
   handleDragStop = (e, node) => {
     this.setState({
       positionX: node.x,
       positionY: node.y,
     });
+  };
+
+  handleMonthPicker = (date,dateString) => {
+    let formatDate = date.format('YYYY-MM');
+    const {layerMonths} = this.state;
+    let index = layerMonths.indexOf(formatDate);
+    console.log('找到了',layerMonths.indexOf(formatDate));
+    if(index>0){
+      const pageIndex = Math.round(index/10);
+      this.resetPageIndex(pageIndex);
+    }
   };
 
   handleDrag = (e) => {
@@ -111,17 +146,15 @@ export default class LayerSlider extends React.Component {
     this.setState({ pageIndex: value });
   };
 
+  transDimension = (value) => {
+      let unixTime = moment(value).valueOf();
+      return moment(unixTime).format('YYYY-MM');
+  };
+
   renderSlider = (data) => {
     const { pageIndex, sliderValue } = this.state;
     if (data.layers) {
       const allCount = data.layers.length;
-      const transDimension = (value) => {
-        if (isTimeDimension) {
-          let unixTime = moment(value).valueOf();
-          return moment(unixTime).format('YYYY-MM-DD');
-        } else
-          return value;
-      };
       let startKey = pageIndex * 10;
       let endKey;
       if ((pageIndex + 1) * 10 >= allCount) {
@@ -133,12 +166,17 @@ export default class LayerSlider extends React.Component {
       const isTimeDimension = data.layerDimension && data.layerDimension.type.toLowerCase() === 'timestamp';
       const length = layers.length;
       let marks = {};
+      // let layerMonths = [];
       for (let i = 0; i < length; i++) {
         marks[i] = {
           style: { width: '40px', color: '#ddd' },
-          label: transDimension(layers[i].dimensionValue),
+          label: this.transDimension(layers[i].dimensionValue),
         };
+        // layerMonths.push(this.transDimension(layers[i].dimensionValue));
       }
+      // this.setState({
+      //   layerMonths:layerMonths
+      // });
       return <div className={styles.slider_box}>
         <div className={styles.icon_wrapper}>
           {pageIndex > 0 ? (
@@ -158,7 +196,7 @@ export default class LayerSlider extends React.Component {
                     included={false}
                     ref={(node) => this.handleSliderRef(node)}
                     onChange={this.handleSliderChange}
-                    tipFormatter={(index) => transDimension(layers[index].dimensionValue)}/> :
+                    tipFormatter={(index) => this.transDimension(layers[index].dimensionValue)}/> :
             <Slider min={0} max={length - 1} step={1} onChange={this.handleSliderChange}
                     tipFormatter={(index) => layers[index].dimensionValue || index}/>}
           {(pageIndex + 1) * 10 < allCount ? (
@@ -241,6 +279,9 @@ export default class LayerSlider extends React.Component {
                         onChange={this.handelPaginationChange}
             />
           </div>
+        </div>
+        <div>
+          <MonthPicker onChange={this.handleMonthPicker} placeholder="Select month" />
         </div>
         <div className={styles.footer}>
           {isPlay ? <Button className={styles.play_control_btn}
