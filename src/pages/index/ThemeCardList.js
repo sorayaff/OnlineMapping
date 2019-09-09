@@ -43,7 +43,7 @@ function ThemeCard({year,data}) {
   return (
     <div className={styles.report_theme_list}>
       <div className={styles.image_container}>
-        <img className={styles.theme_image}/>
+        <img src={data.imgSrc} className={styles.theme_image}/>
       </div>
       <div className={styles.theme_name_container}>
         <p className={styles.theme_name}>{theme}</p>

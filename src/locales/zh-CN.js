@@ -17,4 +17,5 @@ export default {
   'index.packUp': '收起',
   'index.annualReport': '年度报告',
   'navBar.lang': '语言',
+  'mapView.player.selectMonth':'选择月份',
 };

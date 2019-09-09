@@ -17,4 +17,5 @@ export default {
   'index.packUp':'pack up',
   'index.annualReport':'Annual Report',
   'navBar.lang':'language',
+  'mapView.player.selectMonth':'Select Month',
 }

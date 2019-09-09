@@ -16,9 +16,9 @@ export default class LayerSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 450,
+      width: 570,
       height: 250,
-      positionX: clientWidth - 550,
+      positionX: clientWidth - 600,
       positionY: 10,
       sliderValue: 0,
       isPlay: false,
@@ -64,13 +64,17 @@ export default class LayerSlider extends React.Component {
   };
 
   handleMonthPicker = (date,dateString) => {
-    let formatDate = date.format('YYYY-MM');
-    const {layerMonths} = this.state;
-    let index = layerMonths.indexOf(formatDate);
-    console.log('找到了',layerMonths.indexOf(formatDate));
-    if(index>0){
-      const pageIndex = Math.round(index/10);
-      this.resetPageIndex(pageIndex);
+    if(date){
+      let formatDate = date.format('YYYY-MM');
+      const {layerMonths} = this.state;
+      let index = layerMonths.indexOf(formatDate);
+      console.log('找到了',layerMonths.indexOf(formatDate));
+      if(index>0){
+        const pageIndex = Math.round(index/10);
+        this.resetPageIndex(pageIndex-1);
+      }else {
+        console.log('没有对应数据')
+      }
     }
   };
 
@@ -162,6 +166,9 @@ export default class LayerSlider extends React.Component {
       } else {
         endKey = (pageIndex + 1) * 10;
       }
+      if(endKey-startKey<9 && allCount>=10) {
+        startKey = endKey-9
+      }
       const layers = data.layers.slice(startKey, endKey);
       const isTimeDimension = data.layerDimension && data.layerDimension.type.toLowerCase() === 'timestamp';
       const length = layers.length;
@@ -225,6 +232,7 @@ export default class LayerSlider extends React.Component {
   render() {
     const { handleClose, datasetWithLayers = {} } = this.props;
     const { width, height, positionX, positionY, sliderValue, isPlay, pageIndex } = this.state;
+    moment.locale(getLocale());
     const Enable = {
       bottom: true,
       bottomLeft: false,
@@ -280,8 +288,8 @@ export default class LayerSlider extends React.Component {
             />
           </div>
         </div>
-        <div>
-          <MonthPicker onChange={this.handleMonthPicker} placeholder="Select month" />
+        <div className={styles.month_picker}>
+          <MonthPicker onChange={this.handleMonthPicker} placeholder={formatMessage({ id: 'mapView.player.selectMonth' })} />
         </div>
         <div className={styles.footer}>
           {isPlay ? <Button className={styles.play_control_btn}
