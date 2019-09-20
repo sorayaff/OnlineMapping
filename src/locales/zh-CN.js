@@ -18,4 +18,9 @@ export default {
   'index.annualReport': '年度报告',
   'navBar.lang': '语言',
   'mapView.player.selectMonth':'选择月份',
+  'mapView.tab.catalog':'年报数据目录',
+  'mapView.tab.search':'数据集搜索',
+  'mapView.tab.dataset':'图层管理',
+  'mapView.search.year':'选择年份',
+  'mapView.search.tag':'选择标签',
 };

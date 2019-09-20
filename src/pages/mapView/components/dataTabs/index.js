@@ -370,7 +370,7 @@ class DataTabs extends Component {
                 tabBarExtraContent={<div className="icons-list" id="tab_close" title="Hide">
                   <IconFont type="icon-eyeoff" style={{ fontSize: 24 }} onClick={handleClose}/>
                 </div>}>
-            <TabPane tab="Catalog" key="1">
+            <TabPane tab={formatMessage({ id: 'mapView.tab.catalog' })} key="1">
               <Scrollbars className={styles.catalogThemeList_bar}>
                 <Tree onSelect={this.handleCatalogTreeSelect}
                       loadData={this.loadCatalogTreeDataset}
@@ -381,11 +381,11 @@ class DataTabs extends Component {
                 </Tree>
               </Scrollbars>
             </TabPane>
-            <TabPane tab='Search' key="2">
+            <TabPane tab={formatMessage({ id: 'mapView.tab.search' })} key="2">
               <div className={styles.searchCard}>
                 <Select
                   style={{ width: '30%' }}
-                  placeholder="year"
+                  placeholder={formatMessage({ id: 'mapView.search.year' })}
                   onChange={this.handleSelectYear}
                 >
                   {[2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019].map((item) => <Option value={item} key={item}>
@@ -395,7 +395,7 @@ class DataTabs extends Component {
                 <Select
                   mode="multiple"
                   style={{ width: '70%' }}
-                  placeholder="select tags"
+                  placeholder={formatMessage({ id: 'mapView.search.tag' })}
                   onChange={this.handleSelectChange}
                   optionLabelProp="label"
                 >
@@ -449,7 +449,7 @@ class DataTabs extends Component {
                 }
               </Scrollbars>
             </TabPane>
-            <TabPane tab="Dataset" key="3">
+            <TabPane tab={formatMessage({ id: 'mapView.tab.dataset' })} key="3">
               <Scrollbars className={styles.layerList_bar}>
                 {selectedDataset.length > 0 &&
                 <Tree checkable

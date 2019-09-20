@@ -18,4 +18,9 @@ export default {
   'index.annualReport':'Annual Report',
   'navBar.lang':'language',
   'mapView.player.selectMonth':'Select Month',
+  'mapView.tab.catalog':'Catalog',
+  'mapView.tab.search':'Search',
+  'mapView.tab.dataset':'Dataset',
+  'mapView.search.year':'year',
+  'mapView.search.tag':'select tags',
 }
