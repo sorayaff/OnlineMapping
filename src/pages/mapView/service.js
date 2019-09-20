@@ -28,7 +28,7 @@ export function getLayer(payload) {
 
 //获取标签组列表
 export function getTagGroups() {
-  return headerRequest({
+  return request({
     url: '/v1.0/api/tags/group/map?type=dataset',
     method: 'GET',
   });
@@ -36,7 +36,7 @@ export function getTagGroups() {
 
 //获取标签列表
 export function getTags(groupId) {
-  return headerRequest({
+  return request({
     url: '/v1.0/api/tags/group/' + groupId,
     method: 'GET',
   });

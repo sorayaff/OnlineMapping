@@ -37,6 +37,7 @@ function getWmsResource(url, layerName) {
 }
 
 let viewer;
+let camera;
 let layerOnShowKeys=[];
 let imageryLayerMap=new Map();
 
@@ -142,7 +143,7 @@ cesiumMap.map.prototype = {
     }
   },
   createimageryLayer:function(layer){
-    const { layerName, url, layerType = 'Ecology', key } = layer;
+    const { layerName, url, layerType = 'Ecology', key,boundary=[-90,90,-180,180] } = layer;
     if (layer.method.toLowerCase() === 'cog') {
       let path = `${url}&`;
       let queryData = {
@@ -157,6 +158,14 @@ cesiumMap.map.prototype = {
       imageryLayer.alpha = 1;
       imageryLayer.key = key;
       imageryLayerMap.set(key,imageryLayer);
+      viewer.camera.flyTo({
+        destination: Cesium.Rectangle.fromDegrees(parseInt(boundary[0]), parseInt(boundary[2]), parseInt(boundary[1]), parseInt(boundary[3]))
+      });
+      // imageryLayer.getViewableRectangle().then(function (rectangle) {
+      //   return viewer.camera.flyTo({
+      //     destination: rectangle
+      //   });
+      // });
     }
   },
   hideLayer:function(layer){

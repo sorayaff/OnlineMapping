@@ -215,7 +215,7 @@ class DataTabs extends Component {
                       title={<span className={styles.tab3_parent_node}>
                         <Ellipsis className={styles.child_node_ellipsis}
                                   lines={1}
-                                  tooltip>{layer.layerName}
+                                  tooltip>{!layer.layerNameChn ? layer.layerNameEn : layer.layerNameChn}
                         </Ellipsis>
                         {this.state.layerCheckedKeys.indexOf(layer.key) > -1
                         && <Icon className={styles.child_node_icon}
