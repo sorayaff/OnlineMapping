@@ -105,13 +105,13 @@ export default {
   // 代理请求到其他服务器
   proxy: {
     '/v1.0/api': {
-      target: 'http://192.168.2.2:8080/v1.0/api',
+      target: 'http://114.116.211.19:8080/v1.0/api',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/v1.0/api': '' },
     },
     '/v2.0/api': {
-      target: 'http://192.168.2.2:8080/v2.0/api',
+      target: 'http://114.116.211.19:8080/v2.0/api',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/v2.0/api': '' },
@@ -129,13 +129,13 @@ export default {
       pathRewrite: { '/taobao/service': '/service' },
     },
     '/v1.0/api/map': {
-      target: 'http://192.168.2.2:8080/v1.0/api/map',
+      target: 'http://114.116.211.19:8080/v1.0/api/map',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/v1.0/api/map': '' },
     },
     '/geoserver/ecology': {
-      target: 'http://192.168.2.2:8000/geoserver/ecology',
+      target: 'http://114.116.211.19:8000/geoserver/ecology',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/geoserver/ecology': '' },

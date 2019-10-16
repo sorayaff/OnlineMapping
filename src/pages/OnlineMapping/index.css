@@ -1,0 +1,11 @@
+.normal {
+  background: #79F2AA;
+  height: 100vh;
+  display: flex;
+}
+.mapContainer {
+  height: 100%;
+  flex: 1;
+}
+
+
