@@ -26,12 +26,21 @@ function MapSaverModal(props) {
   });
   const { getFieldDecorator, setFieldsValue } = form;
   const [_map, setMap] = useState(null);
+  const [mapCenter,setMapCenter] = useState([0,0]);
+  const [mapZoom,setMapZoom] = useState(11);
 
   useEffect(() => {
     if (_map) {
       _map.resize();
     }
   }, [_map, mapSize]);
+
+  useEffect(() => {
+    if(mapPreview){
+      setMapCenter(mapPreview.getCenter());
+      setMapZoom(mapPreview.getZoom());
+    }
+  }, [mapPreview]);
 
   const handleOk = () => {
     setConfirmLoading(true);
@@ -163,12 +172,20 @@ function MapSaverModal(props) {
         <MapboxMap
           style={mapPreview.getStyle()}
           containerStyle={mapSize}
-          center={mapPreview.getCenter()}
-          zoom={[mapPreview.getZoom()]}
+          center={mapCenter}
+          zoom={[mapZoom]}
         >
           <MapContext.Consumer>
             {map => {
               setMap(map);
+              const currentCenter = map.getCenter();
+              const currentZoom = map.getZoom();
+              if (currentCenter[0] !== mapCenter[0] || currentCenter[1] !== mapCenter[1]){
+                setMapCenter(currentCenter);
+              }
+              if(currentZoom !== mapZoom){
+                setMapZoom(currentZoom);
+              }
             }}
           </MapContext.Consumer>
         </MapboxMap>
