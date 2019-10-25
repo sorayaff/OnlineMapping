@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { Modal, Form, Radio, Input, Row, Col } from 'antd';
 import ReactMapboxGl, {
   RotationControl,
@@ -7,6 +7,7 @@ import ReactMapboxGl, {
 } from 'react-mapbox-gl';
 import FileSaver from 'file-saver';
 import html2canvas from 'html2canvas';
+import { debounce } from 'lodash';
 import styles from './index.less';
 import { connect } from 'dva';
 import $ from 'jquery';
@@ -65,13 +66,31 @@ function MapSaverModal(props) {
     props.handleCancel();
   };
 
+  const resizeMap = useRef(debounce((id,value)=>{
+    id === 'width' ? setMapSize({
+      height: mapSize.height,
+      width: value + 'px',
+    }) : setMapSize({ width: mapSize.width, height: value + 'px' });
+  },1000)).current;
+
   const onMapSizeChange = (e) => {
     console.log(e.target.id);
-    e.target.id === 'width' ? setMapSize({
-      height: mapSize.height,
-      width: e.target.value + 'px',
-    }) : setMapSize({ width: mapSize.width, height: e.target.value + 'px' });
+    resizeMap(e.target.id,e.target.value);
   };
+
+  // const onMapSizeChange = debounce((e) => {
+  //   console.log(e.target.id);
+  //   e.target.id === 'width' ? setMapSize({
+  //     height: mapSize.height,
+  //     width: e.target.value + 'px',
+  //   }) : setMapSize({ width: mapSize.width, height: e.target.value + 'px' });
+  // },1000);
+
+  // const onMapZoomChange = (e) => {
+  //   if(e.target.id==='zoom'){
+  //     setMapZoom(e.target.value)
+  //   }
+  // };
 
   const printImg = (type,filename) => {
     // HTMLCanvasElement.prototype.getContext = function(origFn) {
@@ -174,18 +193,30 @@ function MapSaverModal(props) {
           containerStyle={mapSize}
           center={mapCenter}
           zoom={[mapZoom]}
+          onZoomEnd={(_, event) => {
+            const currentZoom = event.target.getZoom();
+            if(currentZoom !== mapZoom){
+              console.log(mapZoom,currentZoom);
+              setMapZoom(event.target.getZoom());
+            }
+            else {
+              console.log(mapZoom,currentZoom);
+            }
+          }}
+          onMoveEnd={(_, event) => {
+            const currentCenter = event.target.getCenter().toArray();
+            if (currentCenter[0] !== mapCenter[0] || currentCenter[1] !== mapCenter[1]){
+              console.log(mapCenter,currentCenter);
+              setMapCenter(currentCenter);
+            }
+            else {
+              console.log(mapCenter,currentCenter);
+            }
+          }}
         >
           <MapContext.Consumer>
             {map => {
               setMap(map);
-              const currentCenter = map.getCenter();
-              const currentZoom = map.getZoom();
-              if (currentCenter[0] !== mapCenter[0] || currentCenter[1] !== mapCenter[1]){
-                setMapCenter(currentCenter);
-              }
-              if(currentZoom !== mapZoom){
-                setMapZoom(currentZoom);
-              }
             }}
           </MapContext.Consumer>
         </MapboxMap>

@@ -26,6 +26,16 @@ export const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1225009_up9fzs0e5u.js',
 });
 
+export function debounce(func, delay) {
+  let timeout;
+  return function() {
+    clearTimeout(timeout); // 如果持续触发，那么就清除定时器，定时器的回调就不会执行。
+    timeout = setTimeout(() => {
+      func.apply(this, arguments)
+    }, delay)
+  };
+}
+
 
 // 判断空对象
 export function isEmptyObject(obj) {
