@@ -29,7 +29,7 @@ class Home extends React.Component {
       previous: 5,
       loadMore: false,
     };
-    this.dates = reportDataSource.map((entry) => entry.date); //时间轴节点
+    this.dates = reportDataSource.map((item) => item.date); //时间轴节点
   }
 
   componentDidMount() {
@@ -81,16 +81,10 @@ class Home extends React.Component {
       </Menu>
     );
 
-    this.reportData = reportDataSource.map((report, index) => {
-      let xuyan1,xuyan2;
-      if(local === 'zh-CN'){
-        xuyan1 = report.content.slice(0, 2);
-        xuyan2 = report.content;
-      }
-      else{
-        xuyan1 = report.content_en.slice(0, 2);
-        xuyan2 = report.content_en;
-      }
+    this.reportData = reportDataSource.map(report => {
+      //xuyan1 少   xuyan2 多
+      let xuyan1 =(local === 'zh-CN')? report.content.slice(0, 2):report.content_en.slice(0, 2);
+      let xuyan2 =(local === 'zh-CN')? report.content:report.content_en;
       const { loadMore } = this.state;
       const xuyan = loadMore ? (
         <div>
@@ -111,11 +105,10 @@ class Home extends React.Component {
       const containerStyle = local === 'zh-CN' ? {height:700} : {height:850};
 
       return (
-        <div className='container' style={containerStyle} key={index}>
-          <h1 style={{ textAlign: 'center' }}>{report.date + formatMessage({ id: 'index.annualReport' })}</h1>
-          <hr/>
-          {xuyan}
-          <ThemeCardList year={report.date} dataSource={report.themeList}/>
+        <div className='container' style={containerStyle}>
+          {/*标题*/} <h1 style={{textAlign:'center'}}>{report.date+formatMessage({ id:'index.annualReport' })} </h1>
+          {/*内容*/} <hr/> {xuyan}
+          {/*图片*/} {<ThemeCardList year={report.date} dataSource={report.themeList}/>}
           {/*<ReportPreviewList dataSource={report.reportList}/>*/}
         </div>
       );
@@ -125,6 +118,7 @@ class Home extends React.Component {
     return (
       <>
         <div className={styles.home__main}>
+          {/*首页欢迎界面卡*/}
           <div className={styles.home__main__welcomeCard}>
             <div className={styles.title__box}>
               {/*登录模块*/}
@@ -182,6 +176,7 @@ class Home extends React.Component {
               }}
               values={this.dates}/>
           </div>
+          {/*年报文字*/}
           <div className='text-center'>
             <SwipeableViews
               index={this.state.value}

@@ -253,6 +253,7 @@ export default class LayerSlider extends React.Component {
     return <Rnd size={{ width: width, height: height }}
                 position={{ x: positionX, y: positionY }}
                 maxHeight={400}
+                cancel=".cancel"
                 onDragStop={this.handleDragStop}
                 onDragStart={this.handleDragStart}
                 onDrag={this.handleDrag}
@@ -281,6 +282,7 @@ export default class LayerSlider extends React.Component {
           <div className={styles.pagination_box}>
             <Pagination simple
                         defaultCurrent={1}
+                        className="cancel"
                         total={allCount}
                         defaultPageSize={10}
                         current={pageIndex + 1}

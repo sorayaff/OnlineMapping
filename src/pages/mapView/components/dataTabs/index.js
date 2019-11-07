@@ -4,18 +4,7 @@ import styles from './index.less';
 import classNames from 'classnames';
 import { connect } from 'dva';
 import { Scrollbars } from 'react-custom-scrollbars';
-import {
-  Tabs,
-  Tree,
-  Select,
-  List,
-  Icon,
-  Empty,
-  notification,
-  Dropdown,
-  Menu,
-  Input,
-} from 'antd';
+import {Tabs,Tree,Select,List,Icon,Empty,notification,Dropdown,Menu,Input,} from 'antd';
 import cesiumMap from '@/components/TDMap/oc.cesium';
 import loc_search from '@/assets/digitalMap/loc_search.png';
 import Legend from '@/components/Legend';
@@ -60,6 +49,7 @@ class DataTabs extends Component {
     });
   }
 
+  //切换tab
   tabOnChange = activeKey => {
     this.setState({
       activeKey: activeKey,
@@ -123,25 +113,19 @@ class DataTabs extends Component {
     const { selectedDataset = [] } = this.state;
     if (!selectedDataset.some(item => item.id === dataset.id)) {
       dataset.key = dataset.id;
-      this.setState({
-        activeKey: '3',
-        selectedDataset: [...selectedDataset, dataset],
-      });
-    } else {
-      this.setState({
-        activeKey: '3',
-      });
+      this.setState({selectedDataset: [...selectedDataset, dataset],  });
     }
+    this.setState({activeKey: '3' });
   };
 
   //tab2 搜索条件选择年份变化
   handleSelectYear = (value) => {
     const { selectedTags = [] } = this.state;
+    this.setState({ selectedYear: [value] });
     this.props.dispatch({
       type: 'mapView/fetchDatasetByTags',
       payload: { tags: [value, ...selectedTags] },
     });
-    this.setState({ selectedYear: [value] });
   };
 
   //tab2 搜索条件标签变化
