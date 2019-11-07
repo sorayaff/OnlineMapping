@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from 'react';
-import { Modal, Form, Radio, Input, Row, Col } from 'antd';
+import { Modal, Form, Radio, Input, Row, Col, Checkbox } from 'antd';
 import ReactMapboxGl, {
   RotationControl,
   ScaleControl,
@@ -12,6 +12,7 @@ import styles from './index.less';
 import { connect } from 'dva';
 import $ from 'jquery';
 import canvg from '@/pages/OnlineMapping';
+import { fromJS } from 'immutable';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1Ijoid2F0c29ueWh4IiwiYSI6ImNrMWticjRqYjJhOTczY212ZzVnejNzcnkifQ.-0kOdd5ZzjMZGlah6aNYNg'; // Set your mapbox token here
@@ -20,7 +21,7 @@ const MapboxMap = ReactMapboxGl({ accessToken: MAPBOX_TOKEN, attributionControl:
 
 function MapSaverModal(props) {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const { visible, form, dispatch, mapPreview } = props;
+  const { visible, form, dispatch, mapPreview,mapControl } = props;
   const [mapSize, setMapSize] = useState({
     height: '700px',
     width: '1000px',
@@ -29,6 +30,10 @@ function MapSaverModal(props) {
   const [_map, setMap] = useState(null);
   const [mapCenter,setMapCenter] = useState([0,0]);
   const [mapZoom,setMapZoom] = useState(11);
+
+  const initialControl = fromJS({ 'rotation': false, 'scale': false });
+  const [_control, setControl] = useState(initialControl);
+
 
   useEffect(() => {
     if (_map) {
@@ -67,17 +72,19 @@ function MapSaverModal(props) {
   };
 
   const resizeMap = useRef(debounce((id,value)=>{
-    id === 'width' ? setMapSize({
-      height: mapSize.height,
-      width: value + 'px',
-    }) : setMapSize({ width: mapSize.width, height: value + 'px' });
+    id === 'width' ?
+      setMapSize({ height: mapSize.height, width: value + 'px',  }) :
+      setMapSize({ width: mapSize.width, height: value + 'px' });
   },1000)).current;
 
   const onMapSizeChange = (e) => {
     console.log(e.target.id);
     resizeMap(e.target.id,e.target.value);
   };
-
+  const onControlsChange = (e) => {
+    setControl(_control.update(e.target.id, v => !v));
+    console.log(_control);
+  };
   // const onMapSizeChange = debounce((e) => {
   //   console.log(e.target.id);
   //   e.target.id === 'width' ? setMapSize({
@@ -176,12 +183,27 @@ function MapSaverModal(props) {
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item label="Filename">
+            <Form.Item label="Filename" wrapperCol={{ span: 20 }}>
               {getFieldDecorator('filename',{
                 rules: [{ required: true, message: 'Please input the filename of export map!' }],
               })(
                 <Input />
               )}
+            </Form.Item>
+          </Col>
+          <Col span={5}>
+            <Form.Item label="Control"  wrapperCol={{ span: 20 }}>
+              <Checkbox defaultChecked={false}
+                        onChange={onControlsChange}
+                        id='rotation' >
+                指南针
+              </Checkbox>
+              <Checkbox defaultChecked={false}
+                        onChange={onControlsChange}
+                        id='scale'>
+                比例尺
+              </Checkbox>
+
             </Form.Item>
           </Col>
         </Row>
@@ -214,6 +236,8 @@ function MapSaverModal(props) {
             }
           }}
         >
+          {_control.get('rotation') && <RotationControl/>}
+          {_control.get('scale') && <ScaleControl/>}
           <MapContext.Consumer>
             {map => {
               setMap(map);
