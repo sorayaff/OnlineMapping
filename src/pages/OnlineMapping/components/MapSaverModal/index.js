@@ -73,8 +73,8 @@ function MapSaverModal(props) {
 
   const resizeMap = useRef(debounce((id,value)=>{
     id === 'width' ?
-      setMapSize({ height: mapSize.height, width: value + 'px',  }) :
-      setMapSize({ width: mapSize.width, height: value + 'px' });
+      setMapSize({ height: mapSize.height, width: mapSize.width=value + 'px' }) :
+      setMapSize({ width: mapSize.width, height: mapSize.height=value + 'px' });
   },1000)).current;
 
   const onMapSizeChange = (e) => {
