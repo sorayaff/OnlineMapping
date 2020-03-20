@@ -18,17 +18,9 @@ function LayerPanel(props) {
   // let rootSubmenuKeys = ['layer1', 'layer2', 'layer3'];
   // const [openKeys, setOpenKeys] = useState(['layer1']);
   //
-  //
-  // const onOpenChange = items => {
-  //   const latestOpenKey = items.find(key => openKeys.indexOf(key) === -1);
-  //   if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-  //     setOpenKeys(items);
-  //   } else {
-  //     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-  //   }
-  // };
+ 
   let theCanvas;
-
+  const [_openKeys,setOpenKeys] = useState('');
   const { collapsed, onCollapseChange, onBasemapChange, onControlsChange, mapControl, dispatch } = props;
   const handleMenuClick = e => {
     if (e.keyPath.length > 1) {
@@ -45,14 +37,25 @@ function LayerPanel(props) {
         payload: true
       });
 
-    }
+    }else
+	if (e.key === 'add-text'){
+	//	addtext();
+	}
 
   };
 
+  const onOpenChange = openkeys => {    
+	console.log(openkeys);
+	if(openkeys.length)
+	setOpenKeys([openkeys[openkeys.length-1]]); 
+	else setOpenKeys([]);
+  }
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={onCollapseChange}>
       <div className={styles.logo}/>
       <Menu
+	    openKeys={_openKeys}
+        onOpenChange={onOpenChange}
         mode="inline"
         theme={'dark'}
         onClick={handleMenuClick}
@@ -72,18 +75,8 @@ function LayerPanel(props) {
           <Menu.Item key="outdoors">outdoors</Menu.Item>
           <Menu.Item key="satellite">satellite</Menu.Item>
         </SubMenu>
-        <SubMenu
-          key="addLayer"
-          title={
-            <span>
-              <IconFont type="icon-layers"/>
-              <span>添加图层</span>
-            </span>
-          }
-        >
-          <Menu.Item key="5">Option 5</Menu.Item>
-          <Menu.Item key="6">Option 6</Menu.Item>
-        </SubMenu>
+       
+
         <Menu.Item key="add-text">
           <IconFont type="icon-text"/>
           <span>添加文字</span>
@@ -97,6 +90,12 @@ function LayerPanel(props) {
             </span>
           }
         >
+		  <Menu.Item key="zoom">
+            <span>放缩器</span>
+            <span className={styles.checkIcon}>
+              {mapControl.get('zoom') && <Icon type='check'/>}
+            </span>
+          </Menu.Item>
           <Menu.Item key="rotation">
             <span>指南针</span>
             <span className={styles.checkIcon}>
@@ -109,6 +108,7 @@ function LayerPanel(props) {
               {mapControl.get('scale') && <Icon type='check'/>}
             </span>
           </Menu.Item>
+          
         </SubMenu>
         <Menu.Item key="print">
           <Icon type="printer" />
