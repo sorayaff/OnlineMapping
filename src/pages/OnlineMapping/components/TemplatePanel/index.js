@@ -15,23 +15,7 @@ const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1225009_f39m3y74x5s.js',
 });
 
-function ElementReplace (id,property,textstring){
-	var obj= document.getElementById(id);
-	if(obj)
-		if(property=="value")
-		obj.value=textstring;
-		else if(property=="text")
-		obj.text=textstring;
-		else if(property=="innerText")
-		obj.innerText=textstring;
-		else if(property=="innerHTML")
-		obj.innerText=textstring;
-//		<Text strong className={styles.layerinput_label} >添加注记</Text>
-//				<Button shape="circle" >On</Button>
-}
-function windowalert(s){
-	window.alert(s);
-}
+
 function TemplatePanel(props) {
 
   let theCanvas;
@@ -42,21 +26,23 @@ function TemplatePanel(props) {
   const [ dataSelect, setData] = useState(null);
   const [ templateSelect, setTemplate] = useState(null);
   const [ radioValue, setRadioValue] = useState("black");
-  let fileUploaded = null;
+  const [ fieldValue, setFieldValue] = useState("");
+ 
   
   const setTemplateSelect = (e) =>{
-	var str="选择模板";
-	if(e) str=str+" ["+e+"]";	
-	ElementReplace("selectTemplateSpan","innerHTML",str);
-	setTemplate(e);
+		var str="选择模板";
+		if(e) str=str+" ["+e+"]";	
+		var obj=document.getElementById("selectTemplateSpan");
+		if(obj) obj.innerHTML=str;
+		setTemplate(e);
   }
   
   const setDataSelect = (e) =>{
-	  setTemplateSelect(null);
-	  var str="添加数据";
-	  if(e) str=str+" ["+e+"]";	  
-	  ElementReplace("addLayerSpan","innerHTML",str);
-	  setData(e);
+		setTemplateSelect(null);
+		var str="添加数据";
+		if(e) str=str+" ["+e+"]";	  
+		document.getElementById("addLayerSpan").innerHTML=str;
+		setData(e);
   }
   const handleMenuClick = e => {
     if (e.keyPath.length > 1) {
@@ -124,6 +110,11 @@ function TemplatePanel(props) {
 	addLabel(document.getElementById("DataName").value,
 			document.getElementById("DataFields").innerText,e.target.checked);
   }
+  const fieldChange = e => {
+	  console.log(e);
+	  setFieldValue(e);
+	  setLabelCheckedFalse();	  
+  }
   const setLabelCheckedFalse = e =>{
 		if(labelChecked)
 		setlabelChecked(false);
@@ -136,7 +127,8 @@ function TemplatePanel(props) {
       setRadioValue(e.target.value);
 	  console.log("radioChange -> "+e.target.value );
   };
-
+  
+  let fileUploaded = null;
   const beforeUpload = file =>{
 	 const reader = new FileReader();
 	 reader.readAsText(file);
@@ -154,9 +146,10 @@ function TemplatePanel(props) {
 		 if( format!= dataSelect.toUpperCase() ){
 			alert("上传文件格式不符");
 			return;
-		 }	 
+		 }	 		 		 
+		 fieldChange();
 		 addDataFile(fileUploaded);	
-		 fileUploaded = null;	
+		 fileUploaded = null;	 		 
 	} else if (info.file.status === 'error') {
 		  alert("upload file failed, now use the sample file");
 		  addDataFile(null);	
@@ -229,7 +222,7 @@ function TemplatePanel(props) {
 		<Text strong className={styles.layerTitle_block} >Layer_Add</Text>
 		{ (dataSelect!="tiff")&&//矢量数据 名称		 		
 			<div className={styles.layerInput_block}>
-				<Select id="DataFields" className={styles.layerInput_block_input}  onChange={setLabelCheckedFalse} >
+				<Select id="DataFields" className={styles.layerInput_block_input} value={fieldValue} onChange={fieldChange} >
 					{dataFieldsArray.map((v,k)=>(
 						<Option value={v} >{v}</Option>
 					))	}
@@ -242,7 +235,7 @@ function TemplatePanel(props) {
 			</div>		  			
 		}
 
-		{ (dataSelect=="tiff")&&(radioValue!='multi')&&  //栅格数据 单波段 色系
+		{ (dataSelect=="tiff")&&(templateSelect =='single')&&  //栅格数据 单波段 色系
 			<div className={styles.layerInput_block}>
 				<Radio.Group onChange={radioChange} size="small" value={radioValue} buttonStyle="solid" >
 					<Radio.Button value={"black"}>Black</Radio.Button>

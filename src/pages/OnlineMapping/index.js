@@ -16,22 +16,17 @@ import LayerPanel from './components/LayerPanel';
 import TemplatePanel from './components/TemplatePanel';
 import styles from './index.less';
 import { fromJS } from 'immutable';
-import canvg from 'canvg';
 import MapSaverModal from './components/MapSaverModal/index';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { connect } from 'dva';
-import Button from 'antd/lib/button';
-import html2canvas from 'html2canvas';
-import zheJiangGeoJson from '@/assets/zhejiang.json';
-import earthquakecsv from '@/assets/earthquake.csv'
-import Papa from 'papaparse'
+import Papa from 'papaparse';
 
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Text } = Typography;
 
 const MAPBOX_TOKEN =
-  'pk.eyJ1Ijoid2F0c29ueWh4IiwiYSI6ImNrMWticjRqYjJhOTczY212ZzVnejNzcnkifQ.-0kOdd5ZzjMZGlah6aNYNg'; // Set your mapbox token here
+  'pk.eyJ1Ijoid2F0c29ueWh4IiwiYSI6ImNrMWticjRqYjJhOTczY212ZzVnejNzcnkifQ.-0kOdd5ZzjMZGlah6aNYNg';
 const basemapStyle = {
   'light': 'mapbox://styles/mapbox/light-v10',
   'dark': 'mapbox://styles/mapbox/dark-v10',
@@ -41,17 +36,7 @@ const basemapStyle = {
 };
 const MapboxMap = ReactMapboxGl({ accessToken: MAPBOX_TOKEN, attributionControl: false, preserveDrawingBuffer: true });
 
- 
-function ElementReplace (id,property,textstring){
-	 var obj= document.getElementById(id);
-	 if(obj)
-		 if(property=="value")
-		 obj.value=textstring;
-		 else if(property=="text")
-		 obj.text=textstring;
-		 else if(property=="innerText")
-		 obj.innerText=textstring;
- }
+
 function OnlineMapping(props) {
   const [_collapsed, setCollapsed] = useState(false);
   const [_mapStyleKey, setMapStyleKey] = useState('light');
@@ -64,6 +49,7 @@ function OnlineMapping(props) {
   const map_ref = React.useRef(null);
   const { dispatch } = props;
   const [geojsonFields, setFields]=useState(new Set());
+  
   const onCollapse = collapsed => {
     console.log(collapsed);
     setCollapsed(collapsed);
@@ -78,7 +64,14 @@ function OnlineMapping(props) {
     setControl(_control.update(controlKey, v => !v));
     console.log(_control, _mapStyleKey);
   };
-  const onDataChange = (dataname) => {			//Footer 数据相关
+  const handleModalCancel = () => {
+    dispatch({
+      type: 'onlineMapping/setMapSaverModalVisible',
+      payload: false,
+    });
+  };
+  
+  const onDataChange = (dataname) => {					//所有数据 显示于footer
     let newArray = new Set(_dataNames);
 	if(newArray.has(dataname))
 		newArray.delete(dataname);
@@ -87,9 +80,9 @@ function OnlineMapping(props) {
 	var textstring="";
 	for(let item of newArray)
 		textstring=textstring+item+"; ";  //1,2,3
-    ElementReplace("FooterData","innerText","Data: "+textstring+"| ");
+    document.getElementById("FooterData").innerText = "Data: "+textstring+"| ";
   };
-  const onLayerChange = (layername, addORdelete) => {		//Footer 图层相关
+  const onLayerChange = (layername, addORdelete) => {	//所有图层 显示于footer
 	let newArray = new Set(_layerNames);
 	if(newArray.has(layername))
 		newArray.delete(layername);	
@@ -99,20 +92,24 @@ function OnlineMapping(props) {
 	var textstring="";
 	for(let item of newArray)
 		textstring=textstring+item+"; ";  //1,2,3
-    ElementReplace("FooterLayer","innerText","Layer: "+textstring+"| ");
+	document.getElementById("FooterLayer").innerText = "Layer: "+textstring+"| ";
   };
-  const onFieldsChange = (fields) => {			//矢量数据 字段
-      setFields(fields);
-  };
-  const handleModalCancel = () => {
-    dispatch({
-      type: 'onlineMapping/setMapSaverModalVisible',
-      payload: false,
-    });
+  const onFieldsChange = (geoJson) => {		//将矢量数据的字段名称传递给 TemplatePanel
+        if(geoJson == null) return;		
+		try{
+			let fields=new Set();		
+			var name=Object.keys(geoJson.features[0].properties);
+			for(var j=0; j<name.length;j++)
+				fields.add(name[j]);			
+			setFields(fields);
+		}
+	    catch(err){
+			console.log(err);
+			alert("read Field fail");
+		}	  
   };
 
-
-  const findField = function(geoJson, field, callback) {	
+  const findField = function(geoJson, field, callback) {	//判断是否存在该字段、该字段是否为数字属性
 	var name=Object.keys(geoJson.features[0].properties);	
 	for(var j=0; j<name.length;j++)
 	if(name[j]===field){
@@ -120,27 +117,29 @@ function OnlineMapping(props) {
 		var count = 0;
 		for(var i in geoJson.features){
 			var obj = Object.values(geoJson.features[i].properties);
-			if(isNaN(obj[j])||obj[j] === "" || obj[j] == null)
-				count++;				//非数字
+			if(obj[j] === "" || obj[j] == null || isNaN(obj[j]))
+				count++;			//本字段不是数字的条目数
 			else array.push(obj[j]);
 		}
-		if(array.length>count*3){
-			 array.sort(function(num1,num2){
+		if(array.length>count*10){	//确定本字段为数字属性
+			/* array.sort(function(num1,num2){
 				return num1-num2;
-			})						//排序
-			callback(array);
+			})	*/					//排序
+			callback(true);
 			return;
 		}	
 		break;
 	}
-	callback(new Array());	//返回空数组
+	callback(false);
   }
 
   const renderclustermap = (dataName,layerName,geoJson) =>{		
-  if(_map.getLayer(layerName+'-clusters')){
-		alert("Existed Layer");
-		return;
-	}
+		let newArray = new Set(_layerNames);
+		if(newArray.has(layerName+'-cluster')){
+			alert("Existed Layer");
+			return;
+		}
+		//聚类图的数据源需设置相关参数，因此加载一个新的数据源
 		_map.addSource(dataName,  {
            'type': 'geojson',
            'data': geoJson,
@@ -148,7 +147,7 @@ function OnlineMapping(props) {
 			'clusterMaxZoom': 14,
 			'clusterRadius': 40
         });
-		_map.addLayer({
+		_map.addLayer({		//聚类点
 			'id': layerName+'-clusters',
 			'type': 'circle',
 			'source': dataName,
@@ -168,7 +167,7 @@ function OnlineMapping(props) {
 				]
 			}
 		});
-		_map.addLayer({
+		_map.addLayer({		//聚类群数目
 			'id': layerName+'-cluster-count',
 			'type': 'symbol',
 			'source': dataName,
@@ -179,7 +178,7 @@ function OnlineMapping(props) {
 				'text-size': 12
 			}
 		});
-		_map.addLayer({
+		_map.addLayer({		//非聚类点符号
 			'id': layerName+'-unclustered-point',
 			'type': 'circle',
 			'source': dataName,
@@ -191,21 +190,21 @@ function OnlineMapping(props) {
 				'circle-stroke-color': '#fff'
 			}
 });
-		onLayerChange(layerName+'-clusters', true);
+		onLayerChange(layerName+'-cluster', true);
 	}
   const renderheatmap = (dataName,layerName) =>{	
-  if(_map.getLayer(layerName+'-heat')){
-		alert("Existed Layer");
-		return;
-	}
+		let newArray = new Set(_layerNames);
+		if(newArray.has(layerName+'-heat')){
+			alert("Existed Layer");
+			return;
+		}
 		_map.addLayer({
 			'id': layerName+'-heat',
 			'type': 'heatmap',
 			'source': dataName,
 			'maxzoom': 20,
 			'filter': ['==', '$type', 'Point'],
-			'paint': {
-				
+			'paint': {				
 				'heatmap-intensity': [
 					'interpolate',['linear'],
 					['zoom'],0,1,20,3
@@ -223,7 +222,8 @@ function OnlineMapping(props) {
 		onLayerChange(layerName+'-heat', true);
 	}
   const renderjson = (dataName,layerName, field) =>{
-	if(_map.getLayer(layerName+'-json')){
+	let newArray = new Set(_layerNames);
+	if(newArray.has(layerName+'-json')){
 		alert("Existed Layer");
 		return;
 	}
@@ -238,74 +238,111 @@ function OnlineMapping(props) {
 		  },
           'filter': ['==', '$type', 'LineString']
         });
-		
-	findField(_map.getSource(dataName)._data, field, function(array){				
-	if(array.length < 5)	//判断此字段是否为数字字段
-		field = "";			
-	else {			
-		_map.addLayer({		//分级图模板
-		  'id': layerName+"-field",
-		  'type': 'circle',
-		  'source': dataName,
-		  'paint': {
-			'circle-radius': [
-				'step',	['get',field],
-				  7,  10,10, 100,13
-			],
-			'circle-color': [
-				'step',	['get',field],
-				//'interpolate',['linear'],[ field],
-				'rgba(60,100,120,0.80)',
-				10,'rgba(229,131,8,0.70)',
-				100,'rgba(222,20,20,0.85)'
-			]
-		  },
-		  'filter':['all', ['==', '$type', 'Point'], ['has', field] ]
-		});
-		_map.addLayer({		//多边形
-		  'id': layerName+'-polygon',
-          'type': 'fill',
-          'source': dataName,
-          'paint': {
-			'fill-color': [
-				'step',	['get',field],
-				//'interpolate',['linear'],[ field],
-				   'rgba(237,222,139,0.50)',
-				10,'rgba(229,131,8,0.40)',
-				100,'rgba(222,20,20,0.55)',
-				500,'rgba(120,35,35,0.55)'
-			]
-          },
-          'filter': ['==', '$type', 'Polygon']
-        });
-	}
-        _map.addLayer({ //符号图模板
-		  'id': layerName+'-point',
-          'type': 'circle',
-          'source': dataName,
-          'paint': {
-            'circle-radius': 6,
-            'circle-color': 'rgb(100,100,100)'
-          },
-          'filter':['all', ['==', '$type', 'Point'], ['!has', field] ]
-        });
-		_map.addLayer({		//多边形
-		  'id': layerName+'-polygon',
-          'type': 'fill',
-          'source': dataName,
-          'paint': {
-            'fill-color': 'rgb(255,140,140)',
-            'fill-opacity': 0.4,
-			'fill-outline-color': 'rgb(120,35,35)'
-          },
-          'filter': ['==', '$type', 'Polygon']
-        });
+	
+	//判断是否存在该字段、该字段是否为数字属性
+	findField(_map.getSource(dataName)._data, field, function(boo){				
+		if(boo){									
+			_map.addLayer({		//点分级
+			  'id': layerName+"-field-point",
+			  'type': 'circle',
+			  'source': dataName,
+			  'paint': {
+				'circle-radius': [
+					'step',	['get',field],
+					  7,  10,10, 100,13
+				],
+				'circle-color': [
+					'step',	['get',field],
+					'rgba(60,100,120,0.80)',
+					10,'rgba(229,131,8,0.70)',
+					100,'rgba(222,20,20,0.85)'
+				]
+			  },
+			  'filter':['all', ['==', '$type', 'Point'], ['has', field] ]
+			});
+			_map.addLayer({		//面分级
+			  'id': layerName+'-field-polygon',
+			  'type': 'fill',
+			  'source': dataName,
+			  'paint': {
+				'fill-color': [
+					'step',	['get',field],
+					//'interpolate',['linear'],[field],
+					   'rgba(237,222,139,0.50)',
+					10,'rgba(229,131,8,0.40)',
+					100,'rgba(222,20,20,0.55)',
+					500,'rgba(120,35,35,0.55)'
+				]
+			  },
+			  'filter':['all', ['==', '$type', 'Polygon'], ['has', field] ]
+			});
+			console.log("分级图");
+		} else {
+			_map.addLayer({     //点符号
+			  'id': layerName+'-point',
+			  'type': 'circle',
+			  'source': dataName,
+			  'paint': {
+				'circle-radius': 6,
+				'circle-color': 'rgb(100,100,100)'
+			  },
+			  //'filter':['all', ['==', '$type', 'Point'], ['!has', field] ]
+			  'filter': ['==', '$type', 'Point']
+			});
+			_map.addLayer({		//面符号
+			  'id': layerName+'-polygon',
+			  'type': 'fill',
+			  'source': dataName,
+			  'paint': {
+				'fill-color': 'rgb(255,140,140)',
+				'fill-opacity': 0.4,
+				'fill-outline-color': 'rgb(120,35,35)'
+			  },
+			  'filter': ['==', '$type', 'Polygon']
+			});
+			console.log("符号图");
+		}
 	});
 	
 	onLayerChange(layerName+'-json', true);
   }
  
-  const moveLayer = (layerName,template) =>{
+  const addLayer = (template,dataFormat,dataName,layerName,others) =>{
+	if(!_map)return;
+	if( dataFormat !='tiff' && !_map.getSource(dataName)) {
+		alert("No data, Please add first");
+		return;
+	}        
+	if(dataFormat==='tiff')  { //others=color
+		if(_map.getLayer(layerName+'-tiff')){
+			alert("Existed Layer");
+			return;
+		}
+		var url="http://localhost:8080/{z}/{x}/{y}/"+others;
+		_map.addLayer({
+			"id":layerName+"-tiff",
+			"type": "raster",
+			'source': {
+				'type': 'raster',
+				'tiles': [url]
+				}
+		})
+		onLayerChange(layerName+'-tiff', true);
+	}
+	else if(template==='symbol') //others=field
+		renderjson(dataName,layerName,others);
+	else if(template==='heat')
+		renderheatmap(dataName,layerName);
+	else if(template==='cluster'){			
+		var geoJsonData=_map.getSource(dataName)._data;
+		dataName=dataName+"-cluster";
+		//聚类图的数据源需设置相关参数，因此加载一个新的数据源
+		renderclustermap(dataName,layerName,geoJsonData);
+		onDataChange(dataName);		
+	 }
+	
+  }
+  const moveLayer = (layerName,template) =>{		//置顶图层
 	 if(!_map)return;
 	  var num=0;
 	  if(template=='json'){		 
@@ -321,8 +358,12 @@ function OnlineMapping(props) {
 			  _map.moveLayer(layerName+'-point');
 			  num++;
 		  }
-		  if(_map.getLayer(layerName+'-field') )  {
-			  _map.moveLayer(layerName+'-field');
+		  if(_map.getLayer(layerName+'-field-polygon') )  {
+			  _map.moveLayer(layerName+'-field-polygon');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-field-point') )  {
+			  _map.moveLayer(layerName+'-field-point');
 			  num++;
 		  }
 		  if(num)
@@ -361,18 +402,22 @@ function OnlineMapping(props) {
 		  }
 	  }
   }
-  const deleteLayer = (layerName,template) =>{
+  const deleteLayer = (layerName,template) =>{		//删除图层
 	  if(!_map)return;
 	  var num=0;
-	  if(template=='json'){
+	  if(template=='json'){		  
+		  if(_map.getLayer(layerName+'-field-point') )  {
+			  _map.removeLayer(layerName+'-field-point');
+			  num++;
+		  }  
+		  if(_map.getLayer(layerName+'-field-polygon') )  {
+			  _map.removeLayer(layerName+'-field-polygon');
+			  num++;
+		  }
 		  if(_map.getLayer(layerName+'-polygon') ) {
 			  _map.removeLayer(layerName+'-polygon');
 			  num++;
 		  }	  
-		  if(_map.getLayer(layerName+'-field') )  {
-			  _map.removeLayer(layerName+'-field');
-			  num++;
-		  }
 		  if(_map.getLayer(layerName+'-point') )  {
 			  _map.removeLayer(layerName+'-point');
 			  num++;
@@ -421,54 +466,6 @@ function OnlineMapping(props) {
 		  }
 	  }
   }
-  const addLayer = (template,dataFormat,dataName,layerName,others) =>{
-	if(_map){
-		if( !_map.getSource(dataName) && dataFormat !='tiff') {
-			alert("No data, Please add first");
-			return;
-		}        
-		if(dataFormat==='tiff')  { //others=color
-			 if(_map.getLayer(layerName+'-tiff')){
-				alert("Existed Layer");
-				return;
-			}
-			var url="http://localhost:8080/{z}/{x}/{y}/"+others;
-			_map.addLayer({
-				"id":layerName+"-tiff",
-				"type": "raster",
-				'source': {
-					'type': 'raster',
-					'tiles': [url]
-					}
-			})
-			onLayerChange(layerName+'-tiff', true);
-		}
-		else if(template==='symbol') //others=field
-			renderjson(dataName,layerName,others);
-		else if(template==='heat')
-			renderheatmap(dataName,layerName);
-		else if(template==='cluster'){			
-			var geoJsonData=_map.getSource(dataName)._data;
-			dataName=dataName+"-cluster";
-			renderclustermap(dataName,layerName,geoJsonData);
-			onDataChange(dataName);		
-		 }
-	}
-  }
-  const addLabel = (dataName,field,addORdelete) => {
-	 if(_map.getLayer(dataName+'-label'))
-		  _map.removeLayer(dataName+'-label');
-	 if(addORdelete)
-	 _map.addLayer({'id': dataName+'-label',
-          'type': 'symbol',
-          'source': dataName,
-          'layout': {
-            'text-field': ['get', field],
-            "text-offset": [0, 0.6],
-            "text-anchor": "top"
-          },
-	 });
-  }
  
   const csvStr2json = function(data,callback){
 	var fields=new Array();
@@ -505,33 +502,9 @@ function OnlineMapping(props) {
 		callback(null);
 	}
   } 	
-  const csv2Str = function(csv,callback){
-	   Papa.parse(csv, {
-		  download: true,
-		  complete: function(results) {
-			var data=results.data;
-			//var callbackgeoJson = null;
-			csvStr2json(data,function(callbackgeoJson){
-				callback(callbackgeoJson);
-			});		
-		}
-	  });
-  }
-  
-  const addDataProcess = (dataName,geoJson) =>{
-	  let s=new Set();
-		if(geoJson == null) return;
-		try{
-			var name=Object.keys(geoJson.features[0].properties);
-			for(var j=0; j<name.length;j++){
-				s.add(name[j]);
-			}	
-			onFieldsChange(s);
-		}
-		catch(err){
-			console.log(err);
-			alert("read Field fail");
-		}
+	
+  const addDataSource = (dataName,geoJson) =>{
+	    onFieldsChange(geoJson);		
 		try{
 			_map.addSource(dataName,   {
 				'type': 'geojson',
@@ -545,26 +518,25 @@ function OnlineMapping(props) {
 			alert("add DataSource fail");
 		}
   }
-  const addData = (dataName,dataformat,file) => {
-	if(!_map)return;
+  const addData = (dataName,dataformat,fileStr) => {
+	if(fileStr==null)	return;
+	if(!_map)return;	
 	if(_map.getSource(dataName)) {
 		alert("Existed data");
 		return;
 	}
 	if(dataformat==='json') {
-		if(file==null)file=zheJiangGeoJson;
-			else file=JSON.parse(file);
-		addDataProcess(dataName,file);		
+		try{
+			var file=JSON.parse(fileStr);
+			addDataSource(dataName,file);	
+		}catch(err){
+			console.log(err);
+			alert("JSON.parse(file) fail");
+		}			
 	}
 	else if(dataformat==='csv')    {			
-		if(file==null){				
-			csv2Str(earthquakecsv,function(geoJson){
-				addDataProcess(dataName,geoJson);
-			});
-			return;
-		}
-		var csv = file.split("\n");
-		var row = csv.length + 1;			
+		var csv = fileStr.split("\n");
+		var row = csv.length;   // + 1;			
 		var col = csv[0].split(",").length;			
 		var data = new Array(row); //先声明一维数组			
 		for(var k=0;k<row;k++) {   
@@ -574,15 +546,30 @@ function OnlineMapping(props) {
 			if(csvdata==""||csvdata==null)break;		
 			for(var j=0;j<col;j++)data[k][j]=csvdata[j]; 
 		}	
+		//对于换行符\n的切分导致的问题
 		var lastField=data[0][col-1];
 		data[0][col-1]=lastField.slice(0,lastField.length-1);
+		
+		//data：csv对应的二维数组, 通过函数csvStr2json得到geoJson
 		csvStr2json(data,function(geoJson){
-			addDataProcess(dataName,geoJson);
+			addDataSource(dataName,geoJson);
 		});
 	}
   };
-  
-
+  const addLabel = (dataName,field,addORdelete) => {
+	if(_map.getLayer(dataName+'-label'))
+		  _map.removeLayer(dataName+'-label');
+	 if(addORdelete)
+	 _map.addLayer({'id': dataName+'-label',
+          'type': 'symbol',
+          'source': dataName,
+          'layout': {
+            'text-field': ['get', field],
+            "text-offset": [0, 0.6],
+            "text-anchor": "top"
+          },
+	 });
+  }
 
   useEffect(()=>{
     if(_map){
