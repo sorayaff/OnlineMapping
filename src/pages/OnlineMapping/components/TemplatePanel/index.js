@@ -1,4 +1,5 @@
-import {Typography, Input, Select, Layout, Menu, Breadcrumb, Icon, Collapse, Button, Checkbox, Radio } from 'antd';
+import {Typography, Input, Select, Layout, Menu, Breadcrumb, Icon, Collapse, Button, Checkbox, Radio, Upload } from 'antd';
+
 import React, { useState, useEffect } from 'react';
 import FileSaver from 'file-saver';
 import mapboxgl from 'mapbox-gl';
@@ -13,8 +14,6 @@ const { Panel } = Collapse;
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1225009_f39m3y74x5s.js',
 });
-var templateSelect='';
-
 
 function ElementReplace (id,property,textstring){
 	var obj= document.getElementById(id);
@@ -27,36 +26,46 @@ function ElementReplace (id,property,textstring){
 		obj.innerText=textstring;
 		else if(property=="innerHTML")
 		obj.innerText=textstring;
-//		<Text strong className={styles.layerinput_label} >添加注记</Text>        
+//		<Text strong className={styles.layerinput_label} >添加注记</Text>
 //				<Button shape="circle" >On</Button>
 }
-function windowalert(s)
-{
-	window.alert(s);	
+function windowalert(s){
+	window.alert(s);
 }
 function TemplatePanel(props) {
 
   let theCanvas;
-  const {  dispatch, mapAddlayer,  mapSelectTemplate, dataFieldsSet, addLabel} = props;
-  const dataFieldsArray = Array.from(dataFieldsSet);  
+  const {  dispatch, mapAddData,  mapAddLayer, mapDeleteLayer, mapMoveLayer, dataFieldsSet, addLabel} = props;
+  const dataFieldsArray = Array.from(dataFieldsSet);
   const [ labelChecked, setlabelChecked] = useState(false);
   const [ _openKeys, setOpenKeys] = useState('');
-  const [ dataSelect, setData ]= useState(null);
-  const [ radioValue, setRadioValue] = useState("black"); 
+  const [ dataSelect, setData] = useState(null);
+  const [ templateSelect, setTemplate] = useState(null);
+  const [ radioValue, setRadioValue] = useState("black");
+  let fileUploaded = null;
+  
+  const setTemplateSelect = (e) =>{
+	var str="选择模板";
+	if(e) str=str+" ["+e+"]";	
+	ElementReplace("selectTemplateSpan","innerHTML",str);
+	setTemplate(e);
+  }
   
   const setDataSelect = (e) =>{
-	  templateSelect='';	  
+	  setTemplateSelect(null);
+	  var str="添加数据";
+	  if(e) str=str+" ["+e+"]";	  
+	  ElementReplace("addLayerSpan","innerHTML",str);
 	  setData(e);
-	  ElementReplace("selectTemplateSpan","innerHTML","选择模板");
-	}
+  }
   const handleMenuClick = e => {
     if (e.keyPath.length > 1) {
-       if (e.keyPath[1] === 'selectTemplate') {					
-         templateSelect=e.keyPath[0];
-			ElementReplace("selectTemplateSpan","innerHTML","选择模板 ["+templateSelect+"]");
+       if (e.keyPath[1] === 'selectTemplate') {
+         setTemplateSelect(e.keyPath[0]);
+			if(e.keyPath[0]=== 'multi')radioChangeTough('multi'); else
+			if(e.keyPath[0]=== 'single') radioChangeTough('black');			
        }else if (e.keyPath[1] === 'addLayer') {
-		   setDataSelect(e.keyPath[0]);		   
-			ElementReplace("addLayerSpan","innerHTML","添加数据 ["+e.keyPath[0]+"]");
+		   setDataSelect(e.keyPath[0]);			
 	   }
     }else
     if (e.key === 'print') {
@@ -69,44 +78,99 @@ function TemplatePanel(props) {
   };
   const handleMenuChange = openkeys => {
 	if(openkeys.length)
-	setOpenKeys([openkeys[openkeys.length-1]]); 
+	setOpenKeys([openkeys[openkeys.length-1]]);
 	else setOpenKeys([]);
   }
+
+ 
+ 
+  const addDataFile = (e) =>{	  
+	  mapAddData(document.getElementById("DataName").value, dataSelect, e);	  
+  }  
   
+  const addLayerClick= e =>{
+	  var others;
+	  var dataName=null;
+	  if(dataSelect!='tiff') 	{
+		  others = document.getElementById("DataFields").innerText;
+		  dataName = document.getElementById("DataName").value;
+	  }
+	  else if(templateSelect=='single')
+		  others = radioValue;
+	  else if(templateSelect=='multi')
+		  others = 'multi';
+	  setLabelCheckedFalse();
+	  mapAddLayer(templateSelect,
+				  dataSelect,
+				  dataName	,
+			document.getElementById("LayerName").value,
+				  others);
+  }
+  const deleteClick = e =>{	  
+	  mapDeleteLayer(
+		document.getElementById("LayerDelete").value,
+		document.getElementById("TemplateDelete").innerText
+	  ) ; 
+  }  
+  const moveClick = e =>{
+	  mapMoveLayer(
+		document.getElementById("LayerDelete").value,
+		document.getElementById("TemplateDelete").innerText
+	  ) ; 
+  }
+  const addlabelClick= e => {
+	setlabelChecked(e.target.checked);
+
+	addLabel(document.getElementById("DataName").value,
+			document.getElementById("DataFields").innerText,e.target.checked);
+  }
   const setLabelCheckedFalse = e =>{
 		if(labelChecked)
 		setlabelChecked(false);
   }
-  const buttonClick= e =>{
-	  //document.getElementById("DataFields").value="  ";
-	  setLabelCheckedFalse();
-	  
-	  if(templateSelect==''){windowalert("未选择数据与模板");return;}
-	  
-	  
-	  mapSelectTemplate(templateSelect,
-						dataSelect,
-						document.getElementById("DataName").value,
-						document.getElementById("LayerName").value,
-						radioValue);
-	  
-  }
-  const addlabelClick= e => {
-	setlabelChecked(e.target.checked);	
-	
-	addLabel(document.getElementById("DataName").value,
-			document.getElementById("DataFields").innerText,e.target.checked);					
-  }
-  const radioChange = e => {
-      setRadioValue(e.target.value)
+  const radioChangeTough = (e) => {
+	setRadioValue(e);
+	console.log("radioChangeTough -> "+e );
   };
+  const radioChange = e => {
+      setRadioValue(e.target.value);
+	  console.log("radioChange -> "+e.target.value );
+  };
+
+  const beforeUpload = file =>{
+	 const reader = new FileReader();
+	 reader.readAsText(file);
+	 reader.onload = function(){		
+		fileUploaded=reader.result;
+	 }	  
+  }
+  const uploadChange= info => {	
+  
+	if (info.file.status === 'done') {
+		 var name = info.file.name; 
+		 var splitStr = name.split(".");
+		 var format = splitStr[splitStr.length-1].toUpperCase();		
+		
+		 if( format!= dataSelect.toUpperCase() ){
+			alert("上传文件格式不符");
+			return;
+		 }	 
+		 addDataFile(fileUploaded);	
+		 fileUploaded = null;	
+	} else if (info.file.status === 'error') {
+		  alert("upload file failed, now use the sample file");
+		  addDataFile(null);	
+	}
+ };
+ 
   const { Option  } = Select;
   const { Text }= Typography;
- 
- 
+
+
   return (
     <Sider width={300} className={styles.panel} >
-      <div className={styles.logo}/>
+      <div className={styles.logo}/>	 
+	  
       <Menu
         mode="inline"
         theme={'dark'}
@@ -122,12 +186,12 @@ function TemplatePanel(props) {
               <span id="addLayerSpan">添加数据</span>
             </span>
           }
-        >		
-          <Menu.Item key="json">json</Menu.Item>        
+        >
+          <Menu.Item key="json">json</Menu.Item>
           <Menu.Item key="csv">csv</Menu.Item>
-		  <Menu.Item key="tiff">tiff</Menu.Item>        
+		  <Menu.Item key="tiff">tiff</Menu.Item>
         </SubMenu>
-        
+
 		{ (dataSelect=="json"||dataSelect=="csv" )&&
 		<SubMenu
           key="selectTemplate"
@@ -157,46 +221,64 @@ function TemplatePanel(props) {
           <Menu.Item key="multi">多波段multi</Menu.Item>
 		</SubMenu>}
 
-        <Menu.Item key="add-text">
-          <IconFont type="icon-text"/>
-          <span>添加文字</span>
-        </Menu.Item>
       </Menu>
 
-	  {dataSelect&&
-	  
+	 {dataSelect&&
+
       <div className={styles.layerinput}>
-		<Text strong className={styles.layertitle_block} >Layer_Input</Text>        
-        { (dataSelect=="json"||dataSelect=="csv" )&&
-			<div className={styles.layerinput_block}>
-				<Select id="DataFields" className={styles.layerinput_block_son}  onChange={setLabelCheckedFalse} >
+		<Text strong className={styles.layerTitle_block} >Layer_Add</Text>
+		{ (dataSelect!="tiff")&&//矢量数据 名称		 		
+			<div className={styles.layerInput_block}>
+				<Select id="DataFields" className={styles.layerInput_block_input}  onChange={setLabelCheckedFalse} >
 					{dataFieldsArray.map((v,k)=>(
 						<Option value={v} >{v}</Option>
 					))	}
 				</Select>
-				<Checkbox id="labelAdd"	onChange={addlabelClick} className={styles.layerinput_label} checked={labelChecked}>添加标记</Checkbox>
+				<Checkbox id="labelAdd"	onChange={addlabelClick} className={styles.layerInput_block_add} checked={labelChecked}>添加标记</Checkbox>
+				<Input id="DataName" addonBefore="DataName" className={styles.layerInput_block_input} defaultValue="data1" />   
+				<Upload showUploadList={false} beforeUpload={beforeUpload} onChange={uploadChange} >
+					<Button shape="round" className={styles.layerInput_block_add}  type="primary" >AddData</Button>
+				</Upload>			
+			</div>		  			
+		}
+
+		{ (dataSelect=="tiff")&&(radioValue!='multi')&&  //栅格数据 单波段 色系
+			<div className={styles.layerInput_block}>
+				<Radio.Group onChange={radioChange} size="small" value={radioValue} buttonStyle="solid" >
+					<Radio.Button value={"black"}>Black</Radio.Button>
+					<Radio.Button value={"green"}>Green</Radio.Button>
+					<Radio.Button value={"purple"}>Purple</Radio.Button>
+					<Radio.Button value={"red"}>Red</Radio.Button>
+					<Radio.Button value={"rainbow"}>Rainbow</Radio.Button>
+				</Radio.Group>
 			</div>
 		}
-		
-		{ (dataSelect=="tiff")&&
-
-				<div className={styles.layerinput_block}>					 
-					<Radio.Group onChange={radioChange} size="small" value={radioValue} buttonStyle="solid">
-						<Radio.Button value={"black"}>Black</Radio.Button>
-						<Radio.Button value={"green"}>Green</Radio.Button>
-						<Radio.Button value={"purple"}>Purple</Radio.Button>						
-						<Radio.Button value={"red"}>Red</Radio.Button>
-						<Radio.Button value={"rainbow"}>Rainbow</Radio.Button>
-					</Radio.Group>					
-				</div>
-		}			
-        <Input id="DataName" addonBefore="DataName" className={styles.layerinput_block} defaultValue="data1" />
-		<Input id="LayerName" addonBefore="LayerName"className={styles.layerinput_block} defaultValue="layer1" />
-		
-		<Button shape="circle" className={styles.layerbutton_block } onClick={buttonClick} type="primary"> OK</Button> 
-		
-		
+    
+		{ templateSelect &&
+		  <div className={styles.layerInput_block}>
+			<Input id="LayerName" addonBefore="LayerName"className={styles.layerInput_block_input} defaultValue="layer1" />		
+			<Button shape="round" className={styles.layerInput_block_add } onClick={addLayerClick} type="primary">AddLayer</Button>
+		  </div>
+		}
 	  </div>}
+	  
+      <div className={styles.layerinput}>
+		<Text strong className={styles.layerTitle_block} >Layer_Delete</Text>
+		<div className={styles.layerInput_block}>			
+			<Select id="TemplateDelete" className={styles.layerInput_block_input}   >
+				<Option value="json"   >json</Option>
+				<Option value="heat"   >heat</Option>	
+				<Option value="cluster">cluster</Option>
+				<Option value="tiff"   >tiff</Option>
+			</Select>	
+			<Button shape="round" className={styles.layerInput_block_add } onClick={deleteClick} type="primary">Delete</Button>			
+			<Input id="LayerDelete" addonBefore="LayerName"className={styles.layerInput_block_input} defaultValue="layer1" />	
+			<Button shape="round" className={styles.layerInput_block_add}  onClick={moveClick} type="primary" >MoveTop</Button>				
+		
+		</div>	
+	  </div>
+
+	  
     </Sider>
   )
     ;

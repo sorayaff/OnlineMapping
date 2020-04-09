@@ -22,7 +22,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { connect } from 'dva';
 import Button from 'antd/lib/button';
 import html2canvas from 'html2canvas';
-import chongqinggeoJson from '@/assets/chongqing.json';
+import zheJiangGeoJson from '@/assets/zhejiang.json';
 import earthquakecsv from '@/assets/earthquake.csv'
 import Papa from 'papaparse'
 
@@ -40,20 +40,9 @@ const basemapStyle = {
   'street': 'mapbox://styles/mapbox/streets-v11',
 };
 const MapboxMap = ReactMapboxGl({ accessToken: MAPBOX_TOKEN, attributionControl: false, preserveDrawingBuffer: true });
-function windowconfirm(s)
-{
-	var r=window.confirm(s);
-	return r;
-}
-function windowalert(s)
-{
-	window.alert(s);	
-}
- function onMousemove(e){
-	 var text=JSON.stringify(e.lngLat);
-	 console.log(text);
- }
- function ElementReplace (id,property,textstring){
+
+ 
+function ElementReplace (id,property,textstring){
 	 var obj= document.getElementById(id);
 	 if(obj)
 		 if(property=="value")
@@ -67,13 +56,14 @@ function OnlineMapping(props) {
   const [_collapsed, setCollapsed] = useState(false);
   const [_mapStyleKey, setMapStyleKey] = useState('light');
   const [_layerNames,setLayerNames] = useState([]);
+  const [_dataNames,setDataNames] = useState([]);
   const initialControl = fromJS({ 'rotation': false, 'scale': false, 'zoom':false });
   const [_control, setControl] = useState(initialControl);
   const [_map, setMap] = useState(null);
   const [isPrint, setIsPrint] = useState(false);
   const map_ref = React.useRef(null);
   const { dispatch } = props;
-  const [geojsonFields, setFields]=useState(new Set());	
+  const [geojsonFields, setFields]=useState(new Set());
   const onCollapse = collapsed => {
     console.log(collapsed);
     setCollapsed(collapsed);
@@ -88,21 +78,31 @@ function OnlineMapping(props) {
     setControl(_control.update(controlKey, v => !v));
     console.log(_control, _mapStyleKey);
   };
-  const onLayerChange = (layername) => {
-	let newArray = new Set(_layerNames);  
-	if(newArray.has(layername)){
-		newArray.delete(layername); 
-	}else
-		newArray.add(layername); 
+  const onDataChange = (dataname) => {			//Footer 数据相关
+    let newArray = new Set(_dataNames);
+	if(newArray.has(dataname))
+		newArray.delete(dataname);
+	newArray.add(dataname);
+    setDataNames(newArray);
+	var textstring="";
+	for(let item of newArray)
+		textstring=textstring+item+"; ";  //1,2,3
+    ElementReplace("FooterData","innerText","Data: "+textstring+"| ");
+  };
+  const onLayerChange = (layername, addORdelete) => {		//Footer 图层相关
+	let newArray = new Set(_layerNames);
+	if(newArray.has(layername))
+		newArray.delete(layername);	
+	if(addORdelete)
+		newArray.add(layername);
     setLayerNames(newArray);
 	var textstring="";
-	for(let item of newArray){
+	for(let item of newArray)
 		textstring=textstring+item+"; ";  //1,2,3
-	}
-    ElementReplace("FooterText","innerText",textstring);
+    ElementReplace("FooterLayer","innerText","Layer: "+textstring+"| ");
   };
-  const onFieldsChange = (fields) => {
-      setFields(fields);    
+  const onFieldsChange = (fields) => {			//矢量数据 字段
+      setFields(fields);
   };
   const handleModalCancel = () => {
     dispatch({
@@ -110,63 +110,43 @@ function OnlineMapping(props) {
       payload: false,
     });
   };
- 
 
-  const printImg = () => {
-    // HTMLCanvasElement.prototype.getContext = function(origFn) {
-    //   return function(type, attribs) {
-    //     attribs = attribs || {};
-    //     attribs.preserveDrawingBuffer = true;
-    //     return origFn.call(this, type, attribs);
-    //   };
-    // }(HTMLCanvasElement.prototype.getContext);
-    const elem = map_ref.current;
-    let nodesToRecover = [];
-    let nodesToRemove = [];
-    $('.mapboxgl-map').find('svg').map(function(index, node) {
-      let parentNode = node.parentNode;
-      let svg = node.outerHTML.trim();
-      let canvas = document.createElement('canvas');
-      canvg(canvas, svg);
-      if (node.style.position) {
-        canvas.style.position += node.style.position;
-        canvas.style.left += node.style.left;
-        canvas.style.top += node.style.top;
-      }
-      nodesToRecover.push({
-        parent: parentNode,
-        child: node,
-      });
-      parentNode.removeChild(node);
 
-      nodesToRemove.push({
-        parent: parentNode,
-        child: canvas,
-      });
-      parentNode.appendChild(canvas);
-    });
-    html2canvas(document.querySelector('.mapboxgl-map'), { useCORS: true })
-      .then((canvas) => {
-        let link = document.createElement('a');
-        link.href = canvas.toDataURL('image/jpg');
-        link.download = 'screenshot.jpg';
-        link.click();
-      });
-  };
- 
+  const findField = function(geoJson, field, callback) {	
+	var name=Object.keys(geoJson.features[0].properties);	
+	for(var j=0; j<name.length;j++)
+	if(name[j]===field){
+		var array=new Array();
+		var count = 0;
+		for(var i in geoJson.features){
+			var obj = Object.values(geoJson.features[i].properties);
+			if(isNaN(obj[j])||obj[j] === "" || obj[j] == null)
+				count++;				//非数字
+			else array.push(obj[j]);
+		}
+		if(array.length>count*3){
+			 array.sort(function(num1,num2){
+				return num1-num2;
+			})						//排序
+			callback(array);
+			return;
+		}	
+		break;
+	}
+	callback(new Array());	//返回空数组
+  }
 
-	const renderclustermap=(geoJson,dataName,layerName)=>{
-    if (_map.getSource(dataName))// _map.removeSource('earthquakes');
-	{		
-		if(!windowconfirm("数据已存在，是否使用已有数据")) {return;}
-		//else
-	}else	
+  const renderclustermap = (dataName,layerName,geoJson) =>{		
+  if(_map.getLayer(layerName+'-clusters')){
+		alert("Existed Layer");
+		return;
+	}
 		_map.addSource(dataName,  {
            'type': 'geojson',
            'data': geoJson,
 		    'cluster': true,
-			'clusterMaxZoom': 14, 
-			'clusterRadius': 50
+			'clusterMaxZoom': 14,
+			'clusterRadius': 40
         });
 		_map.addLayer({
 			'id': layerName+'-clusters',
@@ -177,12 +157,14 @@ function OnlineMapping(props) {
 				'circle-color': [
 					'step',['get', 'point_count'],
 					'#51bbd6',
-					5,'#f1f075',
-					10,'#f28cb1'
+					10,'#f1f075',
+					100,'#f28cb1'
 				],
-				'circle-radius': [ 
+				'circle-radius': [
 					'step',['get', 'point_count'],
-					10,5,20,10,30
+					  10,
+					10,20,
+					100,30
 				]
 			}
 		});
@@ -204,217 +186,275 @@ function OnlineMapping(props) {
 			'filter': ['!', ['has', 'point_count']],
 			'paint': {
 				'circle-color': '#11b4da',
-				'circle-radius': 4,
+				'circle-radius': 6,
 				'circle-stroke-width': 1,
 				'circle-stroke-color': '#fff'
 			}
-});	
-		onLayerChange(layerName+'-clusters');
+});
+		onLayerChange(layerName+'-clusters', true);
 	}
-	const renderheatmap=(geoJson,dataName,layerName)=>{
-   if (_map.getSource(dataName))// _map.removeSource('earthquakes');
-	{		
-		if(!windowconfirm("数据已存在，是否使用已有数据")) {return;}
-	}else	
-		_map.addSource(dataName,       {
-           'type': 'geojson',
-           'data': geoJson,			
-        });
+  const renderheatmap = (dataName,layerName) =>{	
+  if(_map.getLayer(layerName+'-heat')){
+		alert("Existed Layer");
+		return;
+	}
 		_map.addLayer({
 			'id': layerName+'-heat',
 			'type': 'heatmap',
 			'source': dataName,
-			'maxzoom': 19,
+			'maxzoom': 20,
+			'filter': ['==', '$type', 'Point'],
 			'paint': {
-				'heatmap-weight': [
-					'interpolate',['linear'],
-					['get', 'mag'],4.5,0,6.5,1
-				],
+				
 				'heatmap-intensity': [
 					'interpolate',['linear'],
-					['zoom'],0,1,19,3
-				],
-				'heatmap-color': [
-					'interpolate',['linear'],
-					['heatmap-density'],
-					0,'rgba(33,102,172,0)',
-					0.2,'rgb(103,169,207)',
-					0.4,'rgb(209,229,240)',
-					0.6,'rgb(253,219,199)',
-					0.8,'rgb(239,138,98)',
-					1,'rgb(178,24,43)'
+					['zoom'],0,1,20,3
 				],
 				'heatmap-radius': [
 					'interpolate',['linear'],
-					['zoom'],0,10,19,40
+					['zoom'],0,2,20,40
 				],
 				'heatmap-opacity': [
 					'interpolate',['linear'],
-					['zoom'],7,1,19,0
+					['zoom'],5,1,20,0
 				]
 			}
 		});
-		_map.addLayer({
-			'id': layerName+'-heatpoint',
-			'type': 'circle',
-			'source':dataName,
-			'minzoom': 7,
-			'paint': {
-				'circle-radius': [
-					'interpolate',['linear'],['zoom'],
-					7,['interpolate', ['linear'], ['get', 'mag'], 1, 1, 6, 4],
-					16,['interpolate', ['linear'], ['get', 'mag'], 1, 5, 6, 50]
-				],
-				'circle-color': [
-					'interpolate',['linear'],['get', 'mag'],
-					1,'rgba(33,102,172,0)',2,'rgb(103,169,207)',3,'rgb(209,229,240)',
-					4,'rgb(253,219,199)',5,'rgb(239,138,98)',6,'rgb(178,24,43)'
-				],
-				'circle-stroke-color': 'white',
-				'circle-stroke-width': 1,
-				'circle-opacity': [
-					'interpolate',['linear'],['zoom'],
-					7,0,8,1
-				]
-			}
-		});
-		onLayerChange(layerName+'-heat');
+		onLayerChange(layerName+'-heat', true);
 	}
-	const renderjson=(geoJson,dataName,layerName)=>{
-	if (_map.getSource(dataName))// _map.removeSource('earthquakes');
-	{		
-		if(!windowconfirm("数据已存在，是否使用已有数据")) {return;}
-	}else	
-	_map.addSource(dataName,       {
-           'type': 'geojson',
-           'data': geoJson
-        });
+  const renderjson = (dataName,layerName, field) =>{
+	if(_map.getLayer(layerName+'-json')){
+		alert("Existed Layer");
+		return;
+	}
 	
-        _map.addLayer({'id': layerName+'-boundary',
+	_map.addLayer({		//线
+		  'id': layerName+'-boundary',
+          'type': 'line',
+          'source': dataName,		  
+          'paint': {
+			'line-color':  'rgb(100,100,100)',
+			'line-width': 4
+		  },
+          'filter': ['==', '$type', 'LineString']
+        });
+		
+	findField(_map.getSource(dataName)._data, field, function(array){				
+	if(array.length < 5)	//判断此字段是否为数字字段
+		field = "";			
+	else {			
+		_map.addLayer({		//分级图模板
+		  'id': layerName+"-field",
+		  'type': 'circle',
+		  'source': dataName,
+		  'paint': {
+			'circle-radius': [
+				'step',	['get',field],
+				  7,  10,10, 100,13
+			],
+			'circle-color': [
+				'step',	['get',field],
+				//'interpolate',['linear'],[ field],
+				'rgba(60,100,120,0.80)',
+				10,'rgba(229,131,8,0.70)',
+				100,'rgba(222,20,20,0.85)'
+			]
+		  },
+		  'filter':['all', ['==', '$type', 'Point'], ['has', field] ]
+		});
+		_map.addLayer({		//多边形
+		  'id': layerName+'-polygon',
           'type': 'fill',
           'source': dataName,
           'paint': {
-            'fill-color': '#FF8888',
-            'fill-opacity': 0.4
+			'fill-color': [
+				'step',	['get',field],
+				//'interpolate',['linear'],[ field],
+				   'rgba(237,222,139,0.50)',
+				10,'rgba(229,131,8,0.40)',
+				100,'rgba(222,20,20,0.55)',
+				500,'rgba(120,35,35,0.55)'
+			]
           },
           'filter': ['==', '$type', 'Polygon']
         });
-        _map.addLayer({'id': layerName+'-point-mag',
-          'type': 'circle',
-          'source': dataName,
-          'paint': {
-            'circle-radius': [
-				'step',['get', 'mag'],
-				5,
-				3,7,
-				5,11
-			],
-			'circle-color': [
-				'step',	['get','mag'],
-				'rgba(244,208,0,0.5)',
-				3,'rgba(229,131,8,0.7)',
-				5,'rgba(253,20,0,1.0)'
-				
-			]
-          },
-          'filter': ['has', 'mag']
-        });
-		
-        _map.addLayer({'id': layerName+'-point',
+	}
+        _map.addLayer({ //符号图模板
+		  'id': layerName+'-point',
           'type': 'circle',
           'source': dataName,
           'paint': {
             'circle-radius': 6,
-            'circle-color': 'rgb(3,100,100)'
+            'circle-color': 'rgb(100,100,100)'
           },
-          'filter': ['!', ['has', 'mag']],
+          'filter':['all', ['==', '$type', 'Point'], ['!has', field] ]
         });
-       
-		onLayerChange(layerName+'-json');
-  }	
-
-  const csv2json=function(csv,callback){
-	   Papa.parse(csv, {
-		  download: true,
-		  complete: function(results) {	 	
-			var data=results.data;
-			var fields=new Array();
-			var col=data[0].length;
-			for(var i=0;i<col;i++)fields[i]=data[0][i];
-			var arr=new Array();			
-			arr.push('{"type": "FeatureCollection","features":[\n');			
-			var i=1;
-			while (data[i][0] != "" && data[i][0] != null ) {
-				arr=arr+'{"type": "Feature",\n"geometry":{"type":"Point","coordinates":[';
-				arr=arr+data[i][0]+','+data[i][1]+ ']},\n';
-				arr=arr+'"properties":{\n'
-				for (var j = 2; j < col; j++) {					
-					arr=arr+'"'+fields[j]+'":';
-					if(isNaN(data[i][j])||data[i][j] === "" || data[i][j] == null)
-						arr=arr+'"'+data[i][j]+'"';
-					else arr=arr+data[i][j]; 
-					if(j+1<col)arr=arr+ ',\n';
-				}
-				i++;arr=arr+'}},\n';				
-			}
-			arr=arr.slice(0,arr.length-2)+']}';	//把最后的逗号换行号去掉
-			//console.log(arr);
-			var geoJson=JSON.parse(arr);
-			callback(geoJson);
-		}
-	  });
+		_map.addLayer({		//多边形
+		  'id': layerName+'-polygon',
+          'type': 'fill',
+          'source': dataName,
+          'paint': {
+            'fill-color': 'rgb(255,140,140)',
+            'fill-opacity': 0.4,
+			'fill-outline-color': 'rgb(120,35,35)'
+          },
+          'filter': ['==', '$type', 'Polygon']
+        });
+	});
+	
+	onLayerChange(layerName+'-json', true);
   }
  
-  var templateStyle,dataFormat,dataName,layerName;
-  const selecttemplate=(e,dataformat,dataname,layername,color)=>{
-	  dataName=dataname;
-	  layerName=layername;
-	  templateStyle=e;	  
-	  dataFormat=dataformat;
-	  
-	  if(_map){
-		if(dataformat==='json') {
-			var geoJson=chongqinggeoJson;
-			process(geoJson);
-		}
-		else if(dataformat==='csv')      {
-			csv2json(earthquakecsv,function(geoJson){
-				process(geoJson);
-			}); 
-		}
-		else  if(dataformat==='tiff')  {
-			var url="http://localhost:8080/{z}/{x}/{y}/"+color
-			_map.addLayer({
-            "id":layerName,
-            "type": "raster",
-            'source': {
-                'type': 'raster',
-                'tiles': [url]
-				}
-			})
-			onLayerChange(layerName+'-'+color);
-		}			
-	}
-  }	
-  const process=(geoJson)=>{
-	  let s=new Set();	
-		for(var i in geoJson.features)
-		{
-			var name=Object.keys(geoJson.features[i].properties);
-			for(var j=0; j<name.length;j++){
-				s.add(name[j]); 
-			}
-		}
-		onFieldsChange(s);
-		if (templateStyle === 'cluster') renderclustermap(geoJson,dataName,layerName);
-		else if (templateStyle === 'heat') renderheatmap(geoJson,dataName,layerName);
-		else if (templateStyle === 'symbol') renderjson(geoJson,dataName,layerName);
-		else windowalert("未选择模板");		
+  const moveLayer = (layerName,template) =>{
+	 if(!_map)return;
+	  var num=0;
+	  if(template=='json'){		 
+		  if(_map.getLayer(layerName+'-polygon') ) {
+			  _map.moveLayer(layerName+'-polygon');
+			  num++;
+		  }	  
+		  if(_map.getLayer(layerName+'-boundary') ) {
+			  _map.moveLayer(layerName+'-boundary');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-point') )  {
+			  _map.moveLayer(layerName+'-point');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-field') )  {
+			  _map.moveLayer(layerName+'-field');
+			  num++;
+		  }
+		  if(num)
+			alert("Move Layer success");
+		  
+	  }else 
+	  if(template=='cluster'){
+		  if(_map.getLayer(layerName+'-unclustered-point') ) {
+			  _map.moveLayer(layerName+'-unclustered-point');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-clusters') )	{
+			  _map.moveLayer(layerName+'-clusters');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-cluster-count') ) {
+			  _map.moveLayer(layerName+'-cluster-count');
+			  num++;
+		  }
+		  if(num)
+			  alert("Move Layer success");
+		  
+	  }else
+	  if(template=='heat'){
+		  layerName=layerName+'-heat';
+		  if(_map.getLayer(layerName) ){
+			  _map.moveLayer(layerName);
+			  alert("Move Layer success");
+		  }		  
+	  }else
+	  if(template=='tiff'){
+		  layerName=layerName+'-tiff';
+		  if(_map.getLayer(layerName) ) {
+			  _map.moveLayer(layerName);
+			  alert("Move Layer success");
+		  }
+	  }
   }
-  const addlayer = (e) => {
-    
-  };
-
+  const deleteLayer = (layerName,template) =>{
+	  if(!_map)return;
+	  var num=0;
+	  if(template=='json'){
+		  if(_map.getLayer(layerName+'-polygon') ) {
+			  _map.removeLayer(layerName+'-polygon');
+			  num++;
+		  }	  
+		  if(_map.getLayer(layerName+'-field') )  {
+			  _map.removeLayer(layerName+'-field');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-point') )  {
+			  _map.removeLayer(layerName+'-point');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-boundary') ) {
+			  _map.removeLayer(layerName+'-boundary');
+			  num++;
+		  }
+		  if(num){
+			onLayerChange(layerName+'-json', false);
+			alert("Delete Layer success");
+		  }
+	  }else 
+	  if(template=='cluster'){
+		  if(_map.getLayer(layerName+'-clusters') )	{
+			  _map.removeLayer(layerName+'-clusters');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-cluster-count') ) {
+			  _map.removeLayer(layerName+'-cluster-count');
+			  num++;
+		  }
+		  if(_map.getLayer(layerName+'-unclustered-point') ) {
+			  _map.removeLayer(layerName+'-unclustered-point');
+			  num++;
+		  }
+		  if(num){
+			onLayerChange(layerName+'-clusters', false);
+			alert("Delete Layer success");
+		  }
+	  }else
+	  if(template=='heat'){
+		  layerName=layerName+'-heat';
+		  if(_map.getLayer(layerName) ){
+			  _map.removeLayer(layerName);
+			  onLayerChange(layerName, false);
+			  alert("Delete Layer success");
+		  }		  
+	  }else
+	  if(template=='tiff'){
+		  layerName=layerName+'-tiff';
+		  if(_map.getLayer(layerName) ) {
+			  _map.removeLayer(layerName);
+			  onLayerChange(layerName, false);
+			  alert("Delete Layer success");
+		  }
+	  }
+  }
+  const addLayer = (template,dataFormat,dataName,layerName,others) =>{
+	if(_map){
+		if( !_map.getSource(dataName) && dataFormat !='tiff') {
+			alert("No data, Please add first");
+			return;
+		}        
+		if(dataFormat==='tiff')  { //others=color
+			 if(_map.getLayer(layerName+'-tiff')){
+				alert("Existed Layer");
+				return;
+			}
+			var url="http://localhost:8080/{z}/{x}/{y}/"+others;
+			_map.addLayer({
+				"id":layerName+"-tiff",
+				"type": "raster",
+				'source': {
+					'type': 'raster',
+					'tiles': [url]
+					}
+			})
+			onLayerChange(layerName+'-tiff', true);
+		}
+		else if(template==='symbol') //others=field
+			renderjson(dataName,layerName,others);
+		else if(template==='heat')
+			renderheatmap(dataName,layerName);
+		else if(template==='cluster'){			
+			var geoJsonData=_map.getSource(dataName)._data;
+			dataName=dataName+"-cluster";
+			renderclustermap(dataName,layerName,geoJsonData);
+			onDataChange(dataName);		
+		 }
+	}
+  }
   const addLabel = (dataName,field,addORdelete) => {
 	 if(_map.getLayer(dataName+'-label'))
 		  _map.removeLayer(dataName+'-label');
@@ -426,10 +466,123 @@ function OnlineMapping(props) {
             'text-field': ['get', field],
             "text-offset": [0, 0.6],
             "text-anchor": "top"
-          },          
-        });  
+          },
+	 });
+  }
+ 
+  const csvStr2json = function(data,callback){
+	var fields=new Array();
+	var col=data[0].length;
+	for(var i=0;i<col;i++)fields[i]=data[0][i];
+	var arr=new Array();
+	arr.push('{"type": "FeatureCollection","features":[\n');
+	var i=1;
+	while (data[i][0] != "" && data[i][0] != null ) {			
+		arr=arr+'{"type": "Feature",\n"geometry":{"type":"Point","coordinates":[';
+		arr=arr+data[i][0]+','+data[i][1]+ ']},\n';
+		arr=arr+'"properties":{\n'
+		for (var j = 2; j < col; j++) {
+			arr=arr+'"'+fields[j]+'":';	
+			var a=data[i][j];
+			if(a == "" || a == null || a.length<=(j+1==col) )
+				arr=arr+'""'; 
+			else if(isNaN(a))
+				arr=arr+'"'+a+'"';
+			else arr=arr+a;
+			if(j+1<col)arr=arr+ ',\n';
+		}
+		i++;arr=arr+'}},\n';
+	}
+	arr=arr.slice(0,arr.length-2)+']}';	//把最后的逗号换行号去掉
+	console.log(arr);
+	try{
+		var geoJson=JSON.parse(arr);
+		callback(geoJson);		  
+	}
+	catch(err){
+		alert("csv to json fail");
+		console.log(err);
+		callback(null);
+	}
+  } 	
+  const csv2Str = function(csv,callback){
+	   Papa.parse(csv, {
+		  download: true,
+		  complete: function(results) {
+			var data=results.data;
+			//var callbackgeoJson = null;
+			csvStr2json(data,function(callbackgeoJson){
+				callback(callbackgeoJson);
+			});		
+		}
+	  });
   }
   
+  const addDataProcess = (dataName,geoJson) =>{
+	  let s=new Set();
+		if(geoJson == null) return;
+		try{
+			var name=Object.keys(geoJson.features[0].properties);
+			for(var j=0; j<name.length;j++){
+				s.add(name[j]);
+			}	
+			onFieldsChange(s);
+		}
+		catch(err){
+			console.log(err);
+			alert("read Field fail");
+		}
+		try{
+			_map.addSource(dataName,   {
+				'type': 'geojson',
+				'data': geoJson
+			});
+			onDataChange(dataName);
+			alert("Add Data Success");
+		}
+		catch(err){
+			console.log(err);
+			alert("add DataSource fail");
+		}
+  }
+  const addData = (dataName,dataformat,file) => {
+	if(!_map)return;
+	if(_map.getSource(dataName)) {
+		alert("Existed data");
+		return;
+	}
+	if(dataformat==='json') {
+		if(file==null)file=zheJiangGeoJson;
+			else file=JSON.parse(file);
+		addDataProcess(dataName,file);		
+	}
+	else if(dataformat==='csv')    {			
+		if(file==null){				
+			csv2Str(earthquakecsv,function(geoJson){
+				addDataProcess(dataName,geoJson);
+			});
+			return;
+		}
+		var csv = file.split("\n");
+		var row = csv.length + 1;			
+		var col = csv[0].split(",").length;			
+		var data = new Array(row); //先声明一维数组			
+		for(var k=0;k<row;k++) {   
+			data[k]=new Array(col);  							
+			if(csv[k]==""||csv[k]==null||csv[k].length<2)break;
+			var csvdata = csv[k].split(",");	
+			if(csvdata==""||csvdata==null)break;		
+			for(var j=0;j<col;j++)data[k][j]=csvdata[j]; 
+		}	
+		var lastField=data[0][col-1];
+		data[0][col-1]=lastField.slice(0,lastField.length-1);
+		csvStr2json(data,function(geoJson){
+			addDataProcess(dataName,geoJson);
+		});
+	}
+  };
+  
+
 
   useEffect(()=>{
     if(_map){
@@ -440,15 +593,15 @@ function OnlineMapping(props) {
   },[_collapsed, _map]);
 
   return (
-    <Layout className={styles.normal}>	
-	   
+    <Layout className={styles.normal}>
+
       <LayerPanel
         collapsed={_collapsed}
         onCollapseChange={onCollapse}
         onBasemapChange={onBasemapChange}
         onControlsChange={onControlsChange}
         mapControl={_control}
-        mapInstance={_map}   
+        mapInstance={_map}
       />
 	  <Layout >
         <Content>
@@ -458,33 +611,36 @@ function OnlineMapping(props) {
               containerStyle={{ height: '95vh', width: '100%' }}
               zoom={_map?[_map.getZoom()]:[3]}
               center={_map?_map.getCenter():[108,30]}
-              //onMouseMove={onMousemove}
             >
               {_control.get('rotation') && <RotationControl/>}
               {_control.get('scale') && <ScaleControl/>}
               {_control.get('zoom') &&<ZoomControl/>}
-			  
+
               <MapContext.Consumer>
                 {map => {
                   setMap(map);
                 }}
               </MapContext.Consumer>
-            </MapboxMap>            
-          </div>		 
+            </MapboxMap>
+			
+			
+          </div>
         </Content>
 		<Footer style={{ height: '5vh', width: '100%' }}>
-			<Text id="FooterText" level={4} />made by LYX
+			<Text id = "FooterData"  level={4} />
+			<Text id ="FooterLayer" level={4} />made by LYX
 		</Footer>
       </Layout>
       <TemplatePanel
-        mapInstance={_map} 
-		mapAddlayer={addlayer}
-		mapSelectTemplate={selecttemplate}
+        mapInstance={_map}
+		mapAddData={addData}
+		mapAddLayer={addLayer}
+		mapDeleteLayer={deleteLayer}
+		mapMoveLayer={moveLayer}
 		dataFieldsSet={geojsonFields}
 		addLabel={addLabel}
       />
-	  
-	  
+
       {props.mapSaverModalVisible &&
         <MapSaverModal
           visible={props.mapSaverModalVisible}
@@ -492,7 +648,7 @@ function OnlineMapping(props) {
           handleCancel={handleModalCancel}
         />
       }
-	  
+
     </Layout>
   );
 }

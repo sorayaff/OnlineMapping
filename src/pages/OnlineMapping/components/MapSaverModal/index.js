@@ -3,7 +3,8 @@ import { Modal, Form, Radio, Input, Row, Col, Checkbox } from 'antd';
 import ReactMapboxGl, {
   RotationControl,
   ScaleControl,
-  MapContext,
+  ZoomControl,
+  MapContext  
 } from 'react-mapbox-gl';
 import FileSaver from 'file-saver';
 import html2canvas from 'html2canvas';
@@ -31,7 +32,7 @@ function MapSaverModal(props) {
   const [mapCenter,setMapCenter] = useState([0,0]);
   const [mapZoom,setMapZoom] = useState(11);
 
-  const initialControl = fromJS({ 'rotation': false, 'scale': false });
+  const initialControl = fromJS({ 'rotation': false, 'scale': false, 'zoom': false });
   const [_control, setControl] = useState(initialControl);
 
 
@@ -85,28 +86,10 @@ function MapSaverModal(props) {
     setControl(_control.update(e.target.id, v => !v));
     console.log(_control);
   };
-  // const onMapSizeChange = debounce((e) => {
-  //   console.log(e.target.id);
-  //   e.target.id === 'width' ? setMapSize({
-  //     height: mapSize.height,
-  //     width: e.target.value + 'px',
-  //   }) : setMapSize({ width: mapSize.width, height: e.target.value + 'px' });
-  // },1000);
 
-  // const onMapZoomChange = (e) => {
-  //   if(e.target.id==='zoom'){
-  //     setMapZoom(e.target.value)
-  //   }
-  // };
 
   const printImg = (type,filename) => {
-    // HTMLCanvasElement.prototype.getContext = function(origFn) {
-    //   return function(type, attribs) {
-    //     attribs = attribs || {};
-    //     attribs.preserveDrawingBuffer = true;
-    //     return origFn.call(this, type, attribs);
-    //   };
-    // }(HTMLCanvasElement.prototype.getContext);
+
     let nodesToRecover = [];
     let nodesToRemove = [];
     $('#map-preview').find('svg').map(function(index, node) {
@@ -191,7 +174,7 @@ function MapSaverModal(props) {
               )}
             </Form.Item>
           </Col>
-          <Col span={5}>
+          <Col span={7}>
             <Form.Item label="Control"  wrapperCol={{ span: 20 }}>
               <Checkbox defaultChecked={false}
                         onChange={onControlsChange}
@@ -203,7 +186,11 @@ function MapSaverModal(props) {
                         id='scale'>
                 比例尺
               </Checkbox>
-
+			  <Checkbox defaultChecked={false}
+                        onChange={onControlsChange}
+                        id='zoom'>
+                放缩器
+              </Checkbox>
             </Form.Item>
           </Col>
         </Row>
@@ -238,6 +225,7 @@ function MapSaverModal(props) {
         >
           {_control.get('rotation') && <RotationControl/>}
           {_control.get('scale') && <ScaleControl/>}
+		  {_control.get('zoom') && <ZoomControl/>}
           <MapContext.Consumer>
             {map => {
               setMap(map);
