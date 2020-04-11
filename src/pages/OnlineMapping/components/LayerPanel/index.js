@@ -1,13 +1,9 @@
-import { Layout, Menu, Breadcrumb, Icon, Collapse } from 'antd';
-import React, { useState, useEffect } from 'react';
-import FileSaver from 'file-saver';
-import mapboxgl from 'mapbox-gl';
-import SaveMapModal from '../MapSaverModal/index';
+import { Layout, Menu, Icon, Collapse } from 'antd';
+import React, { useState } from 'react';
 import styles from './index.less';
 import { connect } from 'dva';
-import html2canvas from 'html2canvas';
 
-const { Header, Content, Footer, Sider } = Layout;
+const {  Sider } = Layout;
 const { SubMenu } = Menu;
 const { Panel } = Collapse;
 const IconFont = Icon.createFromIconfontCN({
@@ -21,14 +17,18 @@ function LayerPanel(props) {
  
   let theCanvas;
   const [_openKeys,setOpenKeys] = useState('');
-  const { collapsed, onCollapseChange, onBasemapChange, onControlsChange, mapControl, dispatch } = props;
+  const { collapsed, onCollapseChange, onBasemapChange, onControlsChange, mapControl, onLegendChange, getLegend, dispatch } = props;
   const handleMenuClick = e => {
     if (e.keyPath.length > 1) {
       if (e.keyPath[1] === 'basemap') {
         console.log(e.key);
         onBasemapChange(e.key);
       } else if (e.keyPath[1] === 'control') {
-        onControlsChange(e.key);
+        if(e.key!='legend'){
+			onControlsChange(e.key);
+		}else {
+			onLegendChange(!getLegend);
+		}
       }
     }
     if (e.key === 'print') {
@@ -39,7 +39,7 @@ function LayerPanel(props) {
 
     }else
 	if (e.key === 'add-text'){
-	//	addtext();
+		
 	}
 
   };
@@ -77,10 +77,7 @@ function LayerPanel(props) {
         </SubMenu>
        
 
-        <Menu.Item key="add-text">
-          <IconFont type="icon-text"/>
-          <span>添加文字</span>
-        </Menu.Item>
+       
         <SubMenu
           key="control"
           title={
@@ -106,6 +103,12 @@ function LayerPanel(props) {
             <span>比例尺</span>
             <span className={styles.checkIcon}>
               {mapControl.get('scale') && <Icon type='check'/>}
+            </span>
+          </Menu.Item>
+		  <Menu.Item key="legend">
+            <span>图例</span>
+            <span className={styles.checkIcon}>
+              {getLegend && <Icon type='check'/>}
             </span>
           </Menu.Item>
           

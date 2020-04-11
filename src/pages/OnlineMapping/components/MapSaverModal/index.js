@@ -14,6 +14,7 @@ import { connect } from 'dva';
 import $ from 'jquery';
 import canvg from '@/pages/OnlineMapping';
 import { fromJS } from 'immutable';
+import Title from '@/pages/OnlineMapping/components/MapTitle';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1Ijoid2F0c29ueWh4IiwiYSI6ImNrMWticjRqYjJhOTczY212ZzVnejNzcnkifQ.-0kOdd5ZzjMZGlah6aNYNg'; // Set your mapbox token here
@@ -24,26 +25,28 @@ function MapSaverModal(props) {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { visible, form, dispatch, mapPreview,mapControl } = props;
   const [mapSize, setMapSize] = useState({
-    height: '700px',
-    width: '1000px',
+    height: '300px',
+    width:  '600px',
   });
   const { getFieldDecorator, setFieldsValue } = form;
   const [_map, setMap] = useState(null);
   const [mapCenter,setMapCenter] = useState([0,0]);
   const [mapZoom,setMapZoom] = useState(11);
+  const [titleText,setTitleText] = useState("");
 
   const initialControl = fromJS({ 'rotation': false, 'scale': false, 'zoom': false });
   const [_control, setControl] = useState(initialControl);
 
 
   useEffect(() => {
-    if (_map) {
+    if (_map) {		
+	  $(".mapboxgl-ctrl").hide();
       _map.resize();
     }
   }, [_map, mapSize]);
 
   useEffect(() => {
-    if(mapPreview){
+    if(mapPreview){	  
       setMapCenter(mapPreview.getCenter());
       setMapZoom(mapPreview.getZoom());
     }
@@ -62,14 +65,16 @@ function MapSaverModal(props) {
         type: 'onlineMapping/setMapSaverModalVisible',
         payload: false,
       });
-
       setConfirmLoading(false);
+	  $(".mapboxgl-ctrl").show();
     });
+	
   };
 
   const handleCancel = () => {
     props.form.resetFields();//重置Form表单的内容
     props.handleCancel();
+	$(".mapboxgl-ctrl").show();
   };
 
   const resizeMap = useRef(debounce((id,value)=>{
@@ -81,12 +86,29 @@ function MapSaverModal(props) {
   const onMapSizeChange = (e) => {
     console.log(e.target.id);
     resizeMap(e.target.id,e.target.value);
+	
+	$("#map-preview").css(e.target.id, e.target.value);
+	if(e.target.id === 'width')
+		$("#mapTitle").css(e.target.id, e.target.value);
   };
   const onControlsChange = (e) => {
     setControl(_control.update(e.target.id, v => !v));
     console.log(_control);
   };
-
+  const onLegendChange = (e) => {
+      var boo = e.target.checked;
+      console.log(boo);
+      if(boo){
+       $("#mapLegend").css("display",'block');
+      }	else{
+       $("#mapLegend").css("display",'none');
+      }
+		  console.log(titleText);
+  }
+  
+  const onTitleChange = e => {
+	  setTitleText(e.target.value);
+  }
 
   const printImg = (type,filename) => {
 
@@ -129,7 +151,7 @@ function MapSaverModal(props) {
       title="出图预览"
       centered
       maskClosable={false}
-      width={'90vw'}
+      width={'70vw'}
       visible={visible}
       onOk={handleOk}
       confirmLoading={confirmLoading}
@@ -141,7 +163,7 @@ function MapSaverModal(props) {
             <Form.Item label="Width (px)" wrapperCol={{ span: 20 }}>
               {getFieldDecorator('width', {
                 rules: [{ required: true, message: 'Please input the width of export map!' }],
-                initialValue: '1000',
+                initialValue: '600',
               })(<Input onChange={onMapSizeChange}/>)}
             </Form.Item>
           </Col>
@@ -149,11 +171,11 @@ function MapSaverModal(props) {
             <Form.Item label="Height (px)" wrapperCol={{ span: 20 }}>
               {getFieldDecorator('height', {
                 rules: [{ required: true, message: 'Please input the height of export map!' }],
-                initialValue: '700',
+                initialValue: '300',
               })(<Input onChange={onMapSizeChange}/>)}
             </Form.Item>
-          </Col>
-          <Col span={3}>
+          </Col>		  
+          <Col span={5}>
             <Form.Item label="Output format">
               {getFieldDecorator('format', {
                 initialValue: 'png',
@@ -174,8 +196,21 @@ function MapSaverModal(props) {
               )}
             </Form.Item>
           </Col>
-          <Col span={7}>
-            <Form.Item label="Control"  wrapperCol={{ span: 20 }}>
+		  <Col span={5}>
+            <Form.Item label="Title" wrapperCol={{ span: 20 }}>
+              <Input  onInput ={onTitleChange}/>
+            </Form.Item>
+          </Col>
+		</Row>
+		<Row>
+          <Col span={20}>
+            <Form.Item  >
+			  <Checkbox defaultChecked={false}
+                        onChange={onControlsChange}
+                        id='zoom'
+						>
+                放缩器
+              </Checkbox>
               <Checkbox defaultChecked={false}
                         onChange={onControlsChange}
                         id='rotation' >
@@ -185,55 +220,66 @@ function MapSaverModal(props) {
                         onChange={onControlsChange}
                         id='scale'>
                 比例尺
-              </Checkbox>
+              </Checkbox>	
 			  <Checkbox defaultChecked={false}
-                        onChange={onControlsChange}
-                        id='zoom'>
-                放缩器
-              </Checkbox>
+                        onChange={onLegendChange}
+                        id='legend'>
+                图例
+              </Checkbox>			  
             </Form.Item>
           </Col>
-        </Row>
+         </Row>
       </Form>
-      <div className={styles.mapPreview_container} id='map-preview'>
-        {mapPreview &&
-        <MapboxMap
-          style={mapPreview.getStyle()}
-          containerStyle={mapSize}
-          center={mapCenter}
-          zoom={[mapZoom]}
-          onZoomEnd={(_, event) => {
-            const currentZoom = event.target.getZoom();
-            if(currentZoom !== mapZoom){
-              console.log(mapZoom,currentZoom);
-              setMapZoom(event.target.getZoom());
-            }
-            else {
-              console.log(mapZoom,currentZoom);
-            }
-          }}
-          onMoveEnd={(_, event) => {
-            const currentCenter = event.target.getCenter().toArray();
-            if (currentCenter[0] !== mapCenter[0] || currentCenter[1] !== mapCenter[1]){
-              console.log(mapCenter,currentCenter);
-              setMapCenter(currentCenter);
-            }
-            else {
-              console.log(mapCenter,currentCenter);
-            }
-          }}
-        >
-          {_control.get('rotation') && <RotationControl/>}
-          {_control.get('scale') && <ScaleControl/>}
-		  {_control.get('zoom') && <ZoomControl/>}
-          <MapContext.Consumer>
-            {map => {
-              setMap(map);
-            }}
-          </MapContext.Consumer>
-        </MapboxMap>
-        }
-      </div>
+	  
+		<div className={styles.mapPreview_container} id='map-preview'>
+			<Title id="mapTitle" titleText={titleText}/>
+			{mapPreview &&
+			<MapboxMap
+			  style={mapPreview.getStyle()}
+			  containerStyle={mapSize}
+			  center={mapCenter}
+			  zoom={[mapZoom]}
+			  onZoomEnd={(_, event) => {
+				const currentZoom = event.target.getZoom();
+				if(currentZoom !== mapZoom){
+				  console.log(mapZoom,currentZoom);
+				  setMapZoom(event.target.getZoom());
+				}
+				else {
+				  console.log(mapZoom,currentZoom);
+				}
+			  }}
+			  onMoveEnd={(_, event) => {
+				const currentCenter = event.target.getCenter().toArray();
+				if (currentCenter[0] !== mapCenter[0] || currentCenter[1] !== mapCenter[1]){
+				  console.log(mapCenter,currentCenter);
+				  setMapCenter(currentCenter);
+				}
+				else {
+				  console.log(mapCenter,currentCenter);
+				}
+			  }}
+			>
+			  {_control.get('rotation') && <RotationControl/>}
+			  {_control.get('scale') && <ScaleControl/>}
+			  {_control.get('zoom') && <ZoomControl/>}
+			  <MapContext.Consumer>
+				{map => {
+				  setMap(map);
+				}}
+			  </MapContext.Consumer>
+			</MapboxMap>
+			}
+			
+			<div id="mapLegend" className={styles.legend} >
+			    <h4>Legend</h4>
+				<div><span style={{background: 'rgb(100,30,30)'}}></span>500</div>
+				<div><span style={{background: 'rgb(222,20,20)'}}></span>100</div>
+				<div><span style={{background: 'rgb(229,131,8)'}}></span>10</div>
+				<div><span style={{background: 'rgb(237,222,139)'}}></span>0</div>
+			</div>
+		</div>
+     
     </Modal>
   );
 }

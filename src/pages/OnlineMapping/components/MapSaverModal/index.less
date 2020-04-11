@@ -1,5 +1,35 @@
 .mapPreview_container {
-  width: 100%;
+  width: 600px;
   display:flex;
-  justify-content:center;
+  position: relative;
+  .title{
+    text-align:center;
+	position: absolute;
+	width: 600px;
+	top: 10px; 
+	display: block;
+	z-index:3;
+	font-size:20px;
+	font-weight:bold;
+  }
+  .legend {
+	background-color: #fff;
+	border-style:dotted;
+	border-width:3px;
+	border-color:brown;
+	padding: 5px 15px 10px 15px;
+	position: absolute;
+	left: 9px;
+	bottom: 6px; 
+	z-index: 2;
+	display: none;
+	width: 85px;	
+	span{
+		border-radius: 50%;
+		display: inline-block;
+		height: 10px;
+		margin: 0 10px 0 0;
+		width: 10px;
+	}
+  }
 }

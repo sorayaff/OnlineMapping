@@ -1,16 +1,11 @@
-import {Typography, Input, Select, Layout, Menu, Breadcrumb, Icon, Collapse, Button, Checkbox, Radio, Upload } from 'antd';
+import {Typography, Input, Select, Layout, Menu, Icon,  Button, Checkbox, Radio, Upload } from 'antd';
 
-import React, { useState, useEffect } from 'react';
-import FileSaver from 'file-saver';
-import mapboxgl from 'mapbox-gl';
-import SaveMapModal from '../MapSaverModal/index';
+import React, { useState } from 'react';
 import styles from './index.less';
 import { connect } from 'dva';
-import html2canvas from 'html2canvas';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 const { SubMenu } = Menu;
-const { Panel } = Collapse;
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1225009_f39m3y74x5s.js',
 });
@@ -18,7 +13,6 @@ const IconFont = Icon.createFromIconfontCN({
 
 function TemplatePanel(props) {
 
-  let theCanvas;
   const {  dispatch, mapAddData,  mapAddLayer, mapDeleteLayer, mapMoveLayer, dataFieldsSet, addLabel} = props;
   const dataFieldsArray = Array.from(dataFieldsSet);
   const [ labelChecked, setlabelChecked] = useState(false);

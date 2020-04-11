@@ -22,8 +22,8 @@ import { connect } from 'dva';
 import Papa from 'papaparse';
 
 
-const { Header, Content, Footer, Sider } = Layout;
-const { Title, Text } = Typography;
+const {  Content, Footer } = Layout;
+const { Text } = Typography;
 
 const MAPBOX_TOKEN =
   'pk.eyJ1Ijoid2F0c29ueWh4IiwiYSI6ImNrMWticjRqYjJhOTczY212ZzVnejNzcnkifQ.-0kOdd5ZzjMZGlah6aNYNg';
@@ -44,15 +44,15 @@ function OnlineMapping(props) {
   const [_dataNames,setDataNames] = useState([]);
   const initialControl = fromJS({ 'rotation': false, 'scale': false, 'zoom':false });
   const [_control, setControl] = useState(initialControl);
+  const [_legend, setLegend] = useState(false);
   const [_map, setMap] = useState(null);
-  const [isPrint, setIsPrint] = useState(false);
   const map_ref = React.useRef(null);
   const { dispatch } = props;
   const [geojsonFields, setFields]=useState(new Set());
   
   const onCollapse = collapsed => {
     console.log(collapsed);
-    setCollapsed(collapsed);
+    setCollapsed(collapsed);	
   };
   const onBasemapChange = mapStyleKey => {
     console.log(mapStyleKey);
@@ -64,6 +64,15 @@ function OnlineMapping(props) {
     setControl(_control.update(controlKey, v => !v));
     console.log(_control, _mapStyleKey);
   };
+  const onLegendChange = (e) => {
+	setLegend(e);
+	if(e){
+	 $("#legend").css("display",'block');
+	}	else{
+	 $("#legend").css("display",'none');
+	}
+  }
+  
   const handleModalCancel = () => {
     dispatch({
       type: 'onlineMapping/setMapSaverModalVisible',
@@ -253,9 +262,10 @@ function OnlineMapping(props) {
 				],
 				'circle-color': [
 					'step',	['get',field],
-					'rgba(60,100,120,0.80)',
-					10,'rgba(229,131,8,0.70)',
-					100,'rgba(222,20,20,0.85)'
+					   'rgba(237,222,139,0.50)',
+					10,'rgba(229,131,8,0.40)',
+					100,'rgba(222,20,20,0.55)',
+					500,'rgba(100,30,30,0.55)'
 				]
 			  },
 			  'filter':['all', ['==', '$type', 'Point'], ['has', field] ]
@@ -271,7 +281,7 @@ function OnlineMapping(props) {
 					   'rgba(237,222,139,0.50)',
 					10,'rgba(229,131,8,0.40)',
 					100,'rgba(222,20,20,0.55)',
-					500,'rgba(120,35,35,0.55)'
+					500,'rgba(100,30,30,0.55)'
 				]
 			  },
 			  'filter':['all', ['==', '$type', 'Polygon'], ['has', field] ]
@@ -572,13 +582,15 @@ function OnlineMapping(props) {
   }
 
   useEffect(()=>{
-    if(_map){
+    if(_map){	  
       setTimeout(function() {
         _map.resize();
+		//$(".mapboxgl-ctrl").hide();
       },200)
     }
   },[_collapsed, _map]);
 
+  
   return (
     <Layout className={styles.normal}>
 
@@ -586,14 +598,16 @@ function OnlineMapping(props) {
         collapsed={_collapsed}
         onCollapseChange={onCollapse}
         onBasemapChange={onBasemapChange}
-        onControlsChange={onControlsChange}
+        onControlsChange={onControlsChange}		
         mapControl={_control}
+		onLegendChange={onLegendChange}
+		getLegend={_legend}
         mapInstance={_map}
       />
 	  <Layout >
         <Content>
-          <div className={styles.mapContainer} ref={map_ref}>
-            <MapboxMap
+          <div className={styles.mapContainer} ref={map_ref}>	         		
+			<MapboxMap
               style={basemapStyle[_mapStyleKey]}
               containerStyle={{ height: '95vh', width: '100%' }}
               zoom={_map?[_map.getZoom()]:[3]}
@@ -610,7 +624,13 @@ function OnlineMapping(props) {
               </MapContext.Consumer>
             </MapboxMap>
 			
-			
+			<div id="legend" className={styles.legend} >
+			    <h4>Legend</h4>
+				<div><span style={{background: 'rgb(100,30,30)'}}></span>500</div>
+				<div><span style={{background: 'rgb(222,20,20)'}}></span>100</div>
+				<div><span style={{background: 'rgb(229,131,8)'}}></span>10</div>
+				<div><span style={{background: 'rgb(237,222,139)'}}></span>0</div>
+			</div>
           </div>
         </Content>
 		<Footer style={{ height: '5vh', width: '100%' }}>
@@ -630,7 +650,7 @@ function OnlineMapping(props) {
 
       {props.mapSaverModalVisible &&
         <MapSaverModal
-          visible={props.mapSaverModalVisible}
+          visible={true}
           mapPreview={_map}
           handleCancel={handleModalCancel}
         />

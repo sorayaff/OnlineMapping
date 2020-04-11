@@ -4,16 +4,28 @@
   display: flex;
 }
 .mapContainer {
-  height: 100%;
+  height: 100vh;
+  position: relative;
   flex: 1;
-}
-
-svg {
-  > polygon {
-    fill: none !important;
-    points: "10,1 19,19 10,14 1,19" !important;
-    stroke: #5a5a5a;
-    stroke-width:2px;
+  .legend {
+	background-color: #fff;
+	border-style:dotted;
+	border-width:3px;
+	border-color:brown;
+	padding: 10px 15px;	
+	position: absolute;
+	left: 8px;
+	bottom: 6vh; 
+	z-index: 2;
+	display: none;
+	width: 85px;	
+	span{
+		border-radius: 50%;
+		display: inline-block;
+		height: 10px;
+		margin: 0 10px 0 0;
+		width: 10px;
+	}
   }
 }
 
