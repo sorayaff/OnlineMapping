@@ -14,7 +14,7 @@ import { connect } from 'dva';
 import $ from 'jquery';
 import canvg from '@/pages/OnlineMapping';
 import { fromJS } from 'immutable';
-import Title from '@/pages/OnlineMapping/components/MapTitle';
+import MapLegend from '@/pages/OnlineMapping/components/MapLegend/index';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1Ijoid2F0c29ueWh4IiwiYSI6ImNrMWticjRqYjJhOTczY212ZzVnejNzcnkifQ.-0kOdd5ZzjMZGlah6aNYNg'; // Set your mapbox token here
@@ -23,7 +23,7 @@ const MapboxMap = ReactMapboxGl({ accessToken: MAPBOX_TOKEN, attributionControl:
 
 function MapSaverModal(props) {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const { visible, form, dispatch, mapPreview,mapControl } = props;
+  const { visible, form, dispatch, mapPreview, legend } = props;
   const [mapSize, setMapSize] = useState({
     height: '300px',
     width:  '600px',
@@ -95,16 +95,6 @@ function MapSaverModal(props) {
     setControl(_control.update(e.target.id, v => !v));
     console.log(_control);
   };
-  const onLegendChange = (e) => {
-      var boo = e.target.checked;
-      console.log(boo);
-      if(boo){
-       $("#mapLegend").css("display",'block');
-      }	else{
-       $("#mapLegend").css("display",'none');
-      }
-		  console.log(titleText);
-  }
   
   const onTitleChange = e => {
 	  setTitleText(e.target.value);
@@ -220,11 +210,6 @@ function MapSaverModal(props) {
                         onChange={onControlsChange}
                         id='scale'>
                 比例尺
-              </Checkbox>	
-			  <Checkbox defaultChecked={false}
-                        onChange={onLegendChange}
-                        id='legend'>
-                图例
               </Checkbox>			  
             </Form.Item>
           </Col>
@@ -232,7 +217,9 @@ function MapSaverModal(props) {
       </Form>
 	  
 		<div className={styles.mapPreview_container} id='map-preview'>
-			<Title id="mapTitle" titleText={titleText}/>
+			 <span  className={styles.title} >
+				{titleText}
+			 </span>
 			{mapPreview &&
 			<MapboxMap
 			  style={mapPreview.getStyle()}
@@ -268,16 +255,15 @@ function MapSaverModal(props) {
 				  setMap(map);
 				}}
 			  </MapContext.Consumer>
+			  <MapLegend
+			    style_bottom = {'10px'}
+				legend_discrete={legend.get('discrete')}
+				legend_continuous={legend.get('continuous')}		
+			  />
 			</MapboxMap>
 			}
 			
-			<div id="mapLegend" className={styles.legend} >
-			    <h4>Legend</h4>
-				<div><span style={{background: 'rgb(100,30,30)'}}></span>500</div>
-				<div><span style={{background: 'rgb(222,20,20)'}}></span>100</div>
-				<div><span style={{background: 'rgb(229,131,8)'}}></span>10</div>
-				<div><span style={{background: 'rgb(237,222,139)'}}></span>0</div>
-			</div>
+			
 		</div>
      
     </Modal>

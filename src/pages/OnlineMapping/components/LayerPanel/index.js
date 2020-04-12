@@ -17,30 +17,25 @@ function LayerPanel(props) {
  
   let theCanvas;
   const [_openKeys,setOpenKeys] = useState('');
-  const { collapsed, onCollapseChange, onBasemapChange, onControlsChange, mapControl, onLegendChange, getLegend, dispatch } = props;
+  const { collapsed, onCollapseChange, onBasemapChange, onControlsChange, mapControl, onLegendChange, legend, dispatch } = props;
   const handleMenuClick = e => {
     if (e.keyPath.length > 1) {
       if (e.keyPath[1] === 'basemap') {
         console.log(e.key);
         onBasemapChange(e.key);
-      } else if (e.keyPath[1] === 'control') {
-        if(e.key!='legend'){
+      } else if (e.keyPath[1] === 'control') {        
 			onControlsChange(e.key);
-		}else {
-			onLegendChange(!getLegend);
-		}
-      }
+      } else if (e.keyPath[1] === 'legend'){
+		onLegendChange(e.key);
+	  }
     }
-    if (e.key === 'print') {
+	if (e.key === 'print') {
       dispatch({
         type: 'onlineMapping/setMapSaverModalVisible',
         payload: true
       });
 
-    }else
-	if (e.key === 'add-text'){
-		
-	}
+    }
 
   };
 
@@ -104,15 +99,33 @@ function LayerPanel(props) {
             <span className={styles.checkIcon}>
               {mapControl.get('scale') && <Icon type='check'/>}
             </span>
-          </Menu.Item>
-		  <Menu.Item key="legend">
-            <span>图例</span>
-            <span className={styles.checkIcon}>
-              {getLegend && <Icon type='check'/>}
-            </span>
-          </Menu.Item>
-          
+          </Menu.Item>	          
         </SubMenu>
+		
+		<SubMenu
+          key="legend"
+          title={
+            <span>
+              <Icon type="bulb" />
+              <span>图例</span>			  
+            </span>
+          }
+        >
+		  <Menu.Item key="discrete">
+            <span>离散</span>
+            <span className={styles.checkIcon}>
+				{legend.get("discrete") && <Icon type='check'/>}
+			</span>
+          </Menu.Item>
+          <Menu.Item key="continuous">
+            <span>连续</span>
+            <span className={styles.checkIcon}>
+				{legend.get("continuous") && <Icon type='check'/>}
+			</span>
+          </Menu.Item>
+		</SubMenu>
+		
+		
         <Menu.Item key="print">
           <Icon type="printer" />
           <span>打印</span>

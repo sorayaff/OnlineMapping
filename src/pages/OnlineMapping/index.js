@@ -11,7 +11,7 @@ import ReactMapboxGl, {
   ZoomControl,
   Marker
 } from 'react-mapbox-gl';
-import { Layout, Menu, Breadcrumb, Icon, Typography  } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Typography, Form, Col, Row } from 'antd';
 import LayerPanel from './components/LayerPanel';
 import TemplatePanel from './components/TemplatePanel';
 import styles from './index.less';
@@ -20,6 +20,7 @@ import MapSaverModal from './components/MapSaverModal/index';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { connect } from 'dva';
 import Papa from 'papaparse';
+import MapLegend from './components/MapLegend/index';
 
 
 const {  Content, Footer } = Layout;
@@ -44,7 +45,8 @@ function OnlineMapping(props) {
   const [_dataNames,setDataNames] = useState([]);
   const initialControl = fromJS({ 'rotation': false, 'scale': false, 'zoom':false });
   const [_control, setControl] = useState(initialControl);
-  const [_legend, setLegend] = useState(false);
+  const initialLegend = fromJS({ 'discrete': false, 'continuous':false });
+  const [_legend, setLegend] = useState(initialLegend);
   const [_map, setMap] = useState(null);
   const map_ref = React.useRef(null);
   const { dispatch } = props;
@@ -62,15 +64,9 @@ function OnlineMapping(props) {
   };
   const onControlsChange = (controlKey) => {
     setControl(_control.update(controlKey, v => !v));
-    console.log(_control, _mapStyleKey);
   };
-  const onLegendChange = (e) => {
-	setLegend(e);
-	if(e){
-	 $("#legend").css("display",'block');
-	}	else{
-	 $("#legend").css("display",'none');
-	}
+  const onLegendChange = (e) => {	
+	setLegend(_legend.update(e, v => !v));
   }
   
   const handleModalCancel = () => {
@@ -230,65 +226,23 @@ function OnlineMapping(props) {
 		});
 		onLayerChange(layerName+'-heat', true);
 	}
-  const renderjson = (dataName,layerName, field) =>{
+  const rendersymbolmap = (dataName,layerName) =>{
 	let newArray = new Set(_layerNames);
 	if(newArray.has(layerName+'-json')){
 		alert("Existed Layer");
 		return;
-	}
-	
-	_map.addLayer({		//线
-		  'id': layerName+'-boundary',
-          'type': 'line',
-          'source': dataName,		  
-          'paint': {
-			'line-color':  'rgb(100,100,100)',
-			'line-width': 4
-		  },
-          'filter': ['==', '$type', 'LineString']
-        });
-	
-	//判断是否存在该字段、该字段是否为数字属性
-	findField(_map.getSource(dataName)._data, field, function(boo){				
-		if(boo){									
-			_map.addLayer({		//点分级
-			  'id': layerName+"-field-point",
-			  'type': 'circle',
-			  'source': dataName,
-			  'paint': {
-				'circle-radius': [
-					'step',	['get',field],
-					  7,  10,10, 100,13
-				],
-				'circle-color': [
-					'step',	['get',field],
-					   'rgba(237,222,139,0.50)',
-					10,'rgba(229,131,8,0.40)',
-					100,'rgba(222,20,20,0.55)',
-					500,'rgba(100,30,30,0.55)'
-				]
-			  },
-			  'filter':['all', ['==', '$type', 'Point'], ['has', field] ]
-			});
-			_map.addLayer({		//面分级
-			  'id': layerName+'-field-polygon',
-			  'type': 'fill',
-			  'source': dataName,
-			  'paint': {
-				'fill-color': [
-					'step',	['get',field],
-					//'interpolate',['linear'],[field],
-					   'rgba(237,222,139,0.50)',
-					10,'rgba(229,131,8,0.40)',
-					100,'rgba(222,20,20,0.55)',
-					500,'rgba(100,30,30,0.55)'
-				]
-			  },
-			  'filter':['all', ['==', '$type', 'Polygon'], ['has', field] ]
-			});
-			console.log("分级图");
-		} else {
-			_map.addLayer({     //点符号
+	}	
+    _map.addLayer({		//线
+	  'id': layerName+'-boundary',
+	  'type': 'line',
+	  'source': dataName,		  
+	  'paint': {
+		'line-color':  'rgb(100,100,100)',
+		'line-width': 4
+	  },
+	  'filter': ['==', '$type', 'LineString']
+	});
+	_map.addLayer({     //点符号
 			  'id': layerName+'-point',
 			  'type': 'circle',
 			  'source': dataName,
@@ -299,30 +253,61 @@ function OnlineMapping(props) {
 			  //'filter':['all', ['==', '$type', 'Point'], ['!has', field] ]
 			  'filter': ['==', '$type', 'Point']
 			});
-			_map.addLayer({		//面符号
-			  'id': layerName+'-polygon',
-			  'type': 'fill',
-			  'source': dataName,
-			  'paint': {
-				'fill-color': 'rgb(255,140,140)',
-				'fill-opacity': 0.4,
-				'fill-outline-color': 'rgb(120,35,35)'
-			  },
-			  'filter': ['==', '$type', 'Polygon']
-			});
-			console.log("符号图");
-		}
+	_map.addLayer({		//面符号
+	  'id': layerName+'-polygon',
+	  'type': 'fill',
+	  'source': dataName,
+	  'paint': {
+		'fill-color': 'rgb(255,140,140)',
+		'fill-opacity': 0.4,
+		'fill-outline-color': 'rgb(120,35,35)'
+	  },
+	  'filter': ['==', '$type', 'Polygon']
 	});
-	
+	onLayerChange(layerName+'-json', true);	  
+  }
+  const renderjson = (dataName,layerName, field, circleradius, color) =>{
+	let newArray = new Set(_layerNames);
+	if(newArray.has(layerName+'-json')){
+		alert("Existed Layer");
+		return;
+	}	
+	_map.addLayer({		//线
+		  'id': layerName+'-boundary',
+          'type': 'line',
+          'source': dataName,		  
+          'paint': {
+			'line-color':  'rgb(100,100,100)',
+			'line-width': 4
+		  },
+          'filter': ['==', '$type', 'LineString']
+        });										
+	_map.addLayer({		//点分级
+	  'id': layerName+"-point",
+	  'type': 'circle',
+	  'source': dataName,
+	  'paint': {
+		'circle-radius': circleradius,
+		'circle-color': color
+	  },
+	  'filter':['all', ['==', '$type', 'Point'], ['has', field] ]
+	});
+	_map.addLayer({		//面分级
+	  'id': layerName+'-polygon',
+	  'type': 'fill',
+	  'source': dataName,
+	  'paint': {
+		'fill-color': color	,
+		'fill-outline-color': 'rgb(35,35,35)'
+	  },
+	  'filter':['all', ['==', '$type', 'Polygon'], ['has', field] ]
+	});	
 	onLayerChange(layerName+'-json', true);
   }
  
   const addLayer = (template,dataFormat,dataName,layerName,others) =>{
 	if(!_map)return;
-	if( dataFormat !='tiff' && !_map.getSource(dataName)) {
-		alert("No data, Please add first");
-		return;
-	}        
+	
 	if(dataFormat==='tiff')  { //others=color
 		if(_map.getLayer(layerName+'-tiff')){
 			alert("Existed Layer");
@@ -332,25 +317,40 @@ function OnlineMapping(props) {
 		_map.addLayer({
 			"id":layerName+"-tiff",
 			"type": "raster",
-			'source': {
-				'type': 'raster',
-				'tiles': [url]
-				}
+			'source': {'type': 'raster', 'tiles': [url]}
 		})
 		onLayerChange(layerName+'-tiff', true);
 	}
-	else if(template==='symbol') //others=field
-		renderjson(dataName,layerName,others);
-	else if(template==='heat')
-		renderheatmap(dataName,layerName);
-	else if(template==='cluster'){			
-		var geoJsonData=_map.getSource(dataName)._data;
-		dataName=dataName+"-cluster";
-		//聚类图的数据源需设置相关参数，因此加载一个新的数据源
-		renderclustermap(dataName,layerName,geoJsonData);
-		onDataChange(dataName);		
+	else{
+		if(!_map.getSource(dataName)) {
+			alert("No data, Please add first");
+			return;
+		}        
+		if(template==='heat')
+			renderheatmap(dataName,layerName);	
+		else if(template==='json-symbol') 
+			rendersymbolmap(dataName,layerName);
+		
+		else if(template==='json-discrete'){//others=field
+			if(!others){alert("未选中字段");return;}
+			var CircleRadius=['step',['get',others],7,10,10,100,13,500,16];
+			var color=['step',['get',others],'rgba(237,222,139,0.50)',10,'rgba(229,131,8,0.50)',100,'rgba(222,20,20,0.55)',500,'rgba(100,30,30,0.75)']
+			renderjson(dataName,layerName,others,CircleRadius,color);
+		}
+		else if(template==='json-continuous'){//others=field
+			if(!others){alert("未选中字段");return;}
+			var CircleRadius=['interpolate',['linear'],['get',others],0,5,500,20];
+			var color=['interpolate',['linear'],['get',others],	0,'rgba(237,222,139,0.7)',500,'rgba(100,30,30,0.9)'];		
+			renderjson(dataName,layerName,others,CircleRadius,color);		
+		}	
+		else if(template==='cluster'){			
+			var geoJsonData=_map.getSource(dataName)._data;
+			dataName=dataName+"-cluster";
+			//聚类图的数据源需设置相关参数，因此加载一个新的数据源
+			renderclustermap(dataName,layerName,geoJsonData);
+			onDataChange(dataName);		
+		}
 	 }
-	
   }
   const moveLayer = (layerName,template) =>{		//置顶图层
 	 if(!_map)return;
@@ -368,14 +368,7 @@ function OnlineMapping(props) {
 			  _map.moveLayer(layerName+'-point');
 			  num++;
 		  }
-		  if(_map.getLayer(layerName+'-field-polygon') )  {
-			  _map.moveLayer(layerName+'-field-polygon');
-			  num++;
-		  }
-		  if(_map.getLayer(layerName+'-field-point') )  {
-			  _map.moveLayer(layerName+'-field-point');
-			  num++;
-		  }
+		  
 		  if(num)
 			alert("Move Layer success");
 		  
@@ -415,15 +408,7 @@ function OnlineMapping(props) {
   const deleteLayer = (layerName,template) =>{		//删除图层
 	  if(!_map)return;
 	  var num=0;
-	  if(template=='json'){		  
-		  if(_map.getLayer(layerName+'-field-point') )  {
-			  _map.removeLayer(layerName+'-field-point');
-			  num++;
-		  }  
-		  if(_map.getLayer(layerName+'-field-polygon') )  {
-			  _map.removeLayer(layerName+'-field-polygon');
-			  num++;
-		  }
+	  if(template=='json'){	
 		  if(_map.getLayer(layerName+'-polygon') ) {
 			  _map.removeLayer(layerName+'-polygon');
 			  num++;
@@ -601,7 +586,7 @@ function OnlineMapping(props) {
         onControlsChange={onControlsChange}		
         mapControl={_control}
 		onLegendChange={onLegendChange}
-		getLegend={_legend}
+		legend={_legend}
         mapInstance={_map}
       />
 	  <Layout >
@@ -624,14 +609,12 @@ function OnlineMapping(props) {
               </MapContext.Consumer>
             </MapboxMap>
 			
-			<div id="legend" className={styles.legend} >
-			    <h4>Legend</h4>
-				<div><span style={{background: 'rgb(100,30,30)'}}></span>500</div>
-				<div><span style={{background: 'rgb(222,20,20)'}}></span>100</div>
-				<div><span style={{background: 'rgb(229,131,8)'}}></span>10</div>
-				<div><span style={{background: 'rgb(237,222,139)'}}></span>0</div>
-			</div>
-          </div>
+			<MapLegend
+				style_bottom={'6vh'}
+				legend_discrete={_legend.get('discrete')}
+				legend_continuous={_legend.get('continuous')}		
+			/>
+		  </div>
         </Content>
 		<Footer style={{ height: '5vh', width: '100%' }}>
 			<Text id = "FooterData"  level={4} />
@@ -650,8 +633,10 @@ function OnlineMapping(props) {
 
       {props.mapSaverModalVisible &&
         <MapSaverModal
+		  
           visible={true}
           mapPreview={_map}
+		  legend={_legend}
           handleCancel={handleModalCancel}
         />
       }

@@ -54,7 +54,7 @@ function TemplatePanel(props) {
         payload: true
       });
     }
-
+	setOpenKeys([]);
   };
   const handleMenuChange = openkeys => {
 	if(openkeys.length)
@@ -189,7 +189,9 @@ function TemplatePanel(props) {
             </span>
           }
         >
-          <Menu.Item key="symbol">符号图symbol</Menu.Item>
+          <Menu.Item key="json-symbol">符号图symbol</Menu.Item>
+		  <Menu.Item key="json-continuous">连续分级图continuous</Menu.Item>
+		  <Menu.Item key="json-discrete">离散分级图discrete</Menu.Item>
           <Menu.Item key="heat">热力图heat</Menu.Item>
           <Menu.Item key="cluster">聚类图cluster</Menu.Item>
 		</SubMenu>}
@@ -250,7 +252,6 @@ function TemplatePanel(props) {
 	  </div>}
 	  
       <div className={styles.layerinput}>
-		<Text strong className={styles.layerTitle_block} >Layer_Delete</Text>
 		<div className={styles.layerInput_block}>			
 			<Select id="TemplateDelete" className={styles.layerInput_block_input}   >
 				<Option value="json"   >json</Option>
