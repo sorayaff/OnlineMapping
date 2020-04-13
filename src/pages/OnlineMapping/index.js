@@ -19,7 +19,6 @@ import { fromJS } from 'immutable';
 import MapSaverModal from './components/MapSaverModal/index';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { connect } from 'dva';
-import Papa from 'papaparse';
 import MapLegend from './components/MapLegend/index';
 
 
@@ -53,14 +52,11 @@ function OnlineMapping(props) {
   const [geojsonFields, setFields]=useState(new Set());
   
   const onCollapse = collapsed => {
-    console.log(collapsed);
     setCollapsed(collapsed);	
   };
   const onBasemapChange = mapStyleKey => {
-    console.log(mapStyleKey);
-    if (mapStyleKey) {
-      setMapStyleKey(mapStyleKey);
-    }
+    if (mapStyleKey) 
+      setMapStyleKey(mapStyleKey);    
   };
   const onControlsChange = (controlKey) => {
     setControl(_control.update(controlKey, v => !v));
@@ -78,25 +74,25 @@ function OnlineMapping(props) {
   
   const onDataChange = (dataname) => {					//所有数据 显示于footer
     let newArray = new Set(_dataNames);
-	if(newArray.has(dataname))
+	if (newArray.has(dataname))
 		newArray.delete(dataname);
 	newArray.add(dataname);
     setDataNames(newArray);
 	var textstring="";
-	for(let item of newArray)
-		textstring=textstring+item+"; ";  //1,2,3
+	for (let item of newArray)
+		textstring = textstring + item + "; ";  
     document.getElementById("FooterData").innerText = "Data: "+textstring+"| ";
   };
   const onLayerChange = (layername, addORdelete) => {	//所有图层 显示于footer
 	let newArray = new Set(_layerNames);
-	if(newArray.has(layername))
+	if (newArray.has(layername))
 		newArray.delete(layername);	
-	if(addORdelete)
+	if (addORdelete)
 		newArray.add(layername);
     setLayerNames(newArray);
 	var textstring="";
-	for(let item of newArray)
-		textstring=textstring+item+"; ";  //1,2,3
+	for (let item of newArray)
+		textstring = textstring + item + "; ";  //1,2,3
 	document.getElementById("FooterLayer").innerText = "Layer: "+textstring+"| ";
   };
   const onFieldsChange = (geoJson) => {		//将矢量数据的字段名称传递给 TemplatePanel
@@ -104,7 +100,7 @@ function OnlineMapping(props) {
 		try{
 			let fields=new Set();		
 			var name=Object.keys(geoJson.features[0].properties);
-			for(var j=0; j<name.length;j++)
+			for (var j=0; j<name.length;j++)
 				fields.add(name[j]);			
 			setFields(fields);
 		}
@@ -114,7 +110,9 @@ function OnlineMapping(props) {
 		}	  
   };
 
-  const findField = function(geoJson, field, callback) {	//判断是否存在该字段、该字段是否为数字属性
+  //判断是否存在该字段、该字段是否为数字属性
+  //暂无用
+  const findField = function(geoJson, field, callback) {	
 	var name=Object.keys(geoJson.features[0].properties);	
 	for(var j=0; j<name.length;j++)
 	if(name[j]===field){
@@ -308,7 +306,7 @@ function OnlineMapping(props) {
   const addLayer = (template,dataFormat,dataName,layerName,others) =>{
 	if(!_map)return;
 	
-	if(dataFormat==='tiff')  { //others=color
+	if(dataFormat==='tiff')  { //others=color 需开启springboot项目服务器获得url
 		if(_map.getLayer(layerName+'-tiff')){
 			alert("Existed Layer");
 			return;

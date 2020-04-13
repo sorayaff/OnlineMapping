@@ -6,7 +6,6 @@ import ReactMapboxGl, {
   ZoomControl,
   MapContext  
 } from 'react-mapbox-gl';
-import FileSaver from 'file-saver';
 import html2canvas from 'html2canvas';
 import { debounce } from 'lodash';
 import styles from './index.less';
