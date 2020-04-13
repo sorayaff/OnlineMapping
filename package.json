@@ -24,8 +24,8 @@
     "prop-types": "^15.7.2",
     "qs": "^6.8.0",
     "react": "^16.8.6",
-    "react-mapbox-gl": "^4.6.1"
-    "react-media": "^1.9.2",
+    "react-mapbox-gl": "^4.6.1",
+    "react-media": "^1.9.2"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
