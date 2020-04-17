@@ -27,7 +27,7 @@ function MapSaverModal(props) {
     height: '300px',
     width:  '600px',
   });
-  const { getFieldDecorator, setFieldsValue } = form;
+  const { getFieldDecorator } = form;
   const [_map, setMap] = useState(null);
   const [mapCenter,setMapCenter] = useState([0,0]);
   const [mapZoom,setMapZoom] = useState(11);
@@ -100,9 +100,6 @@ function MapSaverModal(props) {
   }
 
   const printImg = (type,filename) => {
-
-    let nodesToRecover = [];
-    let nodesToRemove = [];
     $('#map-preview').find('svg').map(function(index, node) {
       let parentNode = node.parentNode;
       let svg = node.outerHTML.trim();
@@ -113,16 +110,7 @@ function MapSaverModal(props) {
         canvas.style.left += node.style.left;
         canvas.style.top += node.style.top;
       }
-      nodesToRecover.push({
-        parent: parentNode,
-        child: node,
-      });
       parentNode.removeChild(node);
-
-      nodesToRemove.push({
-        parent: parentNode,
-        child: canvas,
-      });
       parentNode.appendChild(canvas);
     });
     html2canvas(document.querySelector('#map-preview'), { useCORS: true })
@@ -216,7 +204,7 @@ function MapSaverModal(props) {
       </Form>
 	  
 		<div className={styles.mapPreview_container} id='map-preview'>
-			 <span  className={styles.title} >
+			 <span  id='mapTitle' className={styles.title} >
 				{titleText}
 			 </span>
 			{mapPreview &&
