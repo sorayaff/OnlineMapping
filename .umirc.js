@@ -1,10 +1,7 @@
 const path = require('path');
 let CompressionPlugin = require('compression-webpack-plugin');
 let env = process.env.QA_ENV;
-const cesiumSource = 'node_modules/cesium/Source';
-const cesiumWorkers = '../Build/Cesium/Workers';
 
-// const publicPath = './src/public'
 function getPlugins() {
   if (env === 'build') {
     return {
@@ -15,7 +12,6 @@ function getPlugins() {
             sourceMap: false,
             uglifyOptions: {
               compress: {
-                // 删除所有的 `console` 语句
                 drop_console: true,
               },
               output: {
@@ -48,10 +44,6 @@ function getModulePackageName(module) {
     // eslint-disable-next-line prefer-destructuring
     packageName = packageName.match(/^_(@?[^@]+)/)[1];
   }
-  if (packageName.match(/cesium/)) {
-    // eslint-disable-next-line prefer-destructuring
-    packageName = 'cesium';
-  }
   return packageName;
 }
 
@@ -61,11 +53,15 @@ export default {
     basePath: '/',
   },
   publicPath: '/',
+  routes: [
+    { path: '/', redirect: 'OnlineMapping' },
+    {
+      path: 'OnlineMapping',
+      name: 'OnlineMapping',
+      component: './OnlineMapping/index',
+    }],
   outputPath: './pages',
   hash: true,
-  define: {
-    CESIUM_BASE_URL: '/cesium',
-  },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,
@@ -116,18 +112,6 @@ export default {
       secure: false,
       pathRewrite: { '^/v2.0/api': '' },
     },
-    '/DataServer': {
-      target: 'http://t0.tianditu.com/',
-      changeOrigin: true,
-      secure: false,
-      pathRewrite: { '^/map/api': '' },
-    },
-    '/taobao/service': {
-      target: 'http://ip.taobao.com/',
-      changeOrigin: true,
-      secure: false,
-      pathRewrite: { '/taobao/service': '/service' },
-    },
     '/v1.0/api/map': {
       target: 'http://114.116.211.19:8080/v1.0/api/map',
       changeOrigin: true,
@@ -140,30 +124,13 @@ export default {
       secure: false,
       pathRewrite: { '^/geoserver/ecology': '' },
     },
-
   },
   alias: {
-    'cesium': path.resolve(__dirname, './node_modules/cesium/Source'),
     '@components': path.resolve(__dirname, './src/components'),
     '@utils': path.resolve(__dirname, './src/utils'),
     '@assets': path.resolve(__dirname, './src/assets'),
     '@services': path.resolve(__dirname, './src/services'),
-    // '@public':path.resolve(__dirname, './src/public'),
   },
-  'copy': [
-    {
-      from: path.join(cesiumSource, cesiumWorkers), to: 'cesium/Workers',
-    },
-    {
-      from: path.join(cesiumSource, 'Assets'), to: 'cesium/Assets',
-    },
-    {
-      from: path.join(cesiumSource, 'Widgets'), to: 'cesium/Widgets',
-    },
-    // {
-    //   from: path.join(publicPath, 'pdfjs-2.1.266-dist'), to: 'pdfjs-2.1.266-dist',
-    // },
-  ],
   chainWebpack(config, { webpack }) {
     config.merge({
       amd: {
@@ -190,16 +157,10 @@ export default {
             vendors: {
               test: module => {
                 const packageName = getModulePackageName(module);
-                if (packageName) {
-                  return ['cesium'].indexOf(packageName) >= 0;
-                }
                 return false;
               },
               name(module) {
                 const packageName = getModulePackageName(module);
-                if (['cesium'].indexOf(packageName) >= 0) {
-                  return 'cesium'; // visualization package
-                }
                 return 'misc';
               },
             },
