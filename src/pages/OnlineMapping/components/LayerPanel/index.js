@@ -46,8 +46,8 @@ function LayerPanel(props) {
 	else setOpenKeys([]);
   }
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={onCollapseChange}>
-      <div className={styles.logo}/>
+    <Sider collapsible collapsed={collapsed} onCollapse={onCollapseChange} width={150}>
+      
       <Menu
 	    openKeys={_openKeys}
         onOpenChange={onOpenChange}
