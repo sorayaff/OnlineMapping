@@ -195,7 +195,7 @@ function OnlineMapping(props) {
 });
 		onLayerChange(layerName+'-cluster', true);
 	}
-  const renderheatmap = (dataName,layerName) =>{	
+  const renderheatmap = (dataName,layerName,field) =>{	
 		let newArray = new Set(_layerNames);
 		if(newArray.has(layerName+'-heat')){
 			alert("图层已存在，请修改图层名");
@@ -208,18 +208,26 @@ function OnlineMapping(props) {
 			'maxzoom': 20,
 			'filter': ['==', '$type', 'Point'],
 			'paint': {				
-				'heatmap-intensity': [
-					'interpolate',['linear'],
-					['zoom'],0,1,20,3
+				'heatmap-weight': [
+					'interpolate',
+					['linear'],
+					['get', field],
+					0, 0,	1000,	10
 				],
+				"heatmap-color": [
+	                "interpolate",["linear"],["heatmap-density"],
+					0,"rgba(0, 0, 255, 0)",
+					0.1,"royalblue",
+					0.3,"cyan",
+					0.5,"lime",
+					0.7,"yellow",
+					1,"red"
+                ],
 				'heatmap-radius': [
 					'interpolate',['linear'],
-					['zoom'],0,2,20,40
+					['zoom'],0,10,20,30
 				],
-				'heatmap-opacity': [
-					'interpolate',['linear'],
-					['zoom'],5,1,20,0
-				]
+				"heatmap-opacity": 0.6
 			}
 		});
 		onLayerChange(layerName+'-heat', true);
@@ -325,7 +333,7 @@ function OnlineMapping(props) {
 			return;
 		}        
 		if(template==='heat')
-			renderheatmap(dataName,layerName);	
+			renderheatmap(dataName,layerName,others);	
 		else if(template==='json-sym') 
 			rendersymbolmap(dataName,layerName);
 		
@@ -467,18 +475,19 @@ function OnlineMapping(props) {
 	var arr=new Array();
 	arr.push('{"type": "FeatureCollection","features":[\n');
 	var i=1;
-	while (data[i][0] !== "" && data[i][0] !== null ) {			
+	while (data[i] !== undefined && data[i][0] !== undefined && data[i][0] !== "" && data[i][0] !== null ) {			
 		arr=arr+'{"type": "Feature",\n"geometry":{"type":"Point","coordinates":[';
 		arr=arr+data[i][0]+','+data[i][1]+ ']},\n';
 		arr=arr+'"properties":{\n'
-		for (var j = 2; j < col; j++) {
+		for (var j = 2; j < col; j++) {			
 			arr=arr+'"'+fields[j]+'":';	
-			var a=data[i][j];
-			if(a === "" || a === null || a.length<=(j+1===col) )
+			var a=data[i][j];			
+			if(!a || a===undefined || !a.length)
 				arr=arr+'""'; 
-			else if(isNaN(a))
-				arr=arr+'"'+a+'"';
-			else arr=arr+a;
+			else if(isNaN(a))				
+				arr=arr+'"'+a+'"';			
+			else 				
+				arr=arr+a;			
 			if(j+1<col)arr=arr+ ',\n';
 		}
 		i++;arr=arr+'}},\n';
@@ -497,6 +506,7 @@ function OnlineMapping(props) {
   } 	
 	
   const addDataSource = (dataName,geoJson) =>{
+		if(!geoJson)return;
 	    onFieldsChange(geoJson);		
 		try{
 			_map.addSource(dataName,   {
@@ -534,15 +544,13 @@ function OnlineMapping(props) {
 		var data = new Array(row); //先声明一维数组			
 		for(var k=0;k<row;k++) {   
 			data[k]=new Array(col);  							
-			if(csv[k]===""||csv[k]===null||csv[k].length<2)break;
+			if(csv[k]===undefined||csv[k]===""||csv[k]===null)break;
+			if(csv[k].length)
+				csv[k]=csv[k].slice(0,csv[k].length-1); //去掉换行符残留
 			var csvdata = csv[k].split(",");	
 			if(csvdata===""||csvdata===null)break;		
 			for(var j=0;j<col;j++)data[k][j]=csvdata[j]; 
-		}	
-		//对于换行符\n的切分导致的问题
-		var lastField=data[0][col-1];
-		data[0][col-1]=lastField.slice(0,lastField.length-1);
-		
+		}			
 		//data：csv对应的二维数组, 通过函数csvStr2json得到geoJson
 		csvStr2json(data,function(geoJson){
 			addDataSource(dataName,geoJson);
@@ -552,8 +560,7 @@ function OnlineMapping(props) {
   const addLabel = (dataName,field,addORdelete) => {
 	if(_map.getLayer(dataName+'-label'))
 		  _map.removeLayer(dataName+'-label');
-	 if(addORdelete){
-		 if(field)			 
+	 if(addORdelete)		 			 
 		 _map.addLayer({'id': dataName+'-label',
 			  'type': 'symbol',
 			  'source': dataName,
@@ -562,9 +569,8 @@ function OnlineMapping(props) {
 				"text-offset": [0, 0.6],
 				"text-anchor": "top"
 			  },
-		 });
-		else alert("未选中字段");	
-	 }		
+		 });	
+	 
   }
 
   useEffect(()=>{
@@ -634,7 +640,7 @@ function OnlineMapping(props) {
 
       {props.mapSaverModalVisible &&
         <MapSaverModal
-		  
+		  control={_control}
           visible={true}
           mapPreview={_map}
 		  legend={_legend}

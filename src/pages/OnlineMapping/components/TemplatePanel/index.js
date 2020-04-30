@@ -15,13 +15,15 @@ function TemplatePanel(props) {
 
   const {  dispatch, mapAddData,  mapAddLayer, mapDeleteLayer, mapMoveLayer, dataFieldsSet, addLabel} = props;
   const dataFieldsArray = Array.from(dataFieldsSet);
+  const ini_field = "---------";
+  dataFieldsArray.splice(0, 0, ini_field);
   const [ labelChecked, setlabelChecked] = useState(false);
   const [ _openKeys, setOpenKeys] = useState('');
   const [ dataSelect, setData] = useState(null);
   const [ templateSelect, setTemplate] = useState(null);
   const [ layerManager, setManager] = useState(false);
   const [ radioValue, setRadioValue] = useState("black");
-  const [ fieldValue, setFieldValue] = useState("");
+  const [ fieldValue, setFieldValue] = useState(ini_field);
  
   
   const setTemplateSelect = (e) =>{
@@ -67,11 +69,12 @@ function TemplatePanel(props) {
 		alert("图层名不能为空");
 		return;
 	  }
-	  var others;
+	  var others="";
 	  var dataName=null;
 	  if(dataSelect!=='tiff') 	{
-		  others = document.getElementById("DataFields").innerText;
 		  dataName = document.getElementById("DataName").value;
+		  others = document.getElementById("DataFields").innerText;
+		  if(others === ini_field) others="";		  
 	  }
 	  else if(templateSelect==='single')
 		  others = radioValue;
@@ -97,10 +100,15 @@ function TemplatePanel(props) {
 	  ) ; 
   }
   const addlabelClick= e => {
-	setlabelChecked(e.target.checked);
-
+	const field = document.getElementById("DataFields").innerText;
+	if(field===ini_field) {
+			alert("未选中字段");
+			return;
+	}	
 	addLabel(document.getElementById("DataName").value,
-			document.getElementById("DataFields").innerText,e.target.checked);
+			field,
+			e.target.checked);
+	setlabelChecked(e.target.checked);
   }
   const fieldChange = e => {
 	  console.log(e);
@@ -144,7 +152,7 @@ function TemplatePanel(props) {
 			alert("上传文件格式不符");
 			return;
 		 }	 		 		 
-		 fieldChange();
+		 fieldChange(ini_field);
 		 mapAddData(document.getElementById("DataName").value, dataSelect, fileUploaded);	
 		 fileUploaded = null;	 		 
 	} 

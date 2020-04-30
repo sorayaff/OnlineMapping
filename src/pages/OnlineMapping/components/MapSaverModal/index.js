@@ -11,7 +11,7 @@ import { debounce } from 'lodash';
 import styles from './index.less';
 import { connect } from 'dva';
 import $ from 'jquery';
-import canvg from '@/pages/OnlineMapping';
+import canvg from 'canvg';
 import { fromJS } from 'immutable';
 import MapLegend from '@/pages/OnlineMapping/components/MapLegend/index';
 
@@ -22,7 +22,7 @@ const MapboxMap = ReactMapboxGl({ accessToken: MAPBOX_TOKEN, attributionControl:
 
 function MapSaverModal(props) {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const { visible, form, dispatch, mapPreview, legend } = props;
+  const {control, visible, form, dispatch, mapPreview, legend } = props;
   const [mapSize, setMapSize] = useState({
     height: '300px',
     width:  '600px',
@@ -32,10 +32,6 @@ function MapSaverModal(props) {
   const [mapCenter,setMapCenter] = useState([0,0]);
   const [mapZoom,setMapZoom] = useState(11);
   const [titleText,setTitleText] = useState("");
-
-  const initialControl = fromJS({ 'rotation': false, 'scale': false, 'zoom': false });
-  const [_control, setControl] = useState(initialControl);
-
 
   useEffect(() => {
     if (_map) {		
@@ -90,32 +86,45 @@ function MapSaverModal(props) {
 	if(e.target.id === 'width')
 		$("#mapTitle").css(e.target.id, e.target.value);
   };
-  const onControlsChange = (e) => {
-    setControl(_control.update(e.target.id, v => !v));
-    console.log(_control);
-  };
   
   const onTitleChange = e => {
 	  setTitleText(e.target.value);
   }
 
   const printImg = (type,filename) => {
-    $('#map-preview').find('svg').map(function(index, node) {
-      let parentNode = node.parentNode;
-      let svg = node.outerHTML.trim();
-      let canvas = document.createElement('canvas');
-      canvg(canvas, svg);
-      if (node.style.position) {
-        canvas.style.position += node.style.position;
-        canvas.style.left += node.style.left;
-        canvas.style.top += node.style.top;
-      }
-      parentNode.removeChild(node);
-      parentNode.appendChild(canvas);
-    });
+	  
+	let nodesToRecover = [];
+	let nodesToRemove = [];
+    const svgElem = $('#map-preview').find('svg');
+	
     html2canvas(document.querySelector('#map-preview'), { useCORS: true })
-      .then((canvas) => {
-        let link = document.createElement('a');
+      .then((canvas) => {	
+	svgElem.each(function(index, node) {			  
+		  let parentNode = node.parentNode;
+		  let svg = node.outerHTML.trim();		
+		//var canvas = document.createElement('canvas');			  
+		  canvg(canvas, svg);
+		  if (node.style.position) {
+			canvas.style.position += node.style.position;
+			canvas.style.left += node.style.left;
+			canvas.style.top += node.style.top;
+		  }
+			nodesToRecover.push({
+				parent: parentNode,
+				child: node
+			});
+			parentNode.removeChild(node);
+
+			nodesToRemove.push({
+				parent: parentNode,
+				child: canvas
+			});
+
+			parentNode.appendChild(canvas);
+	});
+
+
+		let link = document.createElement('a');
         link.href = canvas.toDataURL('image/'+type);
         link.download = filename + '.'+type;
         link.click();
@@ -179,28 +188,7 @@ function MapSaverModal(props) {
             </Form.Item>
           </Col>
 		</Row>
-		<Row>
-          <Col span={20}>
-            <Form.Item  >
-			  <Checkbox defaultChecked={false}
-                        onChange={onControlsChange}
-                        id='zoom'
-						>
-                放缩器
-              </Checkbox>
-              <Checkbox defaultChecked={false}
-                        onChange={onControlsChange}
-                        id='rotation' >
-                指南针
-              </Checkbox>
-              <Checkbox defaultChecked={false}
-                        onChange={onControlsChange}
-                        id='scale'>
-                比例尺
-              </Checkbox>			  
-            </Form.Item>
-          </Col>
-         </Row>
+		
       </Form>
 	  
 		<div className={styles.mapPreview_container} id='map-preview'>
@@ -234,9 +222,9 @@ function MapSaverModal(props) {
 				}
 			  }}
 			>
-			  {_control.get('rotation') && <RotationControl/>}
-			  {_control.get('scale') && <ScaleControl/>}
-			  {_control.get('zoom') && <ZoomControl/>}
+			  {control.get('rotation') && <RotationControl/>}
+			  {control.get('scale') && <ScaleControl/>}
+			  {control.get('zoom') && <ZoomControl/>}
 			  <MapContext.Consumer>
 				{map => {
 				  setMap(map);
